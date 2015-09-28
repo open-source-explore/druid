@@ -15,17 +15,17 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLUnique extends SQLConstraintImpl implements SQLUniqueConstraint, SQLTableElement {
 
     private final List<SQLExpr> columns = new ArrayList<SQLExpr>();
 
-    public SQLUnique(){
+    public SQLUnique() {
 
     }
 

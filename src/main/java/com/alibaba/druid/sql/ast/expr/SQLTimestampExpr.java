@@ -21,12 +21,12 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
  */
 public class SQLTimestampExpr extends SQLExprImpl {
 
-    protected String  literal;
-    protected String  timeZone;
+    protected String literal;
+    protected String timeZone;
     protected boolean withTimeZone = false;
 
-    public SQLTimestampExpr(){
-        
+    public SQLTimestampExpr() {
+
     }
 
     public String getLiteral() {

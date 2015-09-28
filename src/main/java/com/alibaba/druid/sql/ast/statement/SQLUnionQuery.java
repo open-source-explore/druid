@@ -21,10 +21,10 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLUnionQuery extends SQLObjectImpl implements SQLSelectQuery {
 
-    private SQLSelectQuery   left;
-    private SQLSelectQuery   right;
+    private SQLSelectQuery left;
+    private SQLSelectQuery right;
     private SQLUnionOperator operator = SQLUnionOperator.UNION;
-    private SQLOrderBy       orderBy;
+    private SQLOrderBy orderBy;
 
     public SQLUnionOperator getOperator() {
         return operator;
@@ -34,7 +34,7 @@ public class SQLUnionQuery extends SQLObjectImpl implements SQLSelectQuery {
         this.operator = operator;
     }
 
-    public SQLUnionQuery(){
+    public SQLUnionQuery() {
 
     }
 

@@ -15,34 +15,34 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLDropViewStatement extends SQLStatementImpl implements SQLDDLStatement {
 
     protected List<SQLExprTableSource> tableSources = new ArrayList<SQLExprTableSource>();
 
-    protected boolean                  cascade      = false;
-    protected boolean                  restrict     = false;
-    protected boolean                  ifExists     = false;
+    protected boolean cascade = false;
+    protected boolean restrict = false;
+    protected boolean ifExists = false;
 
-    public SQLDropViewStatement(){
+    public SQLDropViewStatement() {
 
     }
-    
-    public SQLDropViewStatement(String dbType){
-        super (dbType);
+
+    public SQLDropViewStatement(String dbType) {
+        super(dbType);
     }
 
-    public SQLDropViewStatement(SQLName name){
+    public SQLDropViewStatement(SQLName name) {
         this(new SQLExprTableSource(name));
     }
 
-    public SQLDropViewStatement(SQLExprTableSource tableSource){
+    public SQLDropViewStatement(SQLExprTableSource tableSource) {
         this.tableSources.add(tableSource);
     }
 

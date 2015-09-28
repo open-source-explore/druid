@@ -50,7 +50,7 @@ public class MySqlShowTablesStatement extends SQLShowTablesStatement implements 
         }
         visitor.endVisit(this);
     }
-    
+
     @Override
     protected void accept0(SQLASTVisitor visitor) {
         if (visitor instanceof MySqlASTVisitor) {

@@ -24,31 +24,31 @@ import java.util.Map;
 
 public class TabledDataPrinter {
 
-    private static final int      SQL_MAX_LEN = 32;
-    private static final int      MAX_COL     = 4;
+    private static final int SQL_MAX_LEN = 32;
+    private static final int MAX_COL = 4;
 
-    private static final String[] sqlRowTitle = new String[] { "ID", "SQL", "ExecCount", "ExecTime", "ExecMax", "Txn",
-            "Error", "Update", "FetchRow", "Running", "Concurrent", "ExecRsHisto" };
+    private static final String[] sqlRowTitle = new String[]{"ID", "SQL", "ExecCount", "ExecTime", "ExecMax", "Txn",
+            "Error", "Update", "FetchRow", "Running", "Concurrent", "ExecRsHisto"};
 
-    private static final String[] sqlRowField = new String[] { "ID", "SQL", "ExecuteCount", "TotalTime", "MaxTimespan",
+    private static final String[] sqlRowField = new String[]{"ID", "SQL", "ExecuteCount", "TotalTime", "MaxTimespan",
             "InTransactionCount", "ErrorCount", "EffectedRowCount", "FetchRowCount", "RunningCount", "ConcurrentMax",
-            "ExecuteAndResultHoldTimeHistogram" };
+            "ExecuteAndResultHoldTimeHistogram"};
 
-    private static final String[] sqlColField = new String[] { "ID", "DataSource", "SQL", "ExecuteCount", "ErrorCount",
+    private static final String[] sqlColField = new String[]{"ID", "DataSource", "SQL", "ExecuteCount", "ErrorCount",
             "TotalTime", "LastTime", "MaxTimespan", "LastError", "EffectedRowCount", "FetchRowCount",
             "MaxTimespanOccurTime", "BatchSizeMax", "BatchSizeTotal", "ConcurrentMax", "RunningCount", "Name", "File",
             "LastErrorMessage", "LastErrorClass", "LastErrorStackTrace", "LastErrorTime", "DbType", "URL",
             "InTransactionCount", "Histogram", "LastSlowParameters", "ResultSetHoldTime",
             "ExecuteAndResultSetHoldTime", "FetchRowCountHistogram", "EffectedRowCountHistogram",
-            "ExecuteAndResultHoldTimeHistogram", "EffectedRowCountMax", "FetchRowCountMax", "ClobOpenCount" };
+            "ExecuteAndResultHoldTimeHistogram", "EffectedRowCountMax", "FetchRowCountMax", "ClobOpenCount"};
 
-    private static final String[] dsRowTitle  = new String[] { "Identity", "DbType", "PoolingCount", "PoolingPeak",
-            "PoolingPeakTime", "ActiveCount", "ActivePeak", "ActivePeakTime", "ExecuteCount", "ErrorCount" };
+    private static final String[] dsRowTitle = new String[]{"Identity", "DbType", "PoolingCount", "PoolingPeak",
+            "PoolingPeakTime", "ActiveCount", "ActivePeak", "ActivePeakTime", "ExecuteCount", "ErrorCount"};
 
-    private static final String[] dsRowField  = new String[] { "Identity", "DbType", "PoolingCount", "PoolingPeak",
-            "PoolingPeakTime", "ActiveCount", "ActivePeak", "ActivePeakTime", "ExecuteCount", "ErrorCount" };
+    private static final String[] dsRowField = new String[]{"Identity", "DbType", "PoolingCount", "PoolingPeak",
+            "PoolingPeakTime", "ActiveCount", "ActivePeak", "ActivePeakTime", "ExecuteCount", "ErrorCount"};
 
-    private static final String[] dsColField  = new String[] { "Identity", "Name", "DbType", "DriverClassName", "URL",
+    private static final String[] dsColField = new String[]{"Identity", "Name", "DbType", "DriverClassName", "URL",
             "UserName", "FilterClassNames", "WaitThreadCount", "NotEmptyWaitCount", "NotEmptyWaitMillis",
             "PoolingCount", "PoolingPeak", "PoolingPeakTime", "ActiveCount", "ActivePeak", "ActivePeakTime",
             "InitialSize", "MinIdle", "MaxActive", "QueryTimeout", "TransactionQueryTimeout", "LoginTimeout",
@@ -57,10 +57,10 @@ public class TabledDataPrinter {
             "LogicConnectCount", "LogicCloseCount", "LogicConnectErrorCount", "PhysicalConnectCount",
             "PhysicalCloseCount", "PhysicalConnectErrorCount", "ExecuteCount", "ErrorCount", "CommitCount",
             "RollbackCount", "PSCacheAccessCount", "PSCacheHitCount", "PSCacheMissCount", "StartTransactionCount",
-            "TransactionHistogram", "ConnectionHoldTimeHistogram", "RemoveAbandoned", "ClobOpenCount" };
+            "TransactionHistogram", "ConnectionHoldTimeHistogram", "RemoveAbandoned", "ClobOpenCount"};
 
     public static void printActiveConnStack(List<List<String>> content, Option opt) {
-		PrintStream out = opt.getPrintStream();
+        PrintStream out = opt.getPrintStream();
         for (List<String> stack : content) {
             for (String line : stack) {
                 out.println(line);
@@ -85,7 +85,7 @@ public class TabledDataPrinter {
     }
 
     public static void _printDataSourceData(List<Map<String, Object>> content, Option opt) {
-		PrintStream out = opt.getPrintStream();
+        PrintStream out = opt.getPrintStream();
         if (opt.getId() != -1) {
             List<Map<String, Object>> matchedContent = new ArrayList<Map<String, Object>>();
             for (Map<String, Object> dsStat : content) {
@@ -121,7 +121,7 @@ public class TabledDataPrinter {
 
     public static void _printSqlData(List<Map<String, Object>> content, Option opt) {
 
-		PrintStream out = opt.getPrintStream();
+        PrintStream out = opt.getPrintStream();
         if (opt.getId() != -1) {
             List<Map<String, Object>> matchedContent = new ArrayList<Map<String, Object>>();
             for (Map<String, Object> sqlStat : content) {

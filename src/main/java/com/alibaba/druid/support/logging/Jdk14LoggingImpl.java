@@ -22,14 +22,14 @@ public class Jdk14LoggingImpl implements Log {
 
     private Logger log;
 
-    private int    errorCount;
-    private int    warnCount;
-    private int    infoCount;
-    private int    debugCount;
+    private int errorCount;
+    private int warnCount;
+    private int infoCount;
+    private int debugCount;
 
     private String loggerName;
 
-    public Jdk14LoggingImpl(String loggerName){
+    public Jdk14LoggingImpl(String loggerName) {
         this.loggerName = loggerName;
         log = Logger.getLogger(loggerName);
     }

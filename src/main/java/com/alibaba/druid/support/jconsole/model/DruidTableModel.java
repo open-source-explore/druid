@@ -15,32 +15,35 @@
  */
 package com.alibaba.druid.support.jconsole.model;
 
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
-
 /**
  * 自定义duird监控数据表格模板类
- * 
+ *
  * @author yunnysunny<yunnysunny@gmail.com>
  */
 public class DruidTableModel implements TableModel {
 
-    /** 数据内容. */
+    /**
+     * 数据内容.
+     */
     private ArrayList<LinkedHashMap<String, Object>> list;
 
-    /** 自定义列名集合. */
-    private ArrayList<String>                        showKeys;
+    /**
+     * 自定义列名集合.
+     */
+    private ArrayList<String> showKeys;
 
-    public DruidTableModel(ArrayList<LinkedHashMap<String, Object>> list){
+    public DruidTableModel(ArrayList<LinkedHashMap<String, Object>> list) {
         super();
         this.list = list;
         showKeys = null;
     }
 
-    public DruidTableModel(ArrayList<LinkedHashMap<String, Object>> list, ArrayList<String> showKeys){
+    public DruidTableModel(ArrayList<LinkedHashMap<String, Object>> list, ArrayList<String> showKeys) {
         super();
         this.list = list;
         this.showKeys = showKeys;

@@ -22,11 +22,11 @@ public class OracleExprStatement extends OracleStatementImpl {
 
     private SQLExpr expr;
 
-    public OracleExprStatement(){
+    public OracleExprStatement() {
 
     }
 
-    public OracleExprStatement(SQLExpr expr){
+    public OracleExprStatement(SQLExpr expr) {
         this.expr = expr;
     }
 

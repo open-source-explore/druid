@@ -22,14 +22,14 @@ import java.util.List;
 
 public class SQLDataTypeImpl extends SQLObjectImpl implements SQLDataType {
 
-    protected String              name;
+    protected String name;
     protected final List<SQLExpr> arguments = new ArrayList<SQLExpr>();
 
-    public SQLDataTypeImpl(){
+    public SQLDataTypeImpl() {
 
     }
 
-    public SQLDataTypeImpl(String name){
+    public SQLDataTypeImpl(String name) {
 
         this.name = name;
     }

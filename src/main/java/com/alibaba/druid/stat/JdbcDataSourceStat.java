@@ -28,12 +28,7 @@ import javax.management.openmbean.CompositeType;
 import javax.management.openmbean.TabularData;
 import javax.management.openmbean.TabularDataSupport;
 import javax.management.openmbean.TabularType;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -41,42 +36,42 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class JdbcDataSourceStat implements JdbcDataSourceStatMBean {
 
-    private final static Log                                    LOG                     = LogFactory.getLog(JdbcDataSourceStat.class);
+    private final static Log LOG = LogFactory.getLog(JdbcDataSourceStat.class);
 
-    private final String                                        name;
-    private final String                                        url;
-    private String                                              dbType;
+    private final String name;
+    private final String url;
+    private String dbType;
 
-    private final JdbcConnectionStat                            connectionStat          = new JdbcConnectionStat();
-    private final JdbcResultSetStat                             resultSetStat           = new JdbcResultSetStat();
-    private final JdbcStatementStat                             statementStat           = new JdbcStatementStat();
+    private final JdbcConnectionStat connectionStat = new JdbcConnectionStat();
+    private final JdbcResultSetStat resultSetStat = new JdbcResultSetStat();
+    private final JdbcStatementStat statementStat = new JdbcStatementStat();
 
-    private int                                                 maxSqlSize              = 1000;
+    private int maxSqlSize = 1000;
 
-    private ReentrantReadWriteLock                              lock                    = new ReentrantReadWriteLock();
-    private final LinkedHashMap<String, JdbcSqlStat>            sqlStatMap;
+    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+    private final LinkedHashMap<String, JdbcSqlStat> sqlStatMap;
 
-    private final AtomicLong                                    skipSqlCount            = new AtomicLong();
+    private final AtomicLong skipSqlCount = new AtomicLong();
 
-    private final Histogram                                     connectionHoldHistogram = new Histogram(new long[] { //
-                                                                                                        //
+    private final Histogram connectionHoldHistogram = new Histogram(new long[]{ //
+            //
             1, 10, 100, 1000, 10 * 1000, //
             100 * 1000, 1000 * 1000
-                                                                                                        //
-                                                                                                        });
+            //
+    });
 
-    private final ConcurrentMap<Long, JdbcConnectionStat.Entry> connections             = new ConcurrentHashMap<Long, JdbcConnectionStat.Entry>(
-                                                                                                                                                16,
-                                                                                                                                                0.75f,
-                                                                                                                                                1);
+    private final ConcurrentMap<Long, JdbcConnectionStat.Entry> connections = new ConcurrentHashMap<Long, JdbcConnectionStat.Entry>(
+            16,
+            0.75f,
+            1);
 
-    private final AtomicLong                                    clobOpenCount           = new AtomicLong();
+    private final AtomicLong clobOpenCount = new AtomicLong();
 
-    private final AtomicLong                                    blobOpenCount           = new AtomicLong();
+    private final AtomicLong blobOpenCount = new AtomicLong();
 
-    private boolean                                             resetStatEnable         = true;
+    private boolean resetStatEnable = true;
 
-    private static JdbcDataSourceStat                           global;
+    private static JdbcDataSourceStat global;
 
     static {
         String dbType = null;
@@ -109,16 +104,16 @@ public class JdbcDataSourceStat implements JdbcDataSourceStatMBean {
         this.resetStatEnable = resetStatEnable;
     }
 
-    public JdbcDataSourceStat(String name, String url){
+    public JdbcDataSourceStat(String name, String url) {
         this(name, url, null);
     }
 
-    public JdbcDataSourceStat(String name, String url, String dbType){
+    public JdbcDataSourceStat(String name, String url, String dbType) {
         this(name, url, dbType, null);
     }
 
     @SuppressWarnings("serial")
-    public JdbcDataSourceStat(String name, String url, String dbType, Properties connectProperties){
+    public JdbcDataSourceStat(String name, String url, String dbType, Properties connectProperties) {
         this.name = name;
         this.url = url;
         this.dbType = dbType;
@@ -314,7 +309,7 @@ public class JdbcDataSourceStat implements JdbcDataSourceStatMBean {
         String[] indexNames = rowType.keySet().toArray(new String[rowType.keySet().size()]);
 
         TabularType tabularType = new TabularType("ConnectionListStatistic", "ConnectionListStatistic", rowType,
-                                                  indexNames);
+                indexNames);
         TabularData data = new TabularDataSupport(tabularType);
 
         for (Map.Entry<Long, JdbcConnectionStat.Entry> entry : getConnections().entrySet()) {

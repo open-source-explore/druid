@@ -15,19 +15,17 @@
  */
 package com.alibaba.druid.support.jconsole;
 
+import com.sun.tools.jconsole.JConsolePlugin;
+
+import javax.swing.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
-
-import com.sun.tools.jconsole.JConsolePlugin;
 
 public class DruidPlugin extends JConsolePlugin {
 
     private final Map<String, JPanel> tabs = new LinkedHashMap<String, JPanel>();
 
-    public DruidPlugin(){
+    public DruidPlugin() {
         tabs.put("Druid-Driver", new DruidDriverPanel());
         tabs.put("Druid-DataSource", new DruidDataSourcePanel());
         tabs.put("Druid-SQL", new DruidSQLPanel());
@@ -55,7 +53,7 @@ public class DruidPlugin extends JConsolePlugin {
         for (JPanel panel : tabs.values()) {
             ((DruidPanel) panel).doInBackground(this.getContext());
         }
-        
+
         return null;
     }
 

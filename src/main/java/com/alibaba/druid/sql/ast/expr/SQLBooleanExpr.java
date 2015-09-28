@@ -23,11 +23,11 @@ public class SQLBooleanExpr extends SQLExprImpl implements SQLExpr, SQLLiteralEx
 
     private boolean value;
 
-    public SQLBooleanExpr(){
+    public SQLBooleanExpr() {
 
     }
 
-    public SQLBooleanExpr(boolean value){
+    public SQLBooleanExpr(boolean value) {
         this.value = value;
     }
 

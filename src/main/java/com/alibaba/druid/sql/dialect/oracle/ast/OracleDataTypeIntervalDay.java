@@ -15,21 +15,21 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLDataTypeImpl;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleDataTypeIntervalDay extends SQLDataTypeImpl implements OracleSQLObject {
 
-    private boolean               toSecond          = false;
+    private boolean toSecond = false;
 
     protected final List<SQLExpr> fractionalSeconds = new ArrayList<SQLExpr>();
 
-    public OracleDataTypeIntervalDay(){
+    public OracleDataTypeIntervalDay() {
         this.setName("INTERVAL DAY");
     }
 

@@ -15,33 +15,33 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLCommentHint;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLSetStatement extends SQLStatementImpl {
 
     private List<SQLAssignItem> items = new ArrayList<SQLAssignItem>();
-    
+
     private List<SQLCommentHint> hints;
 
-    public SQLSetStatement(){
+    public SQLSetStatement() {
     }
-    
-    public SQLSetStatement(String dbType){
-        super (dbType);
+
+    public SQLSetStatement(String dbType) {
+        super(dbType);
     }
-    
-    public SQLSetStatement(SQLExpr target, SQLExpr value){
+
+    public SQLSetStatement(SQLExpr target, SQLExpr value) {
         this(target, value, null);
     }
 
-    public SQLSetStatement(SQLExpr target, SQLExpr value, String dbType){
-        super (dbType);
+    public SQLSetStatement(SQLExpr target, SQLExpr value, String dbType) {
+        super(dbType);
         this.items.add(new SQLAssignItem(target, value));
     }
 

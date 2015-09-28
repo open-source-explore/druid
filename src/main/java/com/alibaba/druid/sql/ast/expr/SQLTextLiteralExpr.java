@@ -21,11 +21,11 @@ public abstract class SQLTextLiteralExpr extends SQLExprImpl implements SQLLiter
 
     protected String text;
 
-    public SQLTextLiteralExpr(){
+    public SQLTextLiteralExpr() {
 
     }
 
-    public SQLTextLiteralExpr(String text){
+    public SQLTextLiteralExpr(String text) {
 
         this.text = text;
     }

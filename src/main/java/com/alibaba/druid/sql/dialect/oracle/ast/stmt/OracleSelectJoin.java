@@ -25,13 +25,13 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 public class OracleSelectJoin extends SQLJoinTableSource implements OracleSelectTableSource {
 
     protected OracleSelectPivotBase pivot;
-    protected FlashbackQueryClause  flashback;
+    protected FlashbackQueryClause flashback;
 
-    public OracleSelectJoin(String alias){
+    public OracleSelectJoin(String alias) {
         super(alias);
     }
 
-    public OracleSelectJoin(){
+    public OracleSelectJoin() {
 
     }
 
@@ -91,7 +91,7 @@ public class OracleSelectJoin extends SQLJoinTableSource implements OracleSelect
         }
     }
 
-    public String toString () {
+    public String toString() {
         return SQLUtils.toOracleString(this);
     }
 }

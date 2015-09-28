@@ -15,6 +15,11 @@
  */
 package com.alibaba.druid.filter.encoding;
 
+import com.alibaba.druid.filter.FilterAdapter;
+import com.alibaba.druid.filter.FilterChain;
+import com.alibaba.druid.proxy.jdbc.*;
+import com.alibaba.druid.util.Utils;
+
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -24,16 +29,6 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Properties;
 
-import com.alibaba.druid.filter.FilterAdapter;
-import com.alibaba.druid.filter.FilterChain;
-import com.alibaba.druid.proxy.jdbc.CallableStatementProxy;
-import com.alibaba.druid.proxy.jdbc.ClobProxy;
-import com.alibaba.druid.proxy.jdbc.ConnectionProxy;
-import com.alibaba.druid.proxy.jdbc.PreparedStatementProxy;
-import com.alibaba.druid.proxy.jdbc.ResultSetProxy;
-import com.alibaba.druid.proxy.jdbc.StatementProxy;
-import com.alibaba.druid.util.Utils;
-
 /**
  * @author wenshao<szujobs@hotmail.com>
  */
@@ -41,8 +36,8 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     public final static String ATTR_CHARSET_PARAMETER = "ali.charset.param";
     public final static String ATTR_CHARSET_CONVERTER = "ali.charset.converter";
-    private String             clientEncoding;
-    private String             serverEncoding;
+    private String clientEncoding;
+    private String serverEncoding;
 
     public ConnectionProxy connection_connect(FilterChain chain, Properties info) throws SQLException {
         ConnectionProxy conn = chain.connection_connect(info);
@@ -59,7 +54,7 @@ public class EncodingConvertFilter extends FilterAdapter {
         }
         conn.putAttribute(ATTR_CHARSET_PARAMETER, param);
         conn.putAttribute(ATTR_CHARSET_CONVERTER,
-                                 new CharsetConvert(param.getClientEncoding(), param.getServerEncoding()));
+                new CharsetConvert(param.getClientEncoding(), param.getServerEncoding()));
 
         return conn;
     }
@@ -240,7 +235,7 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     @Override
     public PreparedStatementProxy connection_prepareStatement(FilterChain chain, ConnectionProxy connection, String sql)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         return super.connection_prepareStatement(chain, connection, encode(connection, sql));
     }
 
@@ -253,9 +248,9 @@ public class EncodingConvertFilter extends FilterAdapter {
     @Override
     public PreparedStatementProxy connection_prepareStatement(FilterChain chain, ConnectionProxy connection,
                                                               String sql, int resultSetType, int resultSetConcurrency)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         return super.connection_prepareStatement(chain, connection, encode(connection, sql), resultSetType,
-                                                 resultSetConcurrency);
+                resultSetConcurrency);
     }
 
     @Override
@@ -263,7 +258,7 @@ public class EncodingConvertFilter extends FilterAdapter {
                                                               String sql, int resultSetType, int resultSetConcurrency,
                                                               int resultSetHoldability) throws SQLException {
         return super.connection_prepareStatement(chain, connection, encode(connection, sql), resultSetType,
-                                                 resultSetConcurrency, resultSetHoldability);
+                resultSetConcurrency, resultSetHoldability);
     }
 
     @Override
@@ -282,16 +277,16 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     @Override
     public CallableStatementProxy connection_prepareCall(FilterChain chain, ConnectionProxy connection, String sql)
-                                                                                                                   throws SQLException {
+            throws SQLException {
         return super.connection_prepareCall(chain, connection, encode(connection, sql));
     }
 
     @Override
     public CallableStatementProxy connection_prepareCall(FilterChain chain, ConnectionProxy connection, String sql,
                                                          int resultSetType, int resultSetConcurrency)
-                                                                                                     throws SQLException {
+            throws SQLException {
         return super.connection_prepareCall(chain, connection, encode(connection, sql), resultSetType,
-                                            resultSetConcurrency);
+                resultSetConcurrency);
     }
 
     @Override
@@ -299,7 +294,7 @@ public class EncodingConvertFilter extends FilterAdapter {
                                                          int resultSetType, int resultSetConcurrency,
                                                          int resultSetHoldability) throws SQLException {
         return super.connection_prepareCall(chain, connection, encode(connection, sql), resultSetType,
-                                            resultSetConcurrency, resultSetHoldability);
+                resultSetConcurrency, resultSetHoldability);
     }
 
     // nativeSQL
@@ -324,25 +319,25 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     @Override
     public boolean statement_execute(FilterChain chain, StatementProxy statement, String sql, int autoGeneratedKeys)
-                                                                                                                    throws SQLException {
+            throws SQLException {
         return super.statement_execute(chain, statement, encode(statement.getConnectionProxy(), sql), autoGeneratedKeys);
     }
 
     @Override
     public boolean statement_execute(FilterChain chain, StatementProxy statement, String sql, int columnIndexes[])
-                                                                                                                  throws SQLException {
+            throws SQLException {
         return super.statement_execute(chain, statement, encode(statement.getConnectionProxy(), sql), columnIndexes);
     }
 
     @Override
     public boolean statement_execute(FilterChain chain, StatementProxy statement, String sql, String columnNames[])
-                                                                                                                   throws SQLException {
+            throws SQLException {
         return super.statement_execute(chain, statement, encode(statement.getConnectionProxy(), sql), columnNames);
     }
 
     @Override
     public ResultSetProxy statement_executeQuery(FilterChain chain, StatementProxy statement, String sql)
-                                                                                                         throws SQLException {
+            throws SQLException {
         return super.statement_executeQuery(chain, statement, encode(statement.getConnectionProxy(), sql));
     }
 
@@ -353,21 +348,21 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     @Override
     public int statement_executeUpdate(FilterChain chain, StatementProxy statement, String sql, int autoGeneratedKeys)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         return super.statement_executeUpdate(chain, statement, encode(statement.getConnectionProxy(), sql),
-                                             autoGeneratedKeys);
+                autoGeneratedKeys);
     }
 
     @Override
     public int statement_executeUpdate(FilterChain chain, StatementProxy statement, String sql, int columnIndexes[])
-                                                                                                                    throws SQLException {
+            throws SQLException {
         return super.statement_executeUpdate(chain, statement, encode(statement.getConnectionProxy(), sql),
-                                             columnIndexes);
+                columnIndexes);
     }
 
     @Override
     public int statement_executeUpdate(FilterChain chain, StatementProxy statement, String sql, String columnNames[])
-                                                                                                                     throws SQLException {
+            throws SQLException {
         return super.statement_executeUpdate(chain, statement, encode(statement.getConnectionProxy(), sql), columnNames);
     }
 
@@ -390,21 +385,21 @@ public class EncodingConvertFilter extends FilterAdapter {
     @Override
     public void preparedStatement_setCharacterStream(FilterChain chain, PreparedStatementProxy statement,
                                                      int parameterIndex, java.io.Reader reader, int length)
-                                                                                                           throws SQLException {
+            throws SQLException {
         String text = Utils.read(reader, length);
         String encodedText = encode(statement.getConnectionProxy(), text);
         super.preparedStatement_setCharacterStream(chain, statement, parameterIndex, new StringReader(encodedText),
-                                                   encodedText.length());
+                encodedText.length());
     }
 
     @Override
     public void preparedStatement_setCharacterStream(FilterChain chain, PreparedStatementProxy statement,
                                                      int parameterIndex, java.io.Reader reader, long length)
-                                                                                                            throws SQLException {
+            throws SQLException {
         String text = Utils.read(reader, (int) length);
         String encodedText = encode(statement.getConnectionProxy(), text);
         super.preparedStatement_setCharacterStream(chain, statement, parameterIndex, new StringReader(encodedText),
-                                                   encodedText.length());
+                encodedText.length());
     }
 
     @Override
@@ -432,7 +427,7 @@ public class EncodingConvertFilter extends FilterAdapter {
             String text = Utils.read((Reader) x);
             String encodedText = encode(statement.getConnectionProxy(), text);
             super.preparedStatement_setObject(chain, statement, parameterIndex, new StringReader(encodedText),
-                                              targetSqlType);
+                    targetSqlType);
         } else {
             super.preparedStatement_setObject(chain, statement, parameterIndex, x, targetSqlType);
         }
@@ -444,12 +439,12 @@ public class EncodingConvertFilter extends FilterAdapter {
         if (x instanceof String) {
             String encodedText = encode(statement.getConnectionProxy(), (String) x);
             super.preparedStatement_setObject(chain, statement, parameterIndex, encodedText, targetSqlType,
-                                              scaleOrLength);
+                    scaleOrLength);
         } else if (x instanceof Reader) {
             String text = Utils.read((Reader) x);
             String encodedText = encode(statement.getConnectionProxy(), text);
             super.preparedStatement_setObject(chain, statement, parameterIndex, new StringReader(encodedText),
-                                              targetSqlType, scaleOrLength);
+                    targetSqlType, scaleOrLength);
         } else {
             super.preparedStatement_setObject(chain, statement, parameterIndex, x, targetSqlType, scaleOrLength);
         }
@@ -477,7 +472,7 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     @Override
     public Reader clob_getCharacterStream(FilterChain chain, ClobProxy wrapper, long pos, long length)
-                                                                                                      throws SQLException {
+            throws SQLException {
         Reader reader = super.clob_getCharacterStream(chain, wrapper, pos, length);
         String text = Utils.read(reader);
         return new StringReader(decode(wrapper.getConnectionWrapper(), text));
@@ -490,7 +485,7 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     @Override
     public int clob_setString(FilterChain chain, ClobProxy wrapper, long pos, String str, int offset, int len)
-                                                                                                              throws SQLException {
+            throws SQLException {
         return chain.clob_setString(wrapper, pos, encode(wrapper.getConnectionWrapper(), str), offset, len);
     }
 
@@ -507,7 +502,7 @@ public class EncodingConvertFilter extends FilterAdapter {
     @Override
     public void callableStatement_setCharacterStream(FilterChain chain, CallableStatementProxy statement,
                                                      String parameterName, java.io.Reader reader, int length)
-                                                                                                             throws SQLException {
+            throws SQLException {
         String text = Utils.read(reader, length);
         String encodeText = encode(statement.getConnectionProxy(), text);
         Reader encodeReader = new StringReader(encodeText);
@@ -517,12 +512,12 @@ public class EncodingConvertFilter extends FilterAdapter {
     @Override
     public void callableStatement_setCharacterStream(FilterChain chain, CallableStatementProxy statement,
                                                      String parameterName, java.io.Reader reader, long length)
-                                                                                                              throws SQLException {
+            throws SQLException {
         String text = Utils.read(reader, (int) length);
         String encodeText = encode(statement.getConnectionProxy(), text);
         Reader encodeReader = new StringReader(encodeText);
         super.callableStatement_setCharacterStream(chain, statement, parameterName, encodeReader,
-                                                   (long) encodeText.length());
+                (long) encodeText.length());
     }
 
     @Override
@@ -556,7 +551,7 @@ public class EncodingConvertFilter extends FilterAdapter {
             String text = Utils.read((Reader) x);
             String encodedText = encode(statement.getConnectionProxy(), text);
             super.callableStatement_setObject(chain, statement, parameterName, new StringReader(encodedText),
-                                              targetSqlType);
+                    targetSqlType);
         } else {
             super.callableStatement_setObject(chain, statement, parameterName, x, targetSqlType);
         }
@@ -572,7 +567,7 @@ public class EncodingConvertFilter extends FilterAdapter {
             String text = Utils.read((Reader) x);
             String encodedText = encode(statement.getConnectionProxy(), text);
             super.callableStatement_setObject(chain, statement, parameterName, new StringReader(encodedText),
-                                              targetSqlType, scale);
+                    targetSqlType, scale);
         } else {
             super.callableStatement_setObject(chain, statement, parameterName, x, targetSqlType, scale);
         }
@@ -580,21 +575,21 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     @Override
     public String callableStatement_getString(FilterChain chain, CallableStatementProxy statement, int parameterIndex)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         String value = super.callableStatement_getString(chain, statement, parameterIndex);
         return decode(statement.getConnectionProxy(), value);
     }
 
     @Override
     public String callableStatement_getString(FilterChain chain, CallableStatementProxy statement, String parameterName)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         String value = super.callableStatement_getString(chain, statement, parameterName);
         return decode(statement.getConnectionProxy(), value);
     }
 
     @Override
     public Object callableStatement_getObject(FilterChain chain, CallableStatementProxy statement, int parameterIndex)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         Object value = chain.callableStatement_getObject(statement, parameterIndex);
         return decodeObject(statement, value);
     }
@@ -608,7 +603,7 @@ public class EncodingConvertFilter extends FilterAdapter {
 
     @Override
     public Object callableStatement_getObject(FilterChain chain, CallableStatementProxy statement, String parameterName)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         Object value = chain.callableStatement_getObject(statement, parameterName);
         return decodeObject(statement, value);
     }
@@ -616,7 +611,7 @@ public class EncodingConvertFilter extends FilterAdapter {
     @Override
     public Object callableStatement_getObject(FilterChain chain, CallableStatementProxy statement,
                                               String parameterName, java.util.Map<String, Class<?>> map)
-                                                                                                        throws SQLException {
+            throws SQLException {
         Object value = chain.callableStatement_getObject(statement, parameterName, map);
         return decodeObject(statement, value);
     }

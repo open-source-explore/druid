@@ -15,13 +15,13 @@
  */
 package com.alibaba.druid.support.opds.udf;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.visitor.SchemaStatVisitor;
 import com.alibaba.druid.stat.TableStat;
 import com.aliyun.odps.udf.UDF;
+
+import java.util.List;
 
 public class ExportColumns extends UDF {
 

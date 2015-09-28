@@ -26,12 +26,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class IbatisUtils {
-    private static Log     LOG               = LogFactory.getLog(IbatisUtils.class);
+    private static Log LOG = LogFactory.getLog(IbatisUtils.class);
 
-    private static boolean VERSION_2_3_4     = false;
+    private static boolean VERSION_2_3_4 = false;
 
-    private static Method  methodGetId       = null;
-    private static Method  methodGetResource = null;
+    private static Method methodGetId = null;
+    private static Method methodGetResource = null;
     private static Field sessionField;
 
     static {
@@ -68,7 +68,7 @@ public class IbatisUtils {
 
     /**
      * 通过反射的方式得到id，能够兼容2.3.0和2.3.4
-     * 
+     *
      * @return
      */
     protected static String getId(Object statement) {
@@ -93,7 +93,7 @@ public class IbatisUtils {
 
     /**
      * 通过反射的方式得到resource，能够兼容2.3.0和2.3.4
-     * 
+     *
      * @return
      */
     protected static String getResource(Object statement) {
@@ -118,12 +118,12 @@ public class IbatisUtils {
                 }
             }
         }
-        
+
         if (sessionField != null) {
             SessionScope sessionScope;
             try {
                 sessionScope = (SessionScope) sessionField.get(session);
-                
+
                 if (sessionScope != null) {
                     if (sessionScope.getSqlMapClient() != null && sessionScope.getSqlMapClient().getClass() == SqlMapClientImpl.class) {
                         sessionScope.setSqlMapClient(client);

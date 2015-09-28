@@ -15,10 +15,10 @@
  */
 package com.alibaba.druid.mock.handler;
 
+import com.alibaba.druid.mock.MockStatementBase;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.alibaba.druid.mock.MockStatementBase;
 
 public interface MockExecuteHandler {
 

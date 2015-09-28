@@ -26,7 +26,7 @@ public class MySqlSQLColumnDefinition extends SQLColumnDefinition {
 
     private SQLExpr storage;
 
-    public MySqlSQLColumnDefinition(){
+    public MySqlSQLColumnDefinition() {
 
     }
 

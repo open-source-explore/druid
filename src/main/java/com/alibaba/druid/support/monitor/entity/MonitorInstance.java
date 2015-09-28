@@ -19,14 +19,14 @@ import java.util.Date;
 
 public class MonitorInstance {
 
-    private long   id;
+    private long id;
     private String domain;
     private String app;
     private String cluster;
     private String host;
     private String ip;
-    private Date   lastActiveTime;
-    private Long   lastPID;
+    private Date lastActiveTime;
+    private Long lastPID;
 
     public long getId() {
         return id;

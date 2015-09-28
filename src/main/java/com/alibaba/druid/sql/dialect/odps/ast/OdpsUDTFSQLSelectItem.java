@@ -15,12 +15,12 @@
  */
 package com.alibaba.druid.sql.dialect.odps.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
 import com.alibaba.druid.sql.dialect.odps.visitor.OdpsASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OdpsUDTFSQLSelectItem extends SQLSelectItem implements OdpsObject {
 
@@ -41,7 +41,7 @@ public class OdpsUDTFSQLSelectItem extends SQLSelectItem implements OdpsObject {
     protected void accept0(SQLASTVisitor visitor) {
         accept0((OdpsASTVisitor) visitor);
     }
-    
+
     public void accept0(OdpsASTVisitor visitor) {
         if (visitor.visit(this)) {
             acceptChild(visitor, this.expr);

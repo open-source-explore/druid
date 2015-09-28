@@ -15,14 +15,9 @@
  */
 package com.alibaba.druid.util;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.sql.XAConnection;
-import javax.transaction.xa.XAException;
-
+import com.alibaba.druid.pool.DruidPooledConnection;
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OracleResultSet;
 import oracle.jdbc.OracleStatement;
@@ -30,9 +25,12 @@ import oracle.jdbc.internal.OraclePreparedStatement;
 import oracle.jdbc.xa.client.OracleXAConnection;
 import oracle.sql.ROWID;
 
-import com.alibaba.druid.pool.DruidPooledConnection;
-import com.alibaba.druid.support.logging.Log;
-import com.alibaba.druid.support.logging.LogFactory;
+import javax.sql.XAConnection;
+import javax.transaction.xa.XAException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class OracleUtils {
 
@@ -44,11 +42,11 @@ public class OracleUtils {
 
     public static int getRowPrefetch(PreparedStatement stmt) throws SQLException {
         OracleStatement oracleStmt = stmt.unwrap(OracleStatement.class);
-        
+
         if (oracleStmt == null) {
             return -1;
         }
-        
+
         return oracleStmt.getRowPrefetch();
     }
 

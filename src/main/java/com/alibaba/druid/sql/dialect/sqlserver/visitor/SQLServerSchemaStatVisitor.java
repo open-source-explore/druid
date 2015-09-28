@@ -15,36 +15,21 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.visitor;
 
-import java.util.Map;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
 import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
 import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerColumnDefinition;
+import com.alibaba.druid.sql.dialect.sqlserver.ast.*;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerColumnDefinition.Identity;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerDeclareItem;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerOutput;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerSelect;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerTop;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.expr.SQLServerObjectReferenceExpr;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerBlockStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerCommitStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerDeclareStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerExecStatement;
+import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.*;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerExecStatement.SQLServerParameter;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerIfStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerIfStatement.Else;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerInsertStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerRollbackStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerSetStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerSetTransactionIsolationLevelStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerUpdateStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerWaitForStatement;
 import com.alibaba.druid.sql.visitor.SchemaStatVisitor;
 import com.alibaba.druid.stat.TableStat;
 import com.alibaba.druid.util.JdbcUtils;
+
+import java.util.Map;
 
 public class SQLServerSchemaStatVisitor extends SchemaStatVisitor implements SQLServerASTVisitor {
 
@@ -275,16 +260,16 @@ public class SQLServerSchemaStatVisitor extends SchemaStatVisitor implements SQL
 
     }
 
-	@Override
-	public boolean visit(SQLServerParameter x) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean visit(SQLServerParameter x) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public void endVisit(SQLServerParameter x) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void endVisit(SQLServerParameter x) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

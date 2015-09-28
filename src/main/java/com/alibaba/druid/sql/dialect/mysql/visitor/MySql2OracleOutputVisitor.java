@@ -18,7 +18,7 @@ package com.alibaba.druid.sql.dialect.mysql.visitor;
 
 public class MySql2OracleOutputVisitor extends MySqlOutputVisitor {
 
-    public MySql2OracleOutputVisitor(Appendable appender){
+    public MySql2OracleOutputVisitor(Appendable appender) {
         super(appender);
     }
 

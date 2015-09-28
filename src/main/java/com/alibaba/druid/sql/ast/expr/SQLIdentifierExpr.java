@@ -21,15 +21,15 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLIdentifierExpr extends SQLExprImpl implements SQLName {
 
-    private String           name;
+    private String name;
 
     private transient String lowerName;
 
-    public SQLIdentifierExpr(){
+    public SQLIdentifierExpr() {
 
     }
 
-    public SQLIdentifierExpr(String name){
+    public SQLIdentifierExpr(String name) {
         this.name = name;
     }
 

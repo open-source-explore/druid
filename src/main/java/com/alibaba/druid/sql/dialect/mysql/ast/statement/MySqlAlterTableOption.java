@@ -24,12 +24,12 @@ public class MySqlAlterTableOption extends MySqlObjectImpl implements SQLAlterTa
     private String name;
     private Object value;
 
-    public MySqlAlterTableOption(String name, Object value){
+    public MySqlAlterTableOption(String name, Object value) {
         this.name = name;
         this.value = value;
     }
 
-    public MySqlAlterTableOption(){
+    public MySqlAlterTableOption() {
     }
 
     @Override

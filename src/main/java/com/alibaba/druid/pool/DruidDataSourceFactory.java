@@ -15,13 +15,8 @@
  */
 package com.alibaba.druid.pool;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
 
 import javax.naming.Context;
 import javax.naming.Name;
@@ -29,54 +24,54 @@ import javax.naming.RefAddr;
 import javax.naming.Reference;
 import javax.naming.spi.ObjectFactory;
 import javax.sql.DataSource;
-
-import com.alibaba.druid.support.logging.Log;
-import com.alibaba.druid.support.logging.LogFactory;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.*;
 
 public class DruidDataSourceFactory implements ObjectFactory {
 
-    private final static Log      LOG                                      = LogFactory.getLog(DruidDataSourceFactory.class);
+    private final static Log LOG = LogFactory.getLog(DruidDataSourceFactory.class);
 
-    static final int              UNKNOWN_TRANSACTIONISOLATION             = -1;
+    static final int UNKNOWN_TRANSACTIONISOLATION = -1;
 
-    public final static String    PROP_DEFAULTAUTOCOMMIT                   = "defaultAutoCommit";
-    public final static String    PROP_DEFAULTREADONLY                     = "defaultReadOnly";
-    public final static String    PROP_DEFAULTTRANSACTIONISOLATION         = "defaultTransactionIsolation";
-    public final static String    PROP_DEFAULTCATALOG                      = "defaultCatalog";
-    public final static String    PROP_DRIVERCLASSNAME                     = "driverClassName";
-    public final static String    PROP_MAXACTIVE                           = "maxActive";
-    public final static String    PROP_MAXIDLE                             = "maxIdle";
-    public final static String    PROP_MINIDLE                             = "minIdle";
-    public final static String    PROP_INITIALSIZE                         = "initialSize";
-    public final static String    PROP_MAXWAIT                             = "maxWait";
-    public final static String    PROP_TESTONBORROW                        = "testOnBorrow";
-    public final static String    PROP_TESTONRETURN                        = "testOnReturn";
-    public final static String    PROP_TIMEBETWEENEVICTIONRUNSMILLIS       = "timeBetweenEvictionRunsMillis";
-    public final static String    PROP_NUMTESTSPEREVICTIONRUN              = "numTestsPerEvictionRun";
-    public final static String    PROP_MINEVICTABLEIDLETIMEMILLIS          = "minEvictableIdleTimeMillis";
-    public final static String    PROP_PHY_TIMEOUT_MILLIS                  = "phyTimeoutMillis";
-    public final static String    PROP_TESTWHILEIDLE                       = "testWhileIdle";
-    public final static String    PROP_PASSWORD                            = "password";
-    public final static String    PROP_URL                                 = "url";
-    public final static String    PROP_USERNAME                            = "username";
-    public final static String    PROP_VALIDATIONQUERY                     = "validationQuery";
-    public final static String    PROP_VALIDATIONQUERY_TIMEOUT             = "validationQueryTimeout";
+    public final static String PROP_DEFAULTAUTOCOMMIT = "defaultAutoCommit";
+    public final static String PROP_DEFAULTREADONLY = "defaultReadOnly";
+    public final static String PROP_DEFAULTTRANSACTIONISOLATION = "defaultTransactionIsolation";
+    public final static String PROP_DEFAULTCATALOG = "defaultCatalog";
+    public final static String PROP_DRIVERCLASSNAME = "driverClassName";
+    public final static String PROP_MAXACTIVE = "maxActive";
+    public final static String PROP_MAXIDLE = "maxIdle";
+    public final static String PROP_MINIDLE = "minIdle";
+    public final static String PROP_INITIALSIZE = "initialSize";
+    public final static String PROP_MAXWAIT = "maxWait";
+    public final static String PROP_TESTONBORROW = "testOnBorrow";
+    public final static String PROP_TESTONRETURN = "testOnReturn";
+    public final static String PROP_TIMEBETWEENEVICTIONRUNSMILLIS = "timeBetweenEvictionRunsMillis";
+    public final static String PROP_NUMTESTSPEREVICTIONRUN = "numTestsPerEvictionRun";
+    public final static String PROP_MINEVICTABLEIDLETIMEMILLIS = "minEvictableIdleTimeMillis";
+    public final static String PROP_PHY_TIMEOUT_MILLIS = "phyTimeoutMillis";
+    public final static String PROP_TESTWHILEIDLE = "testWhileIdle";
+    public final static String PROP_PASSWORD = "password";
+    public final static String PROP_URL = "url";
+    public final static String PROP_USERNAME = "username";
+    public final static String PROP_VALIDATIONQUERY = "validationQuery";
+    public final static String PROP_VALIDATIONQUERY_TIMEOUT = "validationQueryTimeout";
 
-    public final static String    PROP_INITCONNECTIONSQLS                  = "initConnectionSqls";
-    public final static String    PROP_ACCESSTOUNDERLYINGCONNECTIONALLOWED = "accessToUnderlyingConnectionAllowed";
-    public final static String    PROP_REMOVEABANDONED                     = "removeAbandoned";
-    public final static String    PROP_REMOVEABANDONEDTIMEOUT              = "removeAbandonedTimeout";
-    public final static String    PROP_LOGABANDONED                        = "logAbandoned";
-    public final static String    PROP_POOLPREPAREDSTATEMENTS              = "poolPreparedStatements";
-    public final static String    PROP_MAXOPENPREPAREDSTATEMENTS           = "maxOpenPreparedStatements";
-    public final static String    PROP_CONNECTIONPROPERTIES                = "connectionProperties";
-    public final static String    PROP_FILTERS                             = "filters";
-    public final static String    PROP_EXCEPTION_SORTER                    = "exceptionSorter";
-    public final static String    PROP_EXCEPTION_SORTER_CLASS_NAME         = "exception-sorter-class-name";
+    public final static String PROP_INITCONNECTIONSQLS = "initConnectionSqls";
+    public final static String PROP_ACCESSTOUNDERLYINGCONNECTIONALLOWED = "accessToUnderlyingConnectionAllowed";
+    public final static String PROP_REMOVEABANDONED = "removeAbandoned";
+    public final static String PROP_REMOVEABANDONEDTIMEOUT = "removeAbandonedTimeout";
+    public final static String PROP_LOGABANDONED = "logAbandoned";
+    public final static String PROP_POOLPREPAREDSTATEMENTS = "poolPreparedStatements";
+    public final static String PROP_MAXOPENPREPAREDSTATEMENTS = "maxOpenPreparedStatements";
+    public final static String PROP_CONNECTIONPROPERTIES = "connectionProperties";
+    public final static String PROP_FILTERS = "filters";
+    public final static String PROP_EXCEPTION_SORTER = "exceptionSorter";
+    public final static String PROP_EXCEPTION_SORTER_CLASS_NAME = "exception-sorter-class-name";
 
-    public final static String    PROP_INIT                                = "init";
+    public final static String PROP_INIT = "init";
 
-    private final static String[] ALL_PROPERTIES                           = { PROP_DEFAULTAUTOCOMMIT,
+    private final static String[] ALL_PROPERTIES = {PROP_DEFAULTAUTOCOMMIT,
             PROP_DEFAULTREADONLY, PROP_DEFAULTTRANSACTIONISOLATION, PROP_DEFAULTCATALOG, PROP_DRIVERCLASSNAME,
             PROP_MAXACTIVE, PROP_MAXIDLE, PROP_MINIDLE, PROP_INITIALSIZE, PROP_MAXWAIT, PROP_TESTONBORROW,
             PROP_TESTONRETURN, PROP_TIMEBETWEENEVICTIONRUNSMILLIS, PROP_NUMTESTSPEREVICTIONRUN,
@@ -84,11 +79,11 @@ public class DruidDataSourceFactory implements ObjectFactory {
             PROP_VALIDATIONQUERY, PROP_VALIDATIONQUERY_TIMEOUT, PROP_INITCONNECTIONSQLS,
             PROP_ACCESSTOUNDERLYINGCONNECTIONALLOWED, PROP_REMOVEABANDONED, PROP_REMOVEABANDONEDTIMEOUT,
             PROP_LOGABANDONED, PROP_POOLPREPAREDSTATEMENTS, PROP_MAXOPENPREPAREDSTATEMENTS, PROP_CONNECTIONPROPERTIES,
-            PROP_FILTERS, PROP_EXCEPTION_SORTER, PROP_EXCEPTION_SORTER_CLASS_NAME, PROP_INIT };
+            PROP_FILTERS, PROP_EXCEPTION_SORTER, PROP_EXCEPTION_SORTER_CLASS_NAME, PROP_INIT};
 
     @Override
     public Object getObjectInstance(Object obj, Name name, Context nameCtx, Hashtable<?, ?> environment)
-                                                                                                        throws Exception {
+            throws Exception {
 
         // We only know how to deal with <code>javax.naming.Reference</code>s
         // that specify a class name of "javax.sql.DataSource"
@@ -98,8 +93,8 @@ public class DruidDataSourceFactory implements ObjectFactory {
         Reference ref = (Reference) obj;
 
         if ((!"javax.sql.DataSource".equals(ref.getClassName())) //
-            && (!"com.alibaba.druid.pool.DruidDataSource".equals(ref.getClassName())) //
-        ) {
+                && (!"com.alibaba.druid.pool.DruidDataSource".equals(ref.getClassName())) //
+                ) {
             return null;
         }
 
@@ -134,7 +129,7 @@ public class DruidDataSourceFactory implements ObjectFactory {
         return dataSource;
     }
 
-    @SuppressWarnings({ "deprecation", "rawtypes" })
+    @SuppressWarnings({"deprecation", "rawtypes"})
     public static void config(DruidDataSource dataSource, Map properties) throws SQLException {
         String value = null;
 
@@ -293,7 +288,7 @@ public class DruidDataSourceFactory implements ObjectFactory {
         if (value != null) {
             boolean poolPreparedStatements = Boolean.valueOf(value).booleanValue();
             dataSource.setPoolPreparedStatements(poolPreparedStatements);
-            
+
             if (poolPreparedStatements) {
                 value = (String) properties.get(PROP_MAXOPENPREPAREDSTATEMENTS);
                 if (value != null) {

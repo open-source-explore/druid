@@ -21,7 +21,7 @@ public enum SQLUnionOperator {
 
     public final String name;
 
-    private SQLUnionOperator(String name){
+    private SQLUnionOperator(String name) {
         this.name = name;
     }
 

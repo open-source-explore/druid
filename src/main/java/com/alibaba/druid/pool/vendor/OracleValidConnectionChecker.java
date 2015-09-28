@@ -15,13 +15,6 @@
  */
 package com.alibaba.druid.pool.vendor;
 
-import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
-
 import com.alibaba.druid.pool.DruidPooledConnection;
 import com.alibaba.druid.pool.ValidConnectionChecker;
 import com.alibaba.druid.pool.ValidConnectionCheckerAdapter;
@@ -30,17 +23,24 @@ import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.alibaba.druid.util.JdbcUtils;
 
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
 public class OracleValidConnectionChecker extends ValidConnectionCheckerAdapter implements ValidConnectionChecker, Serializable {
 
-    private static final long serialVersionUID     = -2227528634302168877L;
+    private static final long serialVersionUID = -2227528634302168877L;
 
-    private static final Log  LOG                  = LogFactory.getLog(OracleValidConnectionChecker.class);
+    private static final Log LOG = LogFactory.getLog(OracleValidConnectionChecker.class);
 
-    private int               timeout              = 1;
+    private int timeout = 1;
 
-    private String            defaultValidateQuery = "SELECT 'x' FROM DUAL";
+    private String defaultValidateQuery = "SELECT 'x' FROM DUAL";
 
-    public OracleValidConnectionChecker(){
+    public OracleValidConnectionChecker() {
         configFromProperties(System.getProperties());
     }
 

@@ -35,6 +35,6 @@ public class MockExceptionSorter implements ExceptionSorter {
     }
 
     public void configFromProperties(Properties properties) {
-        
+
     }
 }

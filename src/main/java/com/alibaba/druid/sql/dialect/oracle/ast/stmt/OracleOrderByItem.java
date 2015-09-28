@@ -22,7 +22,7 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class OracleOrderByItem extends SQLSelectOrderByItem {
 
-    public OracleOrderByItem(){
+    public OracleOrderByItem() {
 
     }
 

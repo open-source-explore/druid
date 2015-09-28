@@ -15,57 +15,57 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.clause;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLDataType;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlStatementImpl;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
- * @Description: MySql declare statement
  * @author zz email:455910092@qq.com
- * @date 2015-9-14
  * @version V1.0
+ * @Description: MySql declare statement
+ * @date 2015-9-14
  */
-public class MySqlDeclareStatement extends MySqlStatementImpl{
-	
-	//var type
-	private SQLDataType type; 
-	//var list
-	private List<SQLExpr> varList=new ArrayList<SQLExpr>();
-	
+public class MySqlDeclareStatement extends MySqlStatementImpl {
 
-	public List<SQLExpr> getVarList() {
-		return varList;
-	}
-	public void addVar(SQLExpr expr)
-	{
-		varList.add(expr);
-	}
+    //var type
+    private SQLDataType type;
+    //var list
+    private List<SQLExpr> varList = new ArrayList<SQLExpr>();
 
-	public void setVarList(List<SQLExpr> varList) {
-		this.varList = varList;
-	}
 
-	public SQLDataType getType() {
-		return type;
-	}
+    public List<SQLExpr> getVarList() {
+        return varList;
+    }
 
-	public void setType(SQLDataType type) {
-		this.type = type;
-	}
+    public void addVar(SQLExpr expr) {
+        varList.add(expr);
+    }
 
-	@Override
-	public void accept0(MySqlASTVisitor visitor) {
-		// TODO Auto-generated method stub
-		 if (visitor.visit(this)) {
-			 acceptChild(visitor, type);
-	         acceptChild(visitor, varList);
-	        }
-	        visitor.endVisit(this);
-		
-	}
+    public void setVarList(List<SQLExpr> varList) {
+        this.varList = varList;
+    }
+
+    public SQLDataType getType() {
+        return type;
+    }
+
+    public void setType(SQLDataType type) {
+        this.type = type;
+    }
+
+    @Override
+    public void accept0(MySqlASTVisitor visitor) {
+        // TODO Auto-generated method stub
+        if (visitor.visit(this)) {
+            acceptChild(visitor, type);
+            acceptChild(visitor, varList);
+        }
+        visitor.endVisit(this);
+
+    }
 
 }

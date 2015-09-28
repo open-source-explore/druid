@@ -18,19 +18,7 @@ package com.alibaba.druid.pool;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.NClob;
-import java.sql.Ref;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Calendar;
 
 /**
@@ -38,14 +26,14 @@ import java.util.Calendar;
  */
 public final class DruidPooledResultSet extends PoolableWrapper implements ResultSet {
 
-    private final ResultSet         rs;
+    private final ResultSet rs;
     private final DruidPooledStatement stmt;
-    private boolean                 closed        = false;
+    private boolean closed = false;
 
-    protected int                   cursorIndex   = 0;
-    protected int                   fetchRowCount = 0;
+    protected int cursorIndex = 0;
+    protected int fetchRowCount = 0;
 
-    public DruidPooledResultSet(DruidPooledStatement stmt, ResultSet rs){
+    public DruidPooledResultSet(DruidPooledStatement stmt, ResultSet rs) {
         super(rs);
         this.stmt = stmt;
         this.rs = rs;
@@ -85,13 +73,13 @@ public final class DruidPooledResultSet extends PoolableWrapper implements Resul
         try {
             this.closed = true;
             rs.close();
-            
+
             stmt.recordFetchRowCount(fetchRowCount);
         } catch (Throwable t) {
             throw checkException(t);
         }
     }
-    
+
     public int getFetchRowCount() {
         return fetchRowCount;
     }

@@ -28,40 +28,40 @@ import com.alibaba.druid.util.JdbcConstants;
 
 public class OracleCreateTableStatement extends SQLCreateTableStatement implements OracleDDLStatement {
 
-    private SQLName                 tablespace;
+    private SQLName tablespace;
 
-    private SQLSelect               select;
+    private SQLSelect select;
 
-    private boolean                 inMemoryMetadata;
+    private boolean inMemoryMetadata;
 
-    private boolean                 cursorSpecificSegment;
+    private boolean cursorSpecificSegment;
 
     // NOPARALLEL
-    private Boolean                 parallel;
+    private Boolean parallel;
 
-    private OracleStorageClause     storage;
-    private OracleLobStorageClause  lobStorage;
+    private OracleStorageClause storage;
+    private OracleLobStorageClause lobStorage;
 
-    private boolean                 organizationIndex = false;
+    private boolean organizationIndex = false;
 
-    private SQLExpr                 ptcfree;
-    private SQLExpr                 pctused;
-    private SQLExpr                 initrans;
-    private SQLExpr                 maxtrans;
+    private SQLExpr ptcfree;
+    private SQLExpr pctused;
+    private SQLExpr initrans;
+    private SQLExpr maxtrans;
 
-    private Boolean                 logging;
-    private Boolean                 compress;
-    private boolean                 onCommit;
-    private boolean                 preserveRows;
+    private Boolean logging;
+    private Boolean compress;
+    private boolean onCommit;
+    private boolean preserveRows;
 
-    private Boolean                 cache;
+    private Boolean cache;
 
-    private SQLPartitioningClause   partitioning;
+    private SQLPartitioningClause partitioning;
 
     private DeferredSegmentCreation deferredSegmentCreation;
-    
+
     public OracleCreateTableStatement() {
-        super (JdbcConstants.ORACLE);
+        super(JdbcConstants.ORACLE);
     }
 
     public OracleLobStorageClause getLobStorage() {

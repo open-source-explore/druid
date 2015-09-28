@@ -26,10 +26,10 @@ public class SQLServerSetStatement extends SQLServerObjectImpl implements SQLSer
     private SQLAssignItem item = new SQLAssignItem();
     private String dbType;
 
-    public SQLServerSetStatement(){
+    public SQLServerSetStatement() {
     }
 
-    public SQLServerSetStatement(SQLExpr target, SQLExpr value){
+    public SQLServerSetStatement(SQLExpr target, SQLExpr value) {
         this.item = new SQLAssignItem(target, value);
     }
 
@@ -53,11 +53,11 @@ public class SQLServerSetStatement extends SQLServerObjectImpl implements SQLSer
         }
         visitor.endVisit(this);
     }
-    
+
     public String getDbType() {
         return dbType;
     }
-    
+
     public void setDbType(String dbType) {
         this.dbType = dbType;
     }

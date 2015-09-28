@@ -23,7 +23,7 @@ public class MySqlShowBinLogEventsStatement extends MySqlStatementImpl implement
 
     private SQLExpr in;
     private SQLExpr from;
-    private Limit   limit;
+    private Limit limit;
 
     public void accept0(MySqlASTVisitor visitor) {
         if (visitor.visit(this)) {

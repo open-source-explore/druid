@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLHint;
 import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
@@ -25,18 +22,21 @@ import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleUpdateStatement extends SQLUpdateStatement implements OracleStatement {
 
-    private final List<SQLHint> hints         = new ArrayList<SQLHint>(1);
-    private boolean             only          = false;
-    private String              alias;
-    private SQLExpr             where;
+    private final List<SQLHint> hints = new ArrayList<SQLHint>(1);
+    private boolean only = false;
+    private String alias;
+    private SQLExpr where;
 
-    private List<SQLExpr>       returning     = new ArrayList<SQLExpr>();
-    private List<SQLExpr>       returningInto = new ArrayList<SQLExpr>();
+    private List<SQLExpr> returning = new ArrayList<SQLExpr>();
+    private List<SQLExpr> returningInto = new ArrayList<SQLExpr>();
 
-    public OracleUpdateStatement(){
-        super (JdbcConstants.ORACLE);
+    public OracleUpdateStatement() {
+        super(JdbcConstants.ORACLE);
     }
 
     public List<SQLExpr> getReturning() {

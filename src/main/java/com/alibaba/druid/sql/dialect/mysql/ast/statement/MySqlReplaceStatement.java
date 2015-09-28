@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.expr.SQLQueryExpr;
@@ -25,15 +22,18 @@ import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
 import com.alibaba.druid.sql.ast.statement.SQLInsertStatement.ValuesClause;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySqlReplaceStatement extends MySqlStatementImpl {
 
-    private boolean             lowPriority = false;
-    private boolean             delayed     = false;
+    private boolean lowPriority = false;
+    private boolean delayed = false;
 
-    private SQLExprTableSource  tableSource;
-    private final List<SQLExpr> columns     = new ArrayList<SQLExpr>();
-    private List<ValuesClause>  valuesList  = new ArrayList<ValuesClause>();
-    private SQLQueryExpr        query;
+    private SQLExprTableSource tableSource;
+    private final List<SQLExpr> columns = new ArrayList<SQLExpr>();
+    private List<ValuesClause> valuesList = new ArrayList<ValuesClause>();
+    private SQLQueryExpr query;
 
     public SQLName getTableName() {
         if (tableSource == null) {

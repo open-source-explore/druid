@@ -15,15 +15,15 @@
  */
 package com.alibaba.druid.support.spring;
 
+import org.springframework.jdbc.support.lob.AbstractLobHandler;
+import org.springframework.jdbc.support.lob.LobCreator;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.springframework.jdbc.support.lob.AbstractLobHandler;
-import org.springframework.jdbc.support.lob.LobCreator;
 
 public class DruidLobHandler extends AbstractLobHandler {
 

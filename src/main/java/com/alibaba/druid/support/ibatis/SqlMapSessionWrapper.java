@@ -24,14 +24,14 @@ import java.sql.SQLException;
 
 @SuppressWarnings("deprecation")
 public class SqlMapSessionWrapper extends SqlMapExecutorWrapper implements SqlMapSession {
-	private SqlMapSession session;
-	
-    public SqlMapSessionWrapper(ExtendedSqlMapClient client, SqlMapSession session){
+    private SqlMapSession session;
+
+    public SqlMapSessionWrapper(ExtendedSqlMapClient client, SqlMapSession session) {
         super(client, session);
         this.session = session;
     }
-    
-	public void startTransaction() throws SQLException {
+
+    public void startTransaction() throws SQLException {
         session.startTransaction();
     }
 

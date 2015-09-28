@@ -15,16 +15,16 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySqlExecuteStatement extends MySqlStatementImpl {
 
-    private SQLName             statementName;
+    private SQLName statementName;
     private final List<SQLExpr> parameters = new ArrayList<SQLExpr>();
 
     public SQLName getStatementName() {

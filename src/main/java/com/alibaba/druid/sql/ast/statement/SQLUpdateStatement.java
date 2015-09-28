@@ -15,27 +15,27 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLUpdateStatement extends SQLStatementImpl {
 
     protected final List<SQLUpdateSetItem> items = new ArrayList<SQLUpdateSetItem>();
-    protected SQLExpr                      where;
+    protected SQLExpr where;
 
-    protected SQLTableSource               tableSource;
+    protected SQLTableSource tableSource;
 
-    public SQLUpdateStatement(){
+    public SQLUpdateStatement() {
 
     }
-    
-    public SQLUpdateStatement(String dbType){
-        super (dbType);
+
+    public SQLUpdateStatement(String dbType) {
+        super(dbType);
     }
 
     public SQLTableSource getTableSource() {
@@ -75,7 +75,7 @@ public class SQLUpdateStatement extends SQLStatementImpl {
     public List<SQLUpdateSetItem> getItems() {
         return items;
     }
-    
+
     public void addItem(SQLUpdateSetItem item) {
         this.items.add(item);
         item.setParent(this);

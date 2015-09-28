@@ -24,7 +24,7 @@ import com.alibaba.druid.util.JdbcConstants;
 
 public class OracleCreateIndexStatement extends SQLCreateIndexStatement implements OracleDDLStatement {
 
-    private boolean online            = false;
+    private boolean online = false;
 
     private boolean indexOnlyTopLevel = false;
 
@@ -39,12 +39,12 @@ public class OracleCreateIndexStatement extends SQLCreateIndexStatement implemen
     private SQLExpr initrans;
     private SQLExpr maxtrans;
 
-    private Boolean enable            = null;
+    private Boolean enable = null;
 
     private boolean computeStatistics = false;
-    
+
     public OracleCreateIndexStatement() {
-        super (JdbcConstants.ORACLE);
+        super(JdbcConstants.ORACLE);
     }
 
     public SQLName getTablespace() {

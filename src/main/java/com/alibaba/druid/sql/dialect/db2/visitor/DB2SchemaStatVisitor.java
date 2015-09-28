@@ -35,16 +35,16 @@ public class DB2SchemaStatVisitor extends SchemaStatVisitor implements DB2ASTVis
 
     @Override
     public void endVisit(DB2SelectQueryBlock x) {
-        
+
     }
 
     @Override
     public boolean visit(DB2ValuesStatement x) {
         return false;
     }
-    
+
     @Override
     public void endVisit(DB2ValuesStatement x) {
-        
+
     }
 }

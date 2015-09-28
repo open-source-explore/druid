@@ -15,24 +15,23 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.clause;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlBlockStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlStatementImpl;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
- * @Description: MySql create procedure statement
  * @author zz email:455910092@qq.com
  * @version V1.0
+ * @Description: MySql create procedure statement
  */
 public class MySqlCreateProcedureStatement extends MySqlStatementImpl {
-	private boolean               orReplace;
-    private SQLName               name;
-    private MySqlBlockStatement  block;
+    private boolean orReplace;
+    private SQLName name;
+    private MySqlBlockStatement block;
     private List<MySqlParameter> parameters = new ArrayList<MySqlParameter>();
 
     @Override

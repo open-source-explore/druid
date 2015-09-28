@@ -19,7 +19,7 @@ import com.alibaba.druid.sql.ast.SQLExprImpl;
 
 public abstract class SQLNumericLiteralExpr extends SQLExprImpl implements SQLLiteralExpr {
 
-    public SQLNumericLiteralExpr(){
+    public SQLNumericLiteralExpr() {
 
     }
 

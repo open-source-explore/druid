@@ -15,31 +15,31 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLMethodInvokeExpr extends SQLExprImpl implements Serializable {
 
-    private static final long   serialVersionUID = 1L;
-    private String              methodName;
-    private SQLExpr             owner;
-    private final List<SQLExpr> parameters       = new ArrayList<SQLExpr>();
+    private static final long serialVersionUID = 1L;
+    private String methodName;
+    private SQLExpr owner;
+    private final List<SQLExpr> parameters = new ArrayList<SQLExpr>();
 
-    public SQLMethodInvokeExpr(){
+    public SQLMethodInvokeExpr() {
 
     }
 
-    public SQLMethodInvokeExpr(String methodName){
+    public SQLMethodInvokeExpr(String methodName) {
         this.methodName = methodName;
     }
 
-    public SQLMethodInvokeExpr(String methodName, SQLExpr owner){
+    public SQLMethodInvokeExpr(String methodName, SQLExpr owner) {
 
         this.methodName = methodName;
         setOwner(owner);
@@ -67,7 +67,7 @@ public class SQLMethodInvokeExpr extends SQLExprImpl implements Serializable {
     public List<SQLExpr> getParameters() {
         return this.parameters;
     }
-    
+
     public void addParameter(SQLExpr param) {
         if (param != null) {
             param.setParent(this);

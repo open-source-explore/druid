@@ -26,11 +26,11 @@ public class MySqlKey extends SQLUnique implements SQLUniqueConstraint, SQLTable
 
     private SQLName indexName;
 
-    private String  indexType;
+    private String indexType;
 
     private boolean hasConstaint;
 
-    public MySqlKey(){
+    public MySqlKey() {
 
     }
 

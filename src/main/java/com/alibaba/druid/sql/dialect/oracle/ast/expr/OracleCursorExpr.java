@@ -24,11 +24,11 @@ public class OracleCursorExpr extends SQLExprImpl implements OracleExpr {
 
     private SQLSelect query;
 
-    public OracleCursorExpr(){
+    public OracleCursorExpr() {
 
     }
 
-    public OracleCursorExpr(SQLSelect query){
+    public OracleCursorExpr(SQLSelect query) {
         super();
         this.query = query;
     }

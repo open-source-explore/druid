@@ -15,68 +15,30 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.parser;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLSetQuantifier;
-import com.alibaba.druid.sql.ast.expr.SQLAggregateExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLListExpr;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectGroupByClause;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUnionOperator;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
-import com.alibaba.druid.sql.ast.statement.SQLWithSubqueryClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.CycleClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.FlashbackQueryClause;
+import com.alibaba.druid.sql.ast.expr.*;
+import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.oracle.ast.clause.*;
 import com.alibaba.druid.sql.dialect.oracle.ast.clause.FlashbackQueryClause.AsOfFlashbackQueryClause;
 import com.alibaba.druid.sql.dialect.oracle.ast.clause.FlashbackQueryClause.AsOfSnapshotClause;
 import com.alibaba.druid.sql.dialect.oracle.ast.clause.FlashbackQueryClause.VersionsFlashbackQueryClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.GroupingSetExpr;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.CellAssignment;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.CellAssignmentItem;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.CellReferenceOption;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.MainModelClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.ModelColumn;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.ModelColumnClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.ModelRuleOption;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.ModelRulesClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.QueryPartitionClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.ReferenceModelClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.ReturnRowsClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.OracleWithSubqueryEntry;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.PartitionExtensionClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.SampleClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.SearchClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleOrderByItem;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelect;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectForUpdate;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectHierachicalQueryClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectJoin;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectPivot;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectRestriction;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectSubqueryTableSource;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectTableReference;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectTableSource;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectUnPivot;
+import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause.*;
+import com.alibaba.druid.sql.dialect.oracle.ast.stmt.*;
 import com.alibaba.druid.sql.parser.ParserException;
 import com.alibaba.druid.sql.parser.SQLExprParser;
 import com.alibaba.druid.sql.parser.SQLSelectParser;
 import com.alibaba.druid.sql.parser.Token;
 
+import java.util.List;
+
 public class OracleSelectParser extends SQLSelectParser {
 
-    public OracleSelectParser(String sql){
+    public OracleSelectParser(String sql) {
         super(new OracleExprParser(sql));
     }
 
-    public OracleSelectParser(SQLExprParser exprParser){
+    public OracleSelectParser(SQLExprParser exprParser) {
         super(exprParser);
     }
 
@@ -161,7 +123,7 @@ public class OracleSelectParser extends SQLSelectParser {
             lexer.nextToken();
 
             SQLWithSubqueryClause subqueryFactoringClause = new SQLWithSubqueryClause();
-            for (;;) {
+            for (; ; ) {
                 OracleWithSubqueryEntry entry = new OracleWithSubqueryEntry();
                 entry.setName((SQLIdentifierExpr) this.exprParser.name());
 
@@ -399,7 +361,7 @@ public class OracleSelectParser extends SQLSelectParser {
         acceptIdentifier("DIMENSION");
         accept(Token.BY);
         accept(Token.LPAREN);
-        for (;;) {
+        for (; ; ) {
             if (lexer.token() == Token.RPAREN) {
                 lexer.nextToken();
                 break;
@@ -418,7 +380,7 @@ public class OracleSelectParser extends SQLSelectParser {
 
         acceptIdentifier("MEASURES");
         accept(Token.LPAREN);
-        for (;;) {
+        for (; ; ) {
             if (lexer.token() == Token.RPAREN) {
                 lexer.nextToken();
                 break;
@@ -481,7 +443,7 @@ public class OracleSelectParser extends SQLSelectParser {
         }
 
         accept(Token.LPAREN);
-        for (;;) {
+        for (; ; ) {
             if (lexer.token() == Token.RPAREN) {
                 lexer.nextToken();
                 break;
@@ -567,7 +529,7 @@ public class OracleSelectParser extends SQLSelectParser {
             accept(Token.BY);
 
             SQLSelectGroupByClause groupBy = new SQLSelectGroupByClause();
-            for (;;) {
+            for (; ; ) {
                 if (identifierEquals("GROUPING")) {
                     GroupingSetExpr groupingSet = new GroupingSetExpr();
                     lexer.nextToken();
@@ -604,7 +566,7 @@ public class OracleSelectParser extends SQLSelectParser {
                 lexer.nextToken();
                 accept(Token.BY);
 
-                for (;;) {
+                for (; ; ) {
                     if (identifierEquals("GROUPING")) {
                         GroupingSetExpr groupingSet = new GroupingSetExpr();
                         lexer.nextToken();
@@ -1024,7 +986,7 @@ public class OracleSelectParser extends SQLSelectParser {
                 throw new ParserException("TODO");
             }
 
-            for (;;) {
+            for (; ; ) {
                 item = new OracleSelectPivot.Item();
                 item.setExpr(this.exprParser.expr());
                 item.setAlias(as());
@@ -1096,7 +1058,7 @@ public class OracleSelectParser extends SQLSelectParser {
                 throw new ParserException("TODO");
             }
 
-            for (;;) {
+            for (; ; ) {
                 item = new OracleSelectPivot.Item();
                 item.setExpr(this.exprParser.expr());
                 item.setAlias(as());

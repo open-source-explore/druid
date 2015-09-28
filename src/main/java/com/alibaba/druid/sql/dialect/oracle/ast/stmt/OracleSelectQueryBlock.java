@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLCommentHint;
 import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
@@ -25,14 +22,17 @@ import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleSelectQueryBlock extends SQLSelectQueryBlock {
 
-    private final List<SQLCommentHint>         hints = new ArrayList<SQLCommentHint>(1);
+    private final List<SQLCommentHint> hints = new ArrayList<SQLCommentHint>(1);
 
     private OracleSelectHierachicalQueryClause hierachicalQueryClause;
-    private ModelClause                        modelClause;
+    private ModelClause modelClause;
 
-    public OracleSelectQueryBlock(){
+    public OracleSelectQueryBlock() {
 
     }
 
@@ -79,7 +79,7 @@ public class OracleSelectQueryBlock extends SQLSelectQueryBlock {
         }
         visitor.endVisit(this);
     }
-    
+
     public String toString() {
         return SQLUtils.toOracleString(this);
     }

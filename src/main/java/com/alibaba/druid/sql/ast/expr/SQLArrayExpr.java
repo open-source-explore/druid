@@ -15,16 +15,16 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLArrayExpr extends SQLExprImpl {
 
-    private SQLExpr       expr;
+    private SQLExpr expr;
 
     private List<SQLExpr> values = new ArrayList<SQLExpr>();
 
@@ -76,7 +76,6 @@ public class SQLArrayExpr extends SQLExprImpl {
         } else if (!values.equals(other.values)) return false;
         return true;
     }
-
 
 
 }

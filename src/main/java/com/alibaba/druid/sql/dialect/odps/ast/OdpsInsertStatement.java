@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.odps.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
@@ -25,14 +22,17 @@ import com.alibaba.druid.sql.dialect.odps.visitor.OdpsASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OdpsInsertStatement extends SQLStatementImpl implements SQLStatement {
 
     private SQLSubqueryTableSource from;
 
-    private List<OdpsInsert>       items = new ArrayList<OdpsInsert>();
-    
+    private List<OdpsInsert> items = new ArrayList<OdpsInsert>();
+
     public OdpsInsertStatement() {
-        super (JdbcConstants.ODPS);
+        super(JdbcConstants.ODPS);
     }
 
     public void setFrom(SQLSubqueryTableSource from) {
@@ -51,7 +51,7 @@ public class OdpsInsertStatement extends SQLStatementImpl implements SQLStatemen
     protected void accept0(SQLASTVisitor visitor) {
         accept0((OdpsASTVisitor) visitor);
     }
-    
+
     protected void accept0(OdpsASTVisitor visitor) {
         if (visitor.visit(this)) {
             acceptChild(visitor, from);

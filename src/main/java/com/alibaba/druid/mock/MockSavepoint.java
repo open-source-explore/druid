@@ -19,7 +19,7 @@ import java.sql.Savepoint;
 
 public class MockSavepoint implements Savepoint {
 
-    private int    savepointId;
+    private int savepointId;
     private String savepointName;
 
     public int getSavepointId() {

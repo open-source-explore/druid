@@ -17,11 +17,7 @@ package com.alibaba.druid.sql.dialect.sqlserver.parser;
 
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLSetQuantifier;
-import com.alibaba.druid.sql.ast.statement.SQLExprHint;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerSelect;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerSelectQueryBlock;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerTop;
@@ -32,11 +28,11 @@ import com.alibaba.druid.sql.parser.Token;
 
 public class SQLServerSelectParser extends SQLSelectParser {
 
-    public SQLServerSelectParser(String sql){
+    public SQLServerSelectParser(String sql) {
         super(new SQLServerExprParser(sql));
     }
 
-    public SQLServerSelectParser(SQLExprParser exprParser){
+    public SQLServerSelectParser(SQLExprParser exprParser) {
         super(exprParser);
     }
 
@@ -61,11 +57,11 @@ public class SQLServerSelectParser extends SQLSelectParser {
             } else if (identifierEquals("XML")) {
                 lexer.nextToken();
 
-                for (;;) {
+                for (; ; ) {
                     if (identifierEquals("AUTO") //
-                        || identifierEquals("TYPE") //
-                        || identifierEquals("XMLSCHEMA") //
-                    ) {
+                            || identifierEquals("TYPE") //
+                            || identifierEquals("XMLSCHEMA") //
+                            ) {
                         select.getForXmlOptions().add(lexer.stringVal());
                         lexer.nextToken();
                     } else if (identifierEquals("ELEMENTS")) {
@@ -79,7 +75,7 @@ public class SQLServerSelectParser extends SQLSelectParser {
                     } else {
                         break;
                     }
-                    
+
                     if (lexer.token() == Token.COMMA) {
                         lexer.nextToken();
                         continue;
@@ -91,18 +87,18 @@ public class SQLServerSelectParser extends SQLSelectParser {
                 throw new ParserException("syntax error, not support option : " + lexer.token());
             }
         }
-        
+
         if (identifierEquals("OFFSET")) {
             lexer.nextToken();
             SQLExpr offset = this.expr();
-            
+
             acceptIdentifier("ROWS");
             select.setOffset(offset);
-            
+
             if (lexer.token() == Token.FETCH) {
                 lexer.nextToken();
                 acceptIdentifier("NEXT");
-                
+
                 SQLExpr rowCount = expr();
                 acceptIdentifier("ROWS");
                 acceptIdentifier("ONLY");
@@ -173,7 +169,7 @@ public class SQLServerSelectParser extends SQLSelectParser {
             lexer.nextToken();
             accept(Token.LPAREN);
 
-            for (;;) {
+            for (; ; ) {
                 SQLExpr expr = this.expr();
                 SQLExprHint hint = new SQLExprHint(expr);
                 hint.setParent(tableSource);

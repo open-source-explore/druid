@@ -25,12 +25,12 @@ public class SQLASTOutputVisitorUtils {
         visitor.print(x.getNumber().toString());
         return false;
     }
-    
+
     public static boolean visit(PrintableVisitor visitor, SQLNumberExpr x) {
         visitor.print(x.getNumber().toString());
         return false;
     }
-    
+
     public static boolean visit(PrintableVisitor visitor, SQLCharExpr x) {
         visitor.print('\'');
 

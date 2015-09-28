@@ -20,13 +20,13 @@ import java.util.Map;
 
 public class Profiler {
 
-    public static final String                                            PROFILE_TYPE_WEB    = "WEB";
-    public static final String                                            PROFILE_TYPE_SPRING = "SPRING";
-    public static final String                                            PROFILE_TYPE_SQL    = "SQL";
+    public static final String PROFILE_TYPE_WEB = "WEB";
+    public static final String PROFILE_TYPE_SPRING = "SPRING";
+    public static final String PROFILE_TYPE_SQL = "SQL";
 
-    private static ThreadLocal<Map<ProfileEntryKey, ProfileEntryReqStat>> statsMapLocal       = new ThreadLocal<Map<ProfileEntryKey, ProfileEntryReqStat>>();
+    private static ThreadLocal<Map<ProfileEntryKey, ProfileEntryReqStat>> statsMapLocal = new ThreadLocal<Map<ProfileEntryKey, ProfileEntryReqStat>>();
 
-    private final static ThreadLocal<ProfileEntry>                        currentLocal        = new ThreadLocal<ProfileEntry>();
+    private final static ThreadLocal<ProfileEntry> currentLocal = new ThreadLocal<ProfileEntry>();
 
     public static boolean isEnable() {
         return statsMapLocal != null;

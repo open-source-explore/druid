@@ -15,23 +15,11 @@
  */
 package com.alibaba.druid.sql.visitor;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLDataType;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLObject;
 import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLHexExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.expr.SQLLiteralExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNullExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumberExpr;
-import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
 import com.alibaba.druid.sql.ast.statement.SQLSelectOrderByItem;
 import com.alibaba.druid.sql.dialect.db2.visitor.DB2ParameterizedOutputVisitor;
@@ -43,6 +31,8 @@ import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerParameterizedOut
 import com.alibaba.druid.sql.parser.SQLParserUtils;
 import com.alibaba.druid.sql.parser.SQLStatementParser;
 import com.alibaba.druid.util.JdbcUtils;
+
+import java.util.List;
 
 public class ParameterizedOutputVisitorUtils {
 
@@ -162,11 +152,11 @@ public class ParameterizedOutputVisitorUtils {
         SQLObject parent = x.getParent();
 
         if (parent instanceof SQLDataType //
-            || parent instanceof SQLColumnDefinition //
-            || parent instanceof SQLServerTop //
-            //|| parent instanceof SQLAssignItem //
-            || parent instanceof SQLSelectOrderByItem //
-        ) {
+                || parent instanceof SQLColumnDefinition //
+                || parent instanceof SQLServerTop //
+                //|| parent instanceof SQLAssignItem //
+                || parent instanceof SQLSelectOrderByItem //
+                ) {
             return false;
         }
 
@@ -184,7 +174,7 @@ public class ParameterizedOutputVisitorUtils {
         if (parent instanceof SQLBinaryOpExpr) {
             SQLBinaryOpExpr binaryOpExpr = (SQLBinaryOpExpr) parent;
             if (binaryOpExpr.getOperator() == SQLBinaryOperator.IsNot
-                || binaryOpExpr.getOperator() == SQLBinaryOperator.Is) {
+                    || binaryOpExpr.getOperator() == SQLBinaryOperator.Is) {
                 v.print("NULL");
                 return false;
             }
@@ -200,7 +190,7 @@ public class ParameterizedOutputVisitorUtils {
         v.incrementReplaceCunt();
         return false;
     }
-    
+
     public static boolean visit(ParameterizedVisitor v, SQLHexExpr x) {
         v.print('?');
         v.incrementReplaceCunt();
@@ -214,8 +204,8 @@ public class ParameterizedOutputVisitorUtils {
 
         if (left instanceof SQLLiteralExpr && right instanceof SQLLiteralExpr) {
             if (x.getOperator() == SQLBinaryOperator.Equality //
-                || x.getOperator() == SQLBinaryOperator.NotEqual) {
-                if((left instanceof SQLIntegerExpr) && (right instanceof SQLIntegerExpr) ) {
+                    || x.getOperator() == SQLBinaryOperator.NotEqual) {
+                if ((left instanceof SQLIntegerExpr) && (right instanceof SQLIntegerExpr)) {
                     if (((SQLIntegerExpr) left).getNumber().intValue() < 100) {
                         left.putAttribute(ATTR_PARAMS_SKIP, true);
                     }
@@ -230,7 +220,7 @@ public class ParameterizedOutputVisitorUtils {
             return x;
         }
 
-        for (;;) {
+        for (; ; ) {
             if (x.getRight() instanceof SQLBinaryOpExpr) {
                 if (x.getLeft() instanceof SQLBinaryOpExpr) {
                     SQLBinaryOpExpr leftBinaryExpr = (SQLBinaryOpExpr) x.getLeft();
@@ -272,7 +262,7 @@ public class ParameterizedOutputVisitorUtils {
                 }
 
                 if (isLiteralExpr(leftBinary.getLeft()) //
-                    && leftBinary.getOperator() == SQLBinaryOperator.BooleanOr) {
+                        && leftBinary.getOperator() == SQLBinaryOperator.BooleanOr) {
                     if (mergeEqual(leftBinary.getRight(), right)) {
                         v.incrementReplaceCunt();
                         return leftBinary;

@@ -15,23 +15,23 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlOutputVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySqlInsertStatement extends SQLInsertStatement {
 
-    private boolean             lowPriority        = false;
-    private boolean             delayed            = false;
-    private boolean             highPriority       = false;
-    private boolean             ignore             = false;
+    private boolean lowPriority = false;
+    private boolean delayed = false;
+    private boolean highPriority = false;
+    private boolean ignore = false;
 
-    private List<ValuesClause>  valuesList         = new ArrayList<ValuesClause>();
+    private List<ValuesClause> valuesList = new ArrayList<ValuesClause>();
 
     private final List<SQLExpr> duplicateKeyUpdate = new ArrayList<SQLExpr>();
 
@@ -59,10 +59,10 @@ public class MySqlInsertStatement extends SQLInsertStatement {
     }
 
     public void setValuesList(List<ValuesClause> valuesList) {
-		this.valuesList = valuesList;
-	}
+        this.valuesList = valuesList;
+    }
 
-	public boolean isLowPriority() {
+    public boolean isLowPriority() {
         return lowPriority;
     }
 

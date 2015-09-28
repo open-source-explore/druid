@@ -15,43 +15,39 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.alibaba.druid.sql.ast.SQLCommentHint;
-import com.alibaba.druid.sql.ast.SQLExpr;
-import com.alibaba.druid.sql.ast.SQLName;
-import com.alibaba.druid.sql.ast.SQLObjectImpl;
-import com.alibaba.druid.sql.ast.SQLOrderBy;
+import com.alibaba.druid.sql.ast.*;
 import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlObject;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySqlSelectQueryBlock extends SQLSelectQueryBlock implements MySqlObject {
 
-    private boolean              hignPriority;
-    private boolean              straightJoin;
+    private boolean hignPriority;
+    private boolean straightJoin;
 
-    private boolean              smallResult;
-    private boolean              bigResult;
-    private boolean              bufferResult;
-    private Boolean              cache;
-    private boolean              calcFoundRows;
+    private boolean smallResult;
+    private boolean bigResult;
+    private boolean bufferResult;
+    private Boolean cache;
+    private boolean calcFoundRows;
 
-    private SQLOrderBy           orderBy;
+    private SQLOrderBy orderBy;
 
-    private Limit                limit;
+    private Limit limit;
 
-    private SQLName              procedureName;
-    private List<SQLExpr>        procedureArgumentList;
+    private SQLName procedureName;
+    private List<SQLExpr> procedureArgumentList;
 
-    private boolean              forUpdate       = false;
-    private boolean              lockInShareMode = false;
+    private boolean forUpdate = false;
+    private boolean lockInShareMode = false;
 
     private List<SQLCommentHint> hints;
 
-    public MySqlSelectQueryBlock(){
+    public MySqlSelectQueryBlock() {
 
     }
 
@@ -269,11 +265,11 @@ public class MySqlSelectQueryBlock extends SQLSelectQueryBlock implements MySqlO
 
     public static class Limit extends SQLObjectImpl {
 
-        public Limit(){
+        public Limit() {
 
         }
-        
-        public Limit(SQLExpr rowCount){
+
+        public Limit(SQLExpr rowCount) {
             this.setRowCount(rowCount);
         }
 

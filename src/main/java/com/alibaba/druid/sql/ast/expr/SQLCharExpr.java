@@ -18,13 +18,13 @@ package com.alibaba.druid.sql.ast.expr;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
-public class SQLCharExpr extends SQLTextLiteralExpr implements SQLValuableExpr{
+public class SQLCharExpr extends SQLTextLiteralExpr implements SQLValuableExpr {
 
-    public SQLCharExpr(){
+    public SQLCharExpr() {
 
     }
 
-    public SQLCharExpr(String text){
+    public SQLCharExpr(String text) {
         super(text);
     }
 
@@ -48,7 +48,7 @@ public class SQLCharExpr extends SQLTextLiteralExpr implements SQLValuableExpr{
     public Object getValue() {
         return this.text;
     }
-    
+
     public String toString() {
         return SQLUtils.toSQLString(this);
     }

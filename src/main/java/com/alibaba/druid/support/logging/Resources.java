@@ -23,12 +23,12 @@ public final class Resources extends Object {
 
     private static ClassLoader defaultClassLoader;
 
-    private Resources(){
+    private Resources() {
     }
 
     /**
      * Returns the default classloader (may be null).
-     * 
+     *
      * @return The default classloader
      */
     public static ClassLoader getDefaultClassLoader() {
@@ -37,7 +37,7 @@ public final class Resources extends Object {
 
     /**
      * Sets the default classloader
-     * 
+     *
      * @param defaultClassLoader - the new default ClassLoader
      */
     public static void setDefaultClassLoader(ClassLoader defaultClassLoader) {
@@ -46,7 +46,7 @@ public final class Resources extends Object {
 
     /**
      * Loads a class
-     * 
+     *
      * @param className - the class to load
      * @return The loaded class
      * @throws ClassNotFoundException If the class cannot be found (duh!)

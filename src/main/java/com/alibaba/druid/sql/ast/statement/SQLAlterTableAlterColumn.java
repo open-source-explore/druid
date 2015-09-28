@@ -24,13 +24,13 @@ public class SQLAlterTableAlterColumn extends SQLObjectImpl implements SQLAlterT
 
     private SQLColumnDefinition column;
 
-    private boolean             setNotNull;
+    private boolean setNotNull;
 
-    private boolean             dropNotNull;
+    private boolean dropNotNull;
 
-    private SQLExpr             setDefault;
+    private SQLExpr setDefault;
 
-    private boolean             dropDefault;
+    private boolean dropDefault;
 
     @Override
     protected void accept0(SQLASTVisitor visitor) {

@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.visitor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLOrderBy;
 import com.alibaba.druid.sql.ast.expr.SQLBetweenExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
@@ -29,15 +26,18 @@ import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock.L
 import com.alibaba.druid.sql.visitor.ExportParameterVisitor;
 import com.alibaba.druid.sql.visitor.ExportParameterVisitorUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySqlExportParameterVisitor extends MySqlASTVisitorAdapter implements ExportParameterVisitor {
 
     private final List<Object> parameters;
-    
+
     public MySqlExportParameterVisitor() {
         this(new ArrayList<Object>());
     }
 
-    public MySqlExportParameterVisitor(List<Object> parameters){
+    public MySqlExportParameterVisitor(List<Object> parameters) {
         this.parameters = parameters;
     }
 

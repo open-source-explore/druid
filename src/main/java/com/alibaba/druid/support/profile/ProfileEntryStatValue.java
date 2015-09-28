@@ -23,8 +23,8 @@ public class ProfileEntryStatValue {
     private String parentName;
     private String name;
     private String type;
-    private long   executeCount     = 0;
-    private long   executeTimeNanos = 0;
+    private long executeCount = 0;
+    private long executeTimeNanos = 0;
 
     public String getParentName() {
         return parentName;

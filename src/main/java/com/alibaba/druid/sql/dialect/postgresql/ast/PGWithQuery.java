@@ -15,18 +15,18 @@
  */
 package com.alibaba.druid.sql.dialect.postgresql.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.postgresql.visitor.PGASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PGWithQuery extends PGSQLObjectImpl {
 
-    private SQLExpr             name;
+    private SQLExpr name;
     private final List<SQLExpr> columns = new ArrayList<SQLExpr>();
-    private SQLStatement        query;
+    private SQLStatement query;
 
     public SQLExpr getName() {
         return name;

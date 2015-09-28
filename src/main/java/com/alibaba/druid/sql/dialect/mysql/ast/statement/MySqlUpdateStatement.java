@@ -25,13 +25,13 @@ import com.alibaba.druid.util.JdbcConstants;
 public class MySqlUpdateStatement extends SQLUpdateStatement implements MySqlStatement {
 
     private SQLOrderBy orderBy;
-    private Limit      limit;
+    private Limit limit;
 
-    private boolean    lowPriority = false;
-    private boolean    ignore      = false;
-    
+    private boolean lowPriority = false;
+    private boolean ignore = false;
+
     public MySqlUpdateStatement() {
-        super (JdbcConstants.MYSQL);
+        super(JdbcConstants.MYSQL);
     }
 
     public Limit getLimit() {

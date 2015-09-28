@@ -15,12 +15,12 @@
  */
 package com.alibaba.druid.proxy.jdbc;
 
+import com.alibaba.druid.filter.Filter;
+import com.alibaba.druid.stat.JdbcDataSourceStat;
+
 import java.sql.Driver;
 import java.util.List;
 import java.util.Properties;
-
-import com.alibaba.druid.filter.Filter;
-import com.alibaba.druid.stat.JdbcDataSourceStat;
 
 /**
  * @author wenshao<szujobs@hotmail.com>

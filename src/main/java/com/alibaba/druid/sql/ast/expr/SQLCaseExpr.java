@@ -15,23 +15,23 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLCaseExpr extends SQLExprImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final List<Item>  items            = new ArrayList<Item>();
-    private SQLExpr           valueExpr;
-    private SQLExpr           elseExpr;
+    private final List<Item> items = new ArrayList<Item>();
+    private SQLExpr valueExpr;
+    private SQLExpr elseExpr;
 
-    public SQLCaseExpr(){
+    public SQLCaseExpr() {
 
     }
 
@@ -80,14 +80,14 @@ public class SQLCaseExpr extends SQLExprImpl implements Serializable {
     public static class Item extends SQLObjectImpl implements Serializable {
 
         private static final long serialVersionUID = 1L;
-        private SQLExpr           conditionExpr;
-        private SQLExpr           valueExpr;
+        private SQLExpr conditionExpr;
+        private SQLExpr valueExpr;
 
-        public Item(){
+        public Item() {
 
         }
 
-        public Item(SQLExpr conditionExpr, SQLExpr valueExpr){
+        public Item(SQLExpr conditionExpr, SQLExpr valueExpr) {
 
             setConditionExpr(conditionExpr);
             setValueExpr(valueExpr);

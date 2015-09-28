@@ -15,23 +15,8 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.parser;
 
-import com.alibaba.druid.sql.ast.SQLDataType;
-import com.alibaba.druid.sql.ast.SQLExpr;
-import com.alibaba.druid.sql.ast.SQLName;
-import com.alibaba.druid.sql.ast.SQLOrderBy;
-import com.alibaba.druid.sql.ast.SQLOrderingSpecification;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLAggregateExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLHexExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
-import com.alibaba.druid.sql.ast.expr.SQLUnaryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLUnaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
+import com.alibaba.druid.sql.ast.*;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.ast.statement.SQLAssignItem;
 import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlPrimaryKey;
@@ -40,35 +25,24 @@ import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey;
 import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey.Match;
 import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey.On;
 import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey.Option;
-import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlCharExpr;
-import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlExtractExpr;
-import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlIntervalExpr;
-import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlIntervalUnit;
-import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlMatchAgainstExpr;
-import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlSelectGroupByExpr;
+import com.alibaba.druid.sql.dialect.mysql.ast.expr.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlMatchAgainstExpr.SearchModifier;
-import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlOutFileExpr;
-import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlUserName;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSQLColumnDefinition;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock.Limit;
-import com.alibaba.druid.sql.parser.Lexer;
-import com.alibaba.druid.sql.parser.ParserException;
-import com.alibaba.druid.sql.parser.SQLExprParser;
-import com.alibaba.druid.sql.parser.SQLSelectParser;
-import com.alibaba.druid.sql.parser.Token;
+import com.alibaba.druid.sql.parser.*;
 import com.alibaba.druid.util.JdbcConstants;
 
 public class MySqlExprParser extends SQLExprParser {
 
-    public static String[] AGGREGATE_FUNCTIONS = { "AVG", "COUNT", "GROUP_CONCAT", "MAX", "MIN", "STDDEV", "SUM" };
+    public static String[] AGGREGATE_FUNCTIONS = {"AVG", "COUNT", "GROUP_CONCAT", "MAX", "MIN", "STDDEV", "SUM"};
 
-    public MySqlExprParser(Lexer lexer){
+    public MySqlExprParser(Lexer lexer) {
         super(lexer);
         this.aggregateFunctions = AGGREGATE_FUNCTIONS;
     }
 
-    public MySqlExprParser(String sql){
+    public MySqlExprParser(String sql) {
         this(new MySqlLexer(sql));
         this.lexer.nextToken();
     }
@@ -246,7 +220,7 @@ public class MySqlExprParser extends SQLExprParser {
                 lexer.nextToken();
 
                 SQLBinaryOpExpr binaryExpr = new SQLBinaryOpExpr(expr, SQLBinaryOperator.COLLATE,
-                                                                 new SQLIdentifierExpr(collate), JdbcConstants.MYSQL);
+                        new SQLIdentifierExpr(collate), JdbcConstants.MYSQL);
 
                 expr = binaryExpr;
 
@@ -308,7 +282,7 @@ public class MySqlExprParser extends SQLExprParser {
             } else if ("SUBSTRING".equalsIgnoreCase(ident)) {
                 lexer.nextToken();
                 SQLMethodInvokeExpr methodInvokeExpr = new SQLMethodInvokeExpr(ident);
-                for (;;) {
+                for (; ; ) {
                     SQLExpr param = expr();
                     methodInvokeExpr.addParameter(param);
 
@@ -415,7 +389,7 @@ public class MySqlExprParser extends SQLExprParser {
                 expr = matchAgainstExpr;
 
                 return primaryRest(expr);
-            } else if (("CONVERT".equalsIgnoreCase(ident))||("CHAR".equalsIgnoreCase(ident))) {
+            } else if (("CONVERT".equalsIgnoreCase(ident)) || ("CHAR".equalsIgnoreCase(ident))) {
                 lexer.nextToken();
                 SQLMethodInvokeExpr methodInvokeExpr = new SQLMethodInvokeExpr(ident);
 
@@ -474,7 +448,7 @@ public class MySqlExprParser extends SQLExprParser {
 
         if (lexer.token() == Token.ERROR) {
             throw new ParserException("syntax error, token: " + lexer.token() + " " + lexer.stringVal() + ", pos : "
-                                      + lexer.pos());
+                    + lexer.pos());
         }
 
         return super.primaryRest(expr);
@@ -579,7 +553,7 @@ public class MySqlExprParser extends SQLExprParser {
 
     public SQLExpr orRest(SQLExpr expr) {
 
-        for (;;) {
+        for (; ; ) {
             if (lexer.token() == Token.OR || lexer.token() == Token.BARBAR) {
                 lexer.nextToken();
                 SQLExpr rightExp = and();
@@ -715,7 +689,7 @@ public class MySqlExprParser extends SQLExprParser {
         }
 
         accept(Token.LPAREN);
-        for (;;) {
+        for (; ; ) {
             primaryKey.getColumns().add(this.expr());
             if (!(lexer.token() == (Token.COMMA))) {
                 break;
@@ -747,7 +721,7 @@ public class MySqlExprParser extends SQLExprParser {
         }
 
         accept(Token.LPAREN);
-        for (;;) {
+        for (; ; ) {
             unique.getColumns().add(this.expr());
             if (!(lexer.token() == (Token.COMMA))) {
                 break;
@@ -807,7 +781,7 @@ public class MySqlExprParser extends SQLExprParser {
                 fk.setReferenceOn(On.UPDATE);
             } else {
                 throw new ParserException("syntax error, expect DELETE or UPDATE, actual " + lexer.token() + " "
-                                          + lexer.stringVal());
+                        + lexer.stringVal());
             }
             lexer.nextToken();
 
@@ -824,7 +798,7 @@ public class MySqlExprParser extends SQLExprParser {
                     fk.setReferenceOption(Option.NO_ACTION);
                 } else {
                     throw new ParserException("syntax error, expect ACTION, actual " + lexer.token() + " "
-                                              + lexer.stringVal());
+                            + lexer.stringVal());
                 }
             }
             lexer.nextToken();

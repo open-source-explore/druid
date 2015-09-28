@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.odps.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
 import com.alibaba.druid.sql.ast.statement.SQLAssignItem;
@@ -26,13 +23,16 @@ import com.alibaba.druid.sql.ast.statement.SQLSelect;
 import com.alibaba.druid.sql.dialect.odps.visitor.OdpsASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OdpsInsert extends SQLObjectImpl {
 
-    private boolean              overwrite  = false;
-    private List<SQLAssignItem>  partitions = new ArrayList<SQLAssignItem>();
+    private boolean overwrite = false;
+    private List<SQLAssignItem> partitions = new ArrayList<SQLAssignItem>();
     protected SQLExprTableSource tableSource;
 
-    private SQLSelect            query;
+    private SQLSelect query;
 
     public boolean isOverwrite() {
         return overwrite;

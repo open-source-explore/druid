@@ -19,11 +19,11 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLNCharExpr extends SQLTextLiteralExpr {
 
-    public SQLNCharExpr(){
+    public SQLNCharExpr() {
 
     }
 
-    public SQLNCharExpr(String text){
+    public SQLNCharExpr(String text) {
         super(text);
     }
 

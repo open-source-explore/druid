@@ -15,15 +15,15 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLColumnReference extends SQLConstraintImpl implements SQLColumnConstraint {
 
-    private SQLName       table;
+    private SQLName table;
     private List<SQLName> columns = new ArrayList<SQLName>();
 
     @Override

@@ -17,13 +17,13 @@ package com.alibaba.druid.support.logging;
 
 public class NoLoggingImpl implements Log {
 
-    private int    infoCount;
-    private int    errorCount;
-    private int    warnCount;
-    private int    debugCount;
+    private int infoCount;
+    private int errorCount;
+    private int warnCount;
+    private int debugCount;
     private String loggerName;
 
-    public NoLoggingImpl(String loggerName){
+    public NoLoggingImpl(String loggerName) {
         this.loggerName = loggerName;
     }
 

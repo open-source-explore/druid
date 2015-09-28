@@ -15,10 +15,10 @@
  */
 package com.alibaba.druid.sql.ast;
 
+import com.alibaba.druid.sql.visitor.SQLASTVisitor;
+
 import java.util.List;
 import java.util.Map;
-
-import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public interface SQLObject {
 
@@ -35,20 +35,21 @@ public interface SQLObject {
     void putAttribute(String name, Object value);
 
     Map<String, Object> getAttributesDirect();
-    
+
     void addBeforeComment(String comment);
+
     void addBeforeComment(List<String> comments);
-    
+
     List<String> getBeforeCommentsDirect();
-    
+
     void addAfterComment(String comment);
-    
+
     void addAfterComment(List<String> comments);
-    
+
     List<String> getAfterCommentsDirect();
-    
+
     boolean hasBeforeComment();
-    
+
     boolean hasAfterComment();
 
     void output(StringBuffer buf);

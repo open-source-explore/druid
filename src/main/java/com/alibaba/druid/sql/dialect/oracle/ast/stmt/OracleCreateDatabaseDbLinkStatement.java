@@ -28,12 +28,12 @@ public class OracleCreateDatabaseDbLinkStatement extends OracleStatementImpl {
 
     private SQLName user;
 
-    private String  password;
+    private String password;
 
     private SQLExpr using;
 
     private SQLExpr authenticatedUser;
-    private String  authenticatedPassword;
+    private String authenticatedPassword;
 
     public boolean isShared() {
         return shared;

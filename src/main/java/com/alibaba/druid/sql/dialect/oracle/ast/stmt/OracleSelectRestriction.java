@@ -20,7 +20,7 @@ import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
 public abstract class OracleSelectRestriction extends OracleSQLObjectImpl {
 
-    public OracleSelectRestriction(){
+    public OracleSelectRestriction() {
 
     }
 
@@ -28,7 +28,7 @@ public abstract class OracleSelectRestriction extends OracleSQLObjectImpl {
 
         private OracleConstraint constraint;
 
-        public CheckOption(){
+        public CheckOption() {
 
         }
 
@@ -51,7 +51,7 @@ public abstract class OracleSelectRestriction extends OracleSQLObjectImpl {
 
     public static class ReadOnly extends OracleSelectRestriction {
 
-        public ReadOnly(){
+        public ReadOnly() {
 
         }
 

@@ -24,10 +24,10 @@ import org.apache.commons.logging.impl.Log4JLogger;
  */
 public class CommonsLogFilter extends LogFilter {
 
-    private Log    dataSourceLogger     = LogFactory.getLog(dataSourceLoggerName);
-    private Log    connectionLogger     = LogFactory.getLog(connectionLoggerName);
-    private Log    statementLogger      = LogFactory.getLog(statementLoggerName);
-    private Log    resultSetLogger      = LogFactory.getLog(resultSetLoggerName);
+    private Log dataSourceLogger = LogFactory.getLog(dataSourceLoggerName);
+    private Log connectionLogger = LogFactory.getLog(connectionLoggerName);
+    private Log statementLogger = LogFactory.getLog(statementLoggerName);
+    private Log resultSetLogger = LogFactory.getLog(resultSetLoggerName);
 
     public void setDataSourceLogger(Log dataSourceLogger) {
         this.dataSourceLogger = dataSourceLogger;

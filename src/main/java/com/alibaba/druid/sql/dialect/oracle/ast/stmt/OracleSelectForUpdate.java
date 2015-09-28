@@ -15,22 +15,22 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.dialect.oracle.ast.OracleSQLObjectImpl;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleSelectForUpdate extends OracleSQLObjectImpl {
 
-    private final List<SQLExpr> of         = new ArrayList<SQLExpr>();
+    private final List<SQLExpr> of = new ArrayList<SQLExpr>();
 
-    private boolean             notWait    = false;
-    private SQLExpr             wait;
-    private boolean             skipLocked = false;
+    private boolean notWait = false;
+    private SQLExpr wait;
+    private boolean skipLocked = false;
 
-    public OracleSelectForUpdate(){
+    public OracleSelectForUpdate() {
 
     }
 

@@ -22,7 +22,7 @@ public class OracleAlterProcedureStatement extends OracleStatementImpl {
 
     private SQLExpr name;
 
-    private boolean compile       = false;
+    private boolean compile = false;
     private boolean reuseSettings = false;
 
     @Override

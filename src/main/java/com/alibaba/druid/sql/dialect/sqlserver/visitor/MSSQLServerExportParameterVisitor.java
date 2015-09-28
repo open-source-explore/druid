@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.visitor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLOrderBy;
 import com.alibaba.druid.sql.ast.expr.SQLBetweenExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
@@ -28,15 +25,18 @@ import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
 import com.alibaba.druid.sql.visitor.ExportParameterVisitor;
 import com.alibaba.druid.sql.visitor.ExportParameterVisitorUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MSSQLServerExportParameterVisitor extends SQLServerASTVisitorAdapter implements ExportParameterVisitor {
 
     private final List<Object> parameters;
-    
+
     public MSSQLServerExportParameterVisitor() {
         this(new ArrayList<Object>());
     }
 
-    public MSSQLServerExportParameterVisitor(List<Object> parameters){
+    public MSSQLServerExportParameterVisitor(List<Object> parameters) {
         this.parameters = parameters;
     }
 

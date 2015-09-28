@@ -26,109 +26,109 @@ import static com.alibaba.druid.util.JdbcSqlStatUtils.get;
 
 public class WebURIStat {
 
-    private final String                               uri;
+    private final String uri;
 
-    private volatile int                               runningCount;
-    private volatile int                               concurrentMax;
-    private volatile long                              requestCount;
-    private volatile long                              requestTimeNano;
-    final static AtomicIntegerFieldUpdater<WebURIStat> runningCountUpdater                 = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                                  "runningCount");
-    final static AtomicIntegerFieldUpdater<WebURIStat> concurrentMaxUpdater                = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                                  "concurrentMax");
-    final static AtomicLongFieldUpdater<WebURIStat>    requestCountUpdater                 = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "requestCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    requestTimeNanoUpdater              = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "requestTimeNano");
+    private volatile int runningCount;
+    private volatile int concurrentMax;
+    private volatile long requestCount;
+    private volatile long requestTimeNano;
+    final static AtomicIntegerFieldUpdater<WebURIStat> runningCountUpdater = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
+            "runningCount");
+    final static AtomicIntegerFieldUpdater<WebURIStat> concurrentMaxUpdater = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
+            "concurrentMax");
+    final static AtomicLongFieldUpdater<WebURIStat> requestCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "requestCount");
+    final static AtomicLongFieldUpdater<WebURIStat> requestTimeNanoUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "requestTimeNano");
 
-    private volatile long                              jdbcFetchRowCount;
-    private volatile long                              jdbcFetchRowPeak;                                                                                       // 单次请求读取行数的峰值
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcFetchRowCountUpdater            = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcFetchRowCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcFetchRowPeakUpdater             = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcFetchRowPeak");
+    private volatile long jdbcFetchRowCount;
+    private volatile long jdbcFetchRowPeak;                                                                                       // 单次请求读取行数的峰值
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcFetchRowCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcFetchRowCount");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcFetchRowPeakUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcFetchRowPeak");
 
-    private volatile long                              jdbcUpdateCount;
-    private volatile long                              jdbcUpdatePeak;                                                                                         // 单次请求更新行数的峰值
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcUpdateCountUpdater              = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcUpdateCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcUpdatePeakUpdater               = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcUpdatePeak");
+    private volatile long jdbcUpdateCount;
+    private volatile long jdbcUpdatePeak;                                                                                         // 单次请求更新行数的峰值
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcUpdateCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcUpdateCount");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcUpdatePeakUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcUpdatePeak");
 
-    private volatile long                              jdbcExecuteCount;
-    private volatile long                              jdbcExecuteErrorCount;
-    private volatile long                              jdbcExecutePeak;                                                                                        // 单次请求执行SQL次数的峰值
-    private volatile long                              jdbcExecuteTimeNano;
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcExecuteCountUpdater             = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcExecuteCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcExecuteErrorCountUpdater        = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcExecuteErrorCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcExecutePeakUpdater              = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcExecutePeak");
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcExecuteTimeNanoUpdater          = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcExecuteTimeNano");
+    private volatile long jdbcExecuteCount;
+    private volatile long jdbcExecuteErrorCount;
+    private volatile long jdbcExecutePeak;                                                                                        // 单次请求执行SQL次数的峰值
+    private volatile long jdbcExecuteTimeNano;
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcExecuteCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcExecuteCount");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcExecuteErrorCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcExecuteErrorCount");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcExecutePeakUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcExecutePeak");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcExecuteTimeNanoUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcExecuteTimeNano");
 
-    private volatile long                              jdbcCommitCount;
-    private volatile long                              jdbcRollbackCount;
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcCommitCountUpdater              = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcCommitCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcRollbackCountUpdater            = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcRollbackCount");
+    private volatile long jdbcCommitCount;
+    private volatile long jdbcRollbackCount;
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcCommitCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcCommitCount");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcRollbackCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcRollbackCount");
 
-    private volatile long                              jdbcPoolConnectionOpenCount;
-    private volatile long                              jdbcPoolConnectionCloseCount;
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcPoolConnectionOpenCountUpdater  = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcPoolConnectionOpenCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcPoolConnectionCloseCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcPoolConnectionCloseCount");
+    private volatile long jdbcPoolConnectionOpenCount;
+    private volatile long jdbcPoolConnectionCloseCount;
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcPoolConnectionOpenCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcPoolConnectionOpenCount");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcPoolConnectionCloseCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcPoolConnectionCloseCount");
 
-    private volatile long                              jdbcResultSetOpenCount;
-    private volatile long                              jdbcResultSetCloseCount;
+    private volatile long jdbcResultSetOpenCount;
+    private volatile long jdbcResultSetCloseCount;
 
-    private volatile long                              errorCount;
+    private volatile long errorCount;
 
-    private volatile long                              lastAccessTimeMillis                = -1L;
+    private volatile long lastAccessTimeMillis = -1L;
 
-    private volatile ProfileStat                       profiletat                          = new ProfileStat();
+    private volatile ProfileStat profiletat = new ProfileStat();
 
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcResultSetOpenCountUpdater       = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcResultSetOpenCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    jdbcResultSetCloseCountUpdater      = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "jdbcResultSetCloseCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    errorCountUpdater                   = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "errorCount");
-    final static AtomicLongFieldUpdater<WebURIStat>    lastAccessTimeMillisUpdater         = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "lastAccessTimeMillis");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcResultSetOpenCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcResultSetOpenCount");
+    final static AtomicLongFieldUpdater<WebURIStat> jdbcResultSetCloseCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "jdbcResultSetCloseCount");
+    final static AtomicLongFieldUpdater<WebURIStat> errorCountUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "errorCount");
+    final static AtomicLongFieldUpdater<WebURIStat> lastAccessTimeMillisUpdater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "lastAccessTimeMillis");
 
-    private final static ThreadLocal<WebURIStat>       currentLocal                        = new ThreadLocal<WebURIStat>();
+    private final static ThreadLocal<WebURIStat> currentLocal = new ThreadLocal<WebURIStat>();
 
-    private volatile long                              histogram_0_1;
-    private volatile long                              histogram_1_10;
-    private volatile long                              histogram_10_100;
-    private volatile long                              histogram_100_1000;
-    private volatile int                               histogram_1000_10000;
-    private volatile int                               histogram_10000_100000;
-    private volatile int                               histogram_100000_1000000;
-    private volatile int                               histogram_1000000_more;
+    private volatile long histogram_0_1;
+    private volatile long histogram_1_10;
+    private volatile long histogram_10_100;
+    private volatile long histogram_100_1000;
+    private volatile int histogram_1000_10000;
+    private volatile int histogram_10000_100000;
+    private volatile int histogram_100000_1000000;
+    private volatile int histogram_1000000_more;
 
-    final static AtomicLongFieldUpdater<WebURIStat>    histogram_0_1_Updater               = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "histogram_0_1");
-    final static AtomicLongFieldUpdater<WebURIStat>    histogram_1_10_Updater              = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "histogram_1_10");
-    final static AtomicLongFieldUpdater<WebURIStat>    histogram_10_100_Updater            = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "histogram_10_100");
-    final static AtomicLongFieldUpdater<WebURIStat>    histogram_100_1000_Updater          = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                               "histogram_100_1000");
-    final static AtomicIntegerFieldUpdater<WebURIStat> histogram_1000_10000_Updater        = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                                  "histogram_1000_10000");
-    final static AtomicIntegerFieldUpdater<WebURIStat> histogram_10000_100000_Updater      = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                                  "histogram_10000_100000");
-    final static AtomicIntegerFieldUpdater<WebURIStat> histogram_100000_1000000_Updater    = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                                  "histogram_100000_1000000");
-    final static AtomicIntegerFieldUpdater<WebURIStat> histogram_1000000_more_Updater      = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
-                                                                                                                                  "histogram_1000000_more");
+    final static AtomicLongFieldUpdater<WebURIStat> histogram_0_1_Updater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "histogram_0_1");
+    final static AtomicLongFieldUpdater<WebURIStat> histogram_1_10_Updater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "histogram_1_10");
+    final static AtomicLongFieldUpdater<WebURIStat> histogram_10_100_Updater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "histogram_10_100");
+    final static AtomicLongFieldUpdater<WebURIStat> histogram_100_1000_Updater = AtomicLongFieldUpdater.newUpdater(WebURIStat.class,
+            "histogram_100_1000");
+    final static AtomicIntegerFieldUpdater<WebURIStat> histogram_1000_10000_Updater = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
+            "histogram_1000_10000");
+    final static AtomicIntegerFieldUpdater<WebURIStat> histogram_10000_100000_Updater = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
+            "histogram_10000_100000");
+    final static AtomicIntegerFieldUpdater<WebURIStat> histogram_100000_1000000_Updater = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
+            "histogram_100000_1000000");
+    final static AtomicIntegerFieldUpdater<WebURIStat> histogram_1000000_more_Updater = AtomicIntegerFieldUpdater.newUpdater(WebURIStat.class,
+            "histogram_1000000_more");
 
-    public WebURIStat(String uri){
+    public WebURIStat(String uri) {
         super();
         this.uri = uri;
     }
@@ -146,7 +146,7 @@ public class WebURIStat {
 
         int running = runningCountUpdater.incrementAndGet(this);
 
-        for (;;) {
+        for (; ; ) {
             int max = concurrentMaxUpdater.get(this);
             if (running > max) {
                 if (concurrentMaxUpdater.compareAndSet(this, max, running)) {
@@ -182,7 +182,7 @@ public class WebURIStat {
                     long fetchRowCount = localStat.getJdbcFetchRowCount();
                     this.addJdbcFetchRowCount(fetchRowCount);
 
-                    for (;;) {
+                    for (; ; ) {
                         long peak = jdbcFetchRowPeakUpdater.get(this);
                         if (fetchRowCount <= peak) {
                             break;
@@ -197,7 +197,7 @@ public class WebURIStat {
                     long executeCount = localStat.getJdbcExecuteCount();
                     this.addJdbcExecuteCount(executeCount);
 
-                    for (;;) {
+                    for (; ; ) {
                         long peak = jdbcExecutePeakUpdater.get(this);
                         if (executeCount <= peak) {
                             break;
@@ -212,7 +212,7 @@ public class WebURIStat {
                     long updateCount = localStat.getJdbcUpdateCount();
                     this.addJdbcUpdateCount(updateCount);
 
-                    for (;;) {
+                    for (; ; ) {
                         long peak = jdbcUpdatePeakUpdater.get(this);
                         if (updateCount <= peak) {
                             break;
@@ -413,7 +413,7 @@ public class WebURIStat {
     }
 
     public long[] getHistogramValues() {
-        return new long[] {
+        return new long[]{
                 //
                 histogram_0_1, //
                 histogram_1_10, //
@@ -461,7 +461,7 @@ public class WebURIStat {
         val.setLastAccessTimeMillis(get(this, lastAccessTimeMillisUpdater, reset));
 
         val.setProfileEntryStatValueList(this.getProfiletat().getStatValue(reset));
-        
+
         val.histogram_0_1 = get(this, histogram_0_1_Updater, reset);
         val.histogram_1_10 = get(this, histogram_1_10_Updater, reset);
         val.histogram_10_100 = get(this, histogram_10_100_Updater, reset);

@@ -15,13 +15,7 @@
  */
 package com.alibaba.druid.sql.dialect.postgresql.visitor;
 
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNullExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumberExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.visitor.ParameterizedOutputVisitorUtils;
 import com.alibaba.druid.sql.visitor.ParameterizedVisitor;
 
@@ -29,11 +23,11 @@ public class PGParameterizedOutputVisitor extends PGOutputVisitor implements Par
 
     private int replaceCount;
 
-    public PGParameterizedOutputVisitor(){
+    public PGParameterizedOutputVisitor() {
         this(new StringBuilder());
     }
 
-    public PGParameterizedOutputVisitor(Appendable appender){
+    public PGParameterizedOutputVisitor(Appendable appender) {
         super(appender);
     }
 

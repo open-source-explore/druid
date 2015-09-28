@@ -15,11 +15,11 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLPartitioningClause;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlObjectImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MySqlPartitioningClause extends MySqlObjectImpl implements SQLPartitioningClause {
 

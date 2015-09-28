@@ -15,14 +15,14 @@
  */
 package com.alibaba.druid.sql.dialect.postgresql.ast;
 
+import com.alibaba.druid.sql.dialect.postgresql.visitor.PGASTVisitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.druid.sql.dialect.postgresql.visitor.PGASTVisitor;
-
 public class PGWithClause extends PGSQLObjectImpl {
 
-    private boolean           recursive = false;
+    private boolean recursive = false;
     private List<PGWithQuery> withQuery = new ArrayList<PGWithQuery>(2);
 
     public boolean isRecursive() {

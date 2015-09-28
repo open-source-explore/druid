@@ -22,10 +22,10 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class MySqlIntervalExpr extends SQLExprImpl implements MySqlExpr {
 
-    private SQLExpr           value;
+    private SQLExpr value;
     private MySqlIntervalUnit unit;
 
-    public MySqlIntervalExpr(){
+    public MySqlIntervalExpr() {
     }
 
     public SQLExpr getValue() {

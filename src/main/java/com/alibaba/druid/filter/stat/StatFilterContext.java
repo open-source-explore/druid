@@ -22,7 +22,7 @@ public class StatFilterContext {
 
     private List<StatFilterContextListener> listeners = new CopyOnWriteArrayList<StatFilterContextListener>();
 
-    private static final StatFilterContext  instance  = new StatFilterContext();
+    private static final StatFilterContext instance = new StatFilterContext();
 
     public final static StatFilterContext getInstance() {
         return instance;
@@ -130,7 +130,7 @@ public class StatFilterContext {
             listener.clob_open();
         }
     }
-    
+
     public void blob_open() {
         for (int i = 0; i < listeners.size(); ++i) {
             StatFilterContextListener listener = listeners.get(i);

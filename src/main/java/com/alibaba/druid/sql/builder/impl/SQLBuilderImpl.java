@@ -16,11 +16,7 @@
 package com.alibaba.druid.sql.builder.impl;
 
 import com.alibaba.druid.sql.ast.SQLExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBooleanExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNullExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumberExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.builder.SQLBuilder;
 
 
@@ -29,23 +25,23 @@ public class SQLBuilderImpl implements SQLBuilder {
         if (obj == null) {
             return new SQLNullExpr();
         }
-        
+
         if (obj instanceof Integer) {
             return new SQLIntegerExpr((Integer) obj);
         }
-        
+
         if (obj instanceof Number) {
             return new SQLNumberExpr((Number) obj);
         }
-        
+
         if (obj instanceof String) {
             return new SQLCharExpr((String) obj);
         }
-        
+
         if (obj instanceof Boolean) {
             return new SQLBooleanExpr((Boolean) obj);
         }
-        
+
         throw new IllegalArgumentException("not support : " + obj.getClass().getName());
     }
 }

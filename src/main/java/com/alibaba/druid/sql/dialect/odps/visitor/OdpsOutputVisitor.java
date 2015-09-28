@@ -15,40 +15,17 @@
  */
 package com.alibaba.druid.sql.dialect.odps.visitor;
 
+import com.alibaba.druid.sql.ast.*;
+import com.alibaba.druid.sql.ast.expr.SQLCaseExpr;
+import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
+import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource.JoinType;
+import com.alibaba.druid.sql.dialect.odps.ast.*;
+import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.alibaba.druid.sql.ast.SQLDataType;
-import com.alibaba.druid.sql.ast.SQLHint;
-import com.alibaba.druid.sql.ast.SQLOrderBy;
-import com.alibaba.druid.sql.ast.SQLSetQuantifier;
-import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.expr.SQLCaseExpr;
-import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
-import com.alibaba.druid.sql.ast.statement.SQLAssignItem;
-import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource.JoinType;
-import com.alibaba.druid.sql.ast.statement.SQLSelectGroupByClause;
-import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
-import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLTableElement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsAddStatisticStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsAnalyzeTableStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsCreateTableStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsInsert;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsInsertStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsReadStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsRemoveStatisticStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsSetLabelStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsShowPartitionsStmt;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsShowStatisticStmt;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsStatisticClause;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsUDTFSQLSelectItem;
-import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
 
 public class OdpsOutputVisitor extends SQLASTOutputVisitor implements OdpsASTVisitor {
 
@@ -69,7 +46,7 @@ public class OdpsOutputVisitor extends SQLASTOutputVisitor implements OdpsASTVis
         builtInFunctions.add("GREATEST");
     }
 
-    public OdpsOutputVisitor(Appendable appender){
+    public OdpsOutputVisitor(Appendable appender) {
         super(appender);
     }
 

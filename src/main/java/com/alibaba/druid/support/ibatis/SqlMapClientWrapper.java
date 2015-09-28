@@ -32,12 +32,12 @@ public class SqlMapClientWrapper extends SqlMapExecutorWrapper implements SqlMap
 
     protected final ExtendedSqlMapClient client;
 
-    public SqlMapClientWrapper(ExtendedSqlMapClient client){
+    public SqlMapClientWrapper(ExtendedSqlMapClient client) {
         super(client, client);
         this.client = client;
-         
+
     }
-    
+
     public ExtendedSqlMapClient getClient() {
         return this.client;
     }

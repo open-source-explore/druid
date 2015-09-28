@@ -15,31 +15,31 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.ast.SQLOrderBy;
 import com.alibaba.druid.sql.ast.SQLOver;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLAggregateExpr extends SQLExprImpl implements Serializable {
 
-    private static final long     serialVersionUID = 1L;
-    protected String              methodName;
-    protected SQLAggregateOption  option;
-    protected final List<SQLExpr> arguments        = new ArrayList<SQLExpr>();
-    protected SQLOver             over;
-    protected SQLOrderBy          withinGroup;
-    protected boolean             ignoreNulls      = false;
+    private static final long serialVersionUID = 1L;
+    protected String methodName;
+    protected SQLAggregateOption option;
+    protected final List<SQLExpr> arguments = new ArrayList<SQLExpr>();
+    protected SQLOver over;
+    protected SQLOrderBy withinGroup;
+    protected boolean ignoreNulls = false;
 
-    public SQLAggregateExpr(String methodName){
+    public SQLAggregateExpr(String methodName) {
         this.methodName = methodName;
     }
 
-    public SQLAggregateExpr(String methodName, SQLAggregateOption option){
+    public SQLAggregateExpr(String methodName, SQLAggregateOption option) {
         this.methodName = methodName;
         this.option = option;
     }
@@ -83,7 +83,7 @@ public class SQLAggregateExpr extends SQLExprImpl implements Serializable {
     public void setOver(SQLOver over) {
         this.over = over;
     }
-    
+
     public boolean isIgnoreNulls() {
         return this.ignoreNulls;
     }

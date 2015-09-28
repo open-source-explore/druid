@@ -15,39 +15,27 @@
  */
 package com.alibaba.druid.sql.parser;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLOrderBy;
 import com.alibaba.druid.sql.ast.SQLSetQuantifier;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectGroupByClause;
-import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUnionOperator;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLWithSubqueryClause;
+import com.alibaba.druid.sql.ast.statement.*;
+
+import java.util.List;
 
 public class SQLSelectParser extends SQLParser {
 
     protected SQLExprParser exprParser;
 
-    public SQLSelectParser(String sql){
+    public SQLSelectParser(String sql) {
         super(sql);
     }
 
-    public SQLSelectParser(Lexer lexer){
+    public SQLSelectParser(Lexer lexer) {
         super(lexer);
     }
 
-    public SQLSelectParser(SQLExprParser exprParser){
+    public SQLSelectParser(SQLExprParser exprParser) {
         super(exprParser.getLexer());
         this.exprParser = exprParser;
     }
@@ -158,9 +146,9 @@ public class SQLSelectParser extends SQLParser {
 
             return queryRest(select);
         }
-        
+
         SQLSelectQueryBlock queryBlock = new SQLSelectQueryBlock();
-        
+
         if (lexer.hasComment() && lexer.isKeepComments()) {
             queryBlock.addBeforeComment(lexer.readAndResetComments());
         }
@@ -204,7 +192,7 @@ public class SQLSelectParser extends SQLParser {
                 withQueryClause.setRecursive(true);
             }
 
-            for (;;) {
+            for (; ; ) {
                 SQLWithSubqueryClause.Entry entry = new SQLWithSubqueryClause.Entry();
                 entry.setParent(withQueryClause);
                 entry.setName((SQLIdentifierExpr) this.exprParser.name());
@@ -243,17 +231,17 @@ public class SQLSelectParser extends SQLParser {
                 beforeComments = lexer.readAndResetComments();
             }
             SQLExpr where = expr();
-            
+
             if (where != null && beforeComments != null) {
                 where.addBeforeComment(beforeComments);
             }
-            
+
             if (lexer.hasComment() && lexer.isKeepComments() //
                     && lexer.token() != Token.INSERT // odps multi-insert
                     ) {
                 where.addAfterComment(lexer.readAndResetComments());
             }
-            
+
             queryBlock.setWhere(where);
         }
     }
@@ -291,7 +279,7 @@ public class SQLSelectParser extends SQLParser {
 
     protected void parseSelectList(SQLSelectQueryBlock queryBlock) {
         final List<SQLSelectItem> selectList = queryBlock.getSelectList();
-        for (;;) {
+        for (; ; ) {
             final SQLSelectItem selectItem = this.exprParser.parseSelectItem();
             selectList.add(selectItem);
             selectItem.setParent(queryBlock);
@@ -347,17 +335,17 @@ public class SQLSelectParser extends SQLParser {
         parseTableSourceQueryTableExpr(tableReference);
 
         SQLTableSource tableSrc = parseTableSourceRest(tableReference);
-        
+
         if (lexer.hasComment() && lexer.isKeepComments()) {
             tableSrc.addAfterComment(lexer.readAndResetComments());
         }
-        
+
         return tableSrc;
     }
 
     protected void parseTableSourceQueryTableExpr(SQLExprTableSource tableReference) {
         if (lexer.token() == Token.LITERAL_ALIAS || lexer.token() == Token.IDENTIFIED
-            || lexer.token() == Token.LITERAL_CHARS) {
+                || lexer.token() == Token.LITERAL_CHARS) {
             tableReference.setExpr(this.exprParser.name());
             return;
         }
@@ -368,7 +356,7 @@ public class SQLSelectParser extends SQLParser {
     protected SQLTableSource parseTableSourceRest(SQLTableSource tableSource) {
         if ((tableSource.getAlias() == null) || (tableSource.getAlias().length() == 0)) {
             if (lexer.token() != Token.LEFT && lexer.token() != Token.RIGHT && lexer.token() != Token.FULL
-                && !identifierEquals("STRAIGHT_JOIN") && !identifierEquals("CROSS") && lexer.token != Token.OUTER) {
+                    && !identifierEquals("STRAIGHT_JOIN") && !identifierEquals("CROSS") && lexer.token != Token.OUTER) {
                 String alias = as();
                 if (alias != null) {
                     tableSource.setAlias(alias);

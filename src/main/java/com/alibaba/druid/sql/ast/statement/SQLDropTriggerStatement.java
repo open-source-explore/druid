@@ -15,6 +15,7 @@ package com.alibaba.druid.sql.ast.statement;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
@@ -22,13 +23,13 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 public class SQLDropTriggerStatement extends SQLStatementImpl implements SQLDDLStatement {
 
     private SQLName name;
-    
+
     public SQLDropTriggerStatement() {
-        
+
     }
-    
+
     public SQLDropTriggerStatement(String dbType) {
-        super (dbType);
+        super(dbType);
     }
 
     public SQLName getName() {

@@ -22,16 +22,16 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLSelectOrderByItem extends SQLObjectImpl {
 
-    protected SQLExpr                  expr;
-    protected String                   collate;
+    protected SQLExpr expr;
+    protected String collate;
     protected SQLOrderingSpecification type;
-    protected NullsOrderType             nullsOrderType;
+    protected NullsOrderType nullsOrderType;
 
-    public SQLSelectOrderByItem(){
+    public SQLSelectOrderByItem() {
 
     }
 
-    public SQLSelectOrderByItem(SQLExpr expr){
+    public SQLSelectOrderByItem(SQLExpr expr) {
         this.setExpr(expr);
     }
 
@@ -61,7 +61,7 @@ public class SQLSelectOrderByItem extends SQLObjectImpl {
     public void setType(SQLOrderingSpecification type) {
         this.type = type;
     }
-    
+
     public NullsOrderType getNullsOrderType() {
         return this.nullsOrderType;
     }

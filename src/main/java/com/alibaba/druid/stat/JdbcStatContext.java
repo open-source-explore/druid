@@ -17,14 +17,14 @@ package com.alibaba.druid.stat;
 
 public class JdbcStatContext {
 
-    private String  name;
-    private String  file;
-    private String  sql;
-    private String  requestId;
+    private String name;
+    private String file;
+    private String sql;
+    private String requestId;
 
     private boolean traceEnable;
 
-    public JdbcStatContext(){
+    public JdbcStatContext() {
 
     }
 
@@ -60,13 +60,13 @@ public class JdbcStatContext {
         this.file = file;
     }
 
-	public String getSql() {
-		return sql;
-	}
+    public String getSql() {
+        return sql;
+    }
 
-	public void setSql(String sql) {
-		this.sql = sql;
-	}
+    public void setSql(String sql) {
+        this.sql = sql;
+    }
 
-    
+
 }

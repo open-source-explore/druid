@@ -15,21 +15,21 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerObjectImpl;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLServerIfStatement extends SQLServerObjectImpl implements SQLServerStatement {
 
-    private SQLExpr            condition;
+    private SQLExpr condition;
     private List<SQLStatement> statements = new ArrayList<SQLStatement>();
-    private Else               elseItem;
-    private String             dbType;
+    private Else elseItem;
+    private String dbType;
 
     @Override
     public void accept0(SQLServerASTVisitor visitor) {
@@ -90,7 +90,7 @@ public class SQLServerIfStatement extends SQLServerObjectImpl implements SQLServ
     public String getDbType() {
         return dbType;
     }
-    
+
     public void setDbType(String dbType) {
         this.dbType = dbType;
     }

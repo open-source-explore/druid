@@ -25,20 +25,20 @@ import java.sql.PreparedStatement;
 public final class PreparedStatementHolder {
 
     private final PreparedStatementKey key;
-    private final PreparedStatement    statement;
-    private int                        hitCount                 = 0;
+    private final PreparedStatement statement;
+    private int hitCount = 0;
 
-    private int                        fetchRowPeak             = -1;
+    private int fetchRowPeak = -1;
 
-    private int                        defaultRowPrefetch       = -1;
-    private int                        rowPrefetch              = -1;
+    private int defaultRowPrefetch = -1;
+    private int rowPrefetch = -1;
 
-    private boolean                    enterOracleImplicitCache = false;
+    private boolean enterOracleImplicitCache = false;
 
-    private int                        inUseCount               = 0;
-    private boolean                    pooling                  = false;
+    private int inUseCount = 0;
+    private boolean pooling = false;
 
-    public PreparedStatementHolder(PreparedStatementKey key, PreparedStatement stmt){
+    public PreparedStatementHolder(PreparedStatementKey key, PreparedStatement stmt) {
         this.key = key;
         this.statement = stmt;
     }

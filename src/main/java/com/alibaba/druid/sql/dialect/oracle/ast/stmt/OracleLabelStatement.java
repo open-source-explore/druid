@@ -22,10 +22,10 @@ public class OracleLabelStatement extends OracleStatementImpl {
 
     private SQLName label;
 
-    public OracleLabelStatement(){
+    public OracleLabelStatement() {
     }
 
-    public OracleLabelStatement(SQLName label){
+    public OracleLabelStatement(SQLName label) {
         this.label = label;
     }
 

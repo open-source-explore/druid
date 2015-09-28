@@ -15,23 +15,14 @@
  */
 package com.alibaba.druid.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import javax.servlet.GenericServlet;
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-
-import javax.servlet.GenericServlet;
 
 public class Utils {
 
@@ -217,7 +208,7 @@ public class Utils {
         if (className == null) {
             return null;
         }
-        
+
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
@@ -253,7 +244,7 @@ public class Utils {
     /**
      * murmur hash 2.0, The murmur hash is a relatively fast hash function from http://murmurhash.googlepages.com/ for
      * platforms with efficient multiplication.
-     * 
+     *
      * @author Viliam Holub
      */
     public static long murmurhash2_64(final byte[] data, int length, int seed) {
@@ -267,13 +258,13 @@ public class Utils {
         for (int i = 0; i < length8; i++) {
             final int i8 = i * 8;
             long k = ((long) data[i8 + 0] & 0xff) //
-                     + (((long) data[i8 + 1] & 0xff) << 8) //
-                     + (((long) data[i8 + 2] & 0xff) << 16)//
-                     + (((long) data[i8 + 3] & 0xff) << 24) //
-                     + (((long) data[i8 + 4] & 0xff) << 32)//
-                     + (((long) data[i8 + 5] & 0xff) << 40)//
-                     + (((long) data[i8 + 6] & 0xff) << 48) //
-                     + (((long) data[i8 + 7] & 0xff) << 56);
+                    + (((long) data[i8 + 1] & 0xff) << 8) //
+                    + (((long) data[i8 + 2] & 0xff) << 16)//
+                    + (((long) data[i8 + 3] & 0xff) << 24) //
+                    + (((long) data[i8 + 4] & 0xff) << 32)//
+                    + (((long) data[i8 + 5] & 0xff) << 40)//
+                    + (((long) data[i8 + 6] & 0xff) << 48) //
+                    + (((long) data[i8 + 7] & 0xff) << 56);
 
             k *= m;
             k ^= k >>> r;
@@ -340,5 +331,5 @@ public class Utils {
         b[off + 1] = (byte) (val >>> 48);
         b[off + 0] = (byte) (val >>> 56);
     }
-   
+
 }

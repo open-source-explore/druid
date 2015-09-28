@@ -29,12 +29,12 @@ import java.util.Map;
 @SuppressWarnings("deprecation")
 public class SqlMapExecutorWrapper implements SqlMapExecutor {
 
-    private SqlMapExecutor                  executor;
+    private SqlMapExecutor executor;
 
-    protected final SqlMapClientImpl        clientImpl;
+    protected final SqlMapClientImpl clientImpl;
     protected final SqlMapClientImplWrapper clientImplWrapper;
 
-    public SqlMapExecutorWrapper(ExtendedSqlMapClient client, SqlMapExecutor executor){
+    public SqlMapExecutorWrapper(ExtendedSqlMapClient client, SqlMapExecutor executor) {
         this.executor = executor;
 
         this.clientImpl = client.getClass() == SqlMapClientImpl.class ? (SqlMapClientImpl) client : null;
@@ -42,60 +42,60 @@ public class SqlMapExecutorWrapper implements SqlMapExecutor {
     }
 
     public Object insert(String id, Object parameterObject) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
         return executor.insert(id, parameterObject);
     }
 
     public Object insert(String id) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
         return executor.insert(id);
     }
 
     public int update(String id, Object parameterObject) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
         return executor.update(id, parameterObject);
     }
 
     public int update(String id) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.update(id);
     }
 
     public int delete(String id, Object parameterObject) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.delete(id, parameterObject);
     }
 
     public int delete(String id) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.delete(id);
     }
 
     public Object queryForObject(String id, Object parameterObject) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForObject(id, parameterObject);
     }
 
     public Object queryForObject(String id) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForObject(id);
     }
 
     public Object queryForObject(String id, Object parameterObject, Object resultObject) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForObject(id, parameterObject, resultObject);
@@ -103,7 +103,7 @@ public class SqlMapExecutorWrapper implements SqlMapExecutor {
 
     @SuppressWarnings("rawtypes")
     public List queryForList(String id, Object parameterObject) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForList(id, parameterObject);
@@ -111,7 +111,7 @@ public class SqlMapExecutorWrapper implements SqlMapExecutor {
 
     @SuppressWarnings("rawtypes")
     public List queryForList(String id) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForList(id);
@@ -119,7 +119,7 @@ public class SqlMapExecutorWrapper implements SqlMapExecutor {
 
     @SuppressWarnings("rawtypes")
     public List queryForList(String id, Object parameterObject, int skip, int max) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForList(id, parameterObject, skip, max);
@@ -127,33 +127,33 @@ public class SqlMapExecutorWrapper implements SqlMapExecutor {
 
     @SuppressWarnings("rawtypes")
     public List queryForList(String id, int skip, int max) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForList(id, skip, max);
     }
 
     public void queryWithRowHandler(String id, Object parameterObject, RowHandler rowHandler) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
         executor.queryWithRowHandler(id, parameterObject, rowHandler);
     }
 
     public void queryWithRowHandler(String id, RowHandler rowHandler) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
         executor.queryWithRowHandler(id, rowHandler);
     }
 
     public PaginatedList queryForPaginatedList(String id, Object parameterObject, int pageSize) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForPaginatedList(id, parameterObject, pageSize);
     }
 
     public PaginatedList queryForPaginatedList(String id, int pageSize) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForPaginatedList(id, pageSize);
@@ -161,7 +161,7 @@ public class SqlMapExecutorWrapper implements SqlMapExecutor {
 
     @SuppressWarnings("rawtypes")
     public Map queryForMap(String id, Object parameterObject, String keyProp) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForMap(id, parameterObject, keyProp);
@@ -169,7 +169,7 @@ public class SqlMapExecutorWrapper implements SqlMapExecutor {
 
     @SuppressWarnings("rawtypes")
     public Map queryForMap(String id, Object parameterObject, String keyProp, String valueProp) throws SQLException {
-    	clientImplWrapper.setLocal(id, executor);
+        clientImplWrapper.setLocal(id, executor);
         IbatisUtils.setClientImpl(executor, clientImplWrapper);
 
         return executor.queryForMap(id, parameterObject, keyProp, valueProp);

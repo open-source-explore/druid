@@ -23,7 +23,7 @@ public class MySqlShowRelayLogEventsStatement extends MySqlStatementImpl impleme
 
     private SQLExpr logName;
     private SQLExpr from;
-    private Limit   limit;
+    private Limit limit;
 
     public SQLExpr getLogName() {
         return logName;

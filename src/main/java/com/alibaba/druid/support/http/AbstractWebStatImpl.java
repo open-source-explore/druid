@@ -15,34 +15,34 @@
  */
 package com.alibaba.druid.support.http;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import com.alibaba.druid.filter.stat.StatFilterContextListenerAdapter;
 import com.alibaba.druid.support.http.stat.WebAppStat;
 import com.alibaba.druid.support.http.stat.WebRequestStat;
 import com.alibaba.druid.support.http.stat.WebSessionStat;
 import com.alibaba.druid.util.DruidWebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 public class AbstractWebStatImpl {
 
-    public final static int                DEFAULT_MAX_STAT_SESSION_COUNT = 1000 * 1;
+    public final static int DEFAULT_MAX_STAT_SESSION_COUNT = 1000 * 1;
 
-    protected WebAppStat                   webAppStat                     = null;
+    protected WebAppStat webAppStat = null;
 
-    protected boolean                      sessionStatEnable              = true;
-    protected int                          sessionStatMaxCount            = DEFAULT_MAX_STAT_SESSION_COUNT;
-    protected boolean                      createSession                  = false;
-    protected boolean                      profileEnable                  = false;
+    protected boolean sessionStatEnable = true;
+    protected int sessionStatMaxCount = DEFAULT_MAX_STAT_SESSION_COUNT;
+    protected boolean createSession = false;
+    protected boolean profileEnable = false;
 
-    protected String                       contextPath;
+    protected String contextPath;
 
-    protected String                       principalSessionName;
-    protected String                       principalCookieName;
-    protected String                       realIpHeader;
+    protected String principalSessionName;
+    protected String principalCookieName;
+    protected String realIpHeader;
 
-    protected WebStatFilterContextListener statFilterContextListener      = new WebStatFilterContextListener();
+    protected WebStatFilterContextListener statFilterContextListener = new WebStatFilterContextListener();
 
     public boolean isSessionStatEnable() {
         return sessionStatEnable;

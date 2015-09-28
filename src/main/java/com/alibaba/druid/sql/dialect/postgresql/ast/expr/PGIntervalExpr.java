@@ -25,7 +25,7 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
  * Created by tianzhen.wtz on 2014/12/29 0029 16:10.
  * 类说明：
  */
-public class PGIntervalExpr extends SQLExprImpl implements SQLLiteralExpr,PGExpr{
+public class PGIntervalExpr extends SQLExprImpl implements SQLLiteralExpr, PGExpr {
 
     private SQLExpr value;
 

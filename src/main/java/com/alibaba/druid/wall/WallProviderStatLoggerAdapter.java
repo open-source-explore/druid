@@ -19,7 +19,7 @@ import java.util.Properties;
 
 public abstract class WallProviderStatLoggerAdapter implements WallProviderStatLogger {
 
-    public WallProviderStatLoggerAdapter(){
+    public WallProviderStatLoggerAdapter() {
 
     }
 

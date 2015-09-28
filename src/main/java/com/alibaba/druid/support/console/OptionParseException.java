@@ -24,7 +24,7 @@ public class OptionParseException extends Exception {
     }
 
     public OptionParseException(String msg, Throwable cause) {
-        super(msg,cause);
+        super(msg, cause);
     }
 
     public OptionParseException(Throwable cause) {

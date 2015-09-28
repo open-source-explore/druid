@@ -28,8 +28,8 @@ public class MySqlRollbackStatement extends SQLRollbackStatement implements MySq
 
     private SQLExpr force;
 
-    public MySqlRollbackStatement(){
-        super (JdbcConstants.MYSQL);
+    public MySqlRollbackStatement() {
+        super(JdbcConstants.MYSQL);
     }
 
     public Boolean getChain() {

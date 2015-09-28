@@ -18,44 +18,44 @@ package com.alibaba.druid.sql.dialect.mysql.ast.clause;
 import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlStatementImpl;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
+
 /**
- * 
- * @Description: MySql cursor declare statement
  * @author zz email:455910092@qq.com
- * @date 2015-9-14
  * @version V1.0
+ * @Description: MySql cursor declare statement
+ * @date 2015-9-14
  */
-public class MySqlCursorDeclareStatement extends MySqlStatementImpl{
-	
-	//cursor name
-	private String cursorName; 
-	//select statement
-	private SQLSelectStatement select;
-	
-	public String getCursorName() {
-		return cursorName;
-	}
-	
-	public void setCursorName(String cursorName) {
-		this.cursorName = cursorName;
-	}
+public class MySqlCursorDeclareStatement extends MySqlStatementImpl {
 
-	public SQLSelectStatement getSelect() {
-		return select;
-	}
+    //cursor name
+    private String cursorName;
+    //select statement
+    private SQLSelectStatement select;
 
-	public void setSelect(SQLSelectStatement select) {
-		this.select = select;
-	}
+    public String getCursorName() {
+        return cursorName;
+    }
 
-	@Override
-	public void accept0(MySqlASTVisitor visitor) {
-		// TODO Auto-generated method stub
-		 if (visitor.visit(this)) {
-	         acceptChild(visitor, select);
-	        }
-	     visitor.endVisit(this);
-		
-	}
+    public void setCursorName(String cursorName) {
+        this.cursorName = cursorName;
+    }
+
+    public SQLSelectStatement getSelect() {
+        return select;
+    }
+
+    public void setSelect(SQLSelectStatement select) {
+        this.select = select;
+    }
+
+    @Override
+    public void accept0(MySqlASTVisitor visitor) {
+        // TODO Auto-generated method stub
+        if (visitor.visit(this)) {
+            acceptChild(visitor, select);
+        }
+        visitor.endVisit(this);
+
+    }
 
 }

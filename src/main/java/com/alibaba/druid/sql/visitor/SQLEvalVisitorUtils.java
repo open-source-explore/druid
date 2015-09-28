@@ -19,22 +19,7 @@ import com.alibaba.druid.DruidRuntimeException;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLObject;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBetweenExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLCaseExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLHexExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
-import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNullExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumericLiteralExpr;
-import com.alibaba.druid.sql.ast.expr.SQLQueryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLUnaryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLUnaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
 import com.alibaba.druid.sql.ast.statement.SQLSelect;
 import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
@@ -44,34 +29,7 @@ import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlEvalVisitorImpl;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleEvalVisitor;
 import com.alibaba.druid.sql.dialect.postgresql.visitor.PGEvalVisitor;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerEvalVisitor;
-import com.alibaba.druid.sql.visitor.functions.Ascii;
-import com.alibaba.druid.sql.visitor.functions.Bin;
-import com.alibaba.druid.sql.visitor.functions.BitLength;
-import com.alibaba.druid.sql.visitor.functions.Char;
-import com.alibaba.druid.sql.visitor.functions.Concat;
-import com.alibaba.druid.sql.visitor.functions.Elt;
-import com.alibaba.druid.sql.visitor.functions.Function;
-import com.alibaba.druid.sql.visitor.functions.Greatest;
-import com.alibaba.druid.sql.visitor.functions.Hex;
-import com.alibaba.druid.sql.visitor.functions.If;
-import com.alibaba.druid.sql.visitor.functions.Insert;
-import com.alibaba.druid.sql.visitor.functions.Instr;
-import com.alibaba.druid.sql.visitor.functions.Isnull;
-import com.alibaba.druid.sql.visitor.functions.Lcase;
-import com.alibaba.druid.sql.visitor.functions.Least;
-import com.alibaba.druid.sql.visitor.functions.Left;
-import com.alibaba.druid.sql.visitor.functions.Length;
-import com.alibaba.druid.sql.visitor.functions.Locate;
-import com.alibaba.druid.sql.visitor.functions.Lpad;
-import com.alibaba.druid.sql.visitor.functions.Ltrim;
-import com.alibaba.druid.sql.visitor.functions.Now;
-import com.alibaba.druid.sql.visitor.functions.OneParamFunctions;
-import com.alibaba.druid.sql.visitor.functions.Reverse;
-import com.alibaba.druid.sql.visitor.functions.Right;
-import com.alibaba.druid.sql.visitor.functions.Substring;
-import com.alibaba.druid.sql.visitor.functions.Trim;
-import com.alibaba.druid.sql.visitor.functions.Ucase;
-import com.alibaba.druid.sql.visitor.functions.Unhex;
+import com.alibaba.druid.sql.visitor.functions.*;
 import com.alibaba.druid.util.HexBin;
 import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.druid.util.Utils;
@@ -82,18 +40,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
-import static com.alibaba.druid.sql.visitor.SQLEvalVisitor.EVAL_ERROR;
-import static com.alibaba.druid.sql.visitor.SQLEvalVisitor.EVAL_EXPR;
-import static com.alibaba.druid.sql.visitor.SQLEvalVisitor.EVAL_VALUE;
-import static com.alibaba.druid.sql.visitor.SQLEvalVisitor.EVAL_VALUE_NULL;
+import static com.alibaba.druid.sql.visitor.SQLEvalVisitor.*;
 
 public class SQLEvalVisitorUtils {
 
@@ -705,7 +655,7 @@ public class SQLEvalVisitorUtils {
             Object conditionValue = item.getConditionExpr().getAttribute(EVAL_VALUE);
 
             if ((x.getValueExpr() != null && eq(value, conditionValue))
-                || (x.getValueExpr() == null && conditionValue instanceof Boolean && (Boolean) conditionValue == Boolean.TRUE)) {
+                    || (x.getValueExpr() == null && conditionValue instanceof Boolean && (Boolean) conditionValue == Boolean.TRUE)) {
                 item.getValueExpr().accept(visitor);
 
                 if (item.getValueExpr().getAttributes().containsKey(EVAL_VALUE)) {
@@ -808,7 +758,7 @@ public class SQLEvalVisitorUtils {
             x.putAttribute(EVAL_VALUE, EVAL_ERROR);
             return false;
         }
-        
+
         if (val == null) {
             x.putAttribute(EVAL_VALUE, EVAL_VALUE_NULL);
             return false;
@@ -870,9 +820,9 @@ public class SQLEvalVisitorUtils {
                 wallConditionContext.setXor(true);
             }
         } else if (x.getOperator() == SQLBinaryOperator.BitwiseAnd //
-                   || x.getOperator() == SQLBinaryOperator.BitwiseNot //
-                   || x.getOperator() == SQLBinaryOperator.BitwiseOr //
-                   || x.getOperator() == SQLBinaryOperator.BitwiseXor) {
+                || x.getOperator() == SQLBinaryOperator.BitwiseNot //
+                || x.getOperator() == SQLBinaryOperator.BitwiseOr //
+                || x.getOperator() == SQLBinaryOperator.BitwiseXor) {
             if (wallConditionContext != null) {
                 wallConditionContext.setBitwise(true);
             }
@@ -1117,7 +1067,7 @@ public class SQLEvalVisitorUtils {
         if (val == null) {
             return null;
         }
-        
+
         if (val == EVAL_VALUE_NULL) {
             return null;
         }
@@ -1125,7 +1075,7 @@ public class SQLEvalVisitorUtils {
         if (val instanceof Boolean) {
             return (Boolean) val;
         }
-        
+
         if (val instanceof Number) {
             return ((Number) val).intValue() > 0;
         }
@@ -1239,7 +1189,7 @@ public class SQLEvalVisitorUtils {
                 return castToLong(list.get(0));
             }
         }
-        
+
         if (val instanceof Boolean) {
             if (((Boolean) val).booleanValue()) {
                 return 1l;
@@ -1290,7 +1240,7 @@ public class SQLEvalVisitorUtils {
 
         return BigInteger.valueOf(((Number) val).longValue());
     }
-    
+
     public static Number castToNumber(String val) {
         if (val == null) {
             return null;
@@ -1315,22 +1265,22 @@ public class SQLEvalVisitorUtils {
             return Long.parseLong(val);
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             return Float.parseFloat(val);
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             return Double.parseDouble(val);
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             return new BigInteger(val);
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             return new BigDecimal(val);
         } catch (NumberFormatException e) {
@@ -1418,11 +1368,11 @@ public class SQLEvalVisitorUtils {
         if (a == null || b == null) {
             return null;
         }
-        
-        if(a == EVAL_VALUE_NULL || b == EVAL_VALUE_NULL) {
+
+        if (a == EVAL_VALUE_NULL || b == EVAL_VALUE_NULL) {
             return null;
         }
-        
+
         if (a instanceof String) {
             a = castToNumber((String) a);
         }
@@ -1442,11 +1392,11 @@ public class SQLEvalVisitorUtils {
         if (a == null || b == null) {
             return null;
         }
-        
-        if(a == EVAL_VALUE_NULL || b == EVAL_VALUE_NULL) {
+
+        if (a == EVAL_VALUE_NULL || b == EVAL_VALUE_NULL) {
             return null;
         }
-        
+
         if (a instanceof String) {
             a = castToNumber((String) a);
         }
@@ -1466,11 +1416,11 @@ public class SQLEvalVisitorUtils {
         if (a == null || b == null) {
             return null;
         }
-        
-        if(a == EVAL_VALUE_NULL || b == EVAL_VALUE_NULL) {
+
+        if (a == EVAL_VALUE_NULL || b == EVAL_VALUE_NULL) {
             return null;
         }
-        
+
         if (a instanceof String) {
             a = castToNumber((String) a);
         }
@@ -1699,7 +1649,7 @@ public class SQLEvalVisitorUtils {
         if (a == null || b == null) {
             return false;
         }
-        
+
         if (a == EVAL_VALUE_NULL || b == EVAL_VALUE_NULL) {
             return false;
         }
@@ -1775,7 +1725,7 @@ public class SQLEvalVisitorUtils {
         if (a == EVAL_VALUE_NULL || b == EVAL_VALUE_NULL) {
             return EVAL_VALUE_NULL;
         }
-        
+
         if (a instanceof String && !(b instanceof String)) {
             a = castToNumber((String) a);
         }
@@ -1846,7 +1796,7 @@ public class SQLEvalVisitorUtils {
         if (a instanceof Date || b instanceof Date) {
             return SQLEvalVisitor.EVAL_ERROR;
         }
-        
+
         if (a instanceof String) {
             a = castToNumber((String) a);
         }
@@ -1918,11 +1868,11 @@ public class SQLEvalVisitorUtils {
         if (a instanceof BigInteger || b instanceof BigInteger) {
             return castToBigInteger(a).multiply(castToBigInteger(b));
         }
-        
+
         if (a instanceof Double || b instanceof Double) {
             return castToDouble(a) * castToDouble(b);
         }
-        
+
         if (a instanceof Float || b instanceof Float) {
             return castToFloat(a) * castToFloat(b);
         }
@@ -1971,7 +1921,7 @@ public class SQLEvalVisitorUtils {
             char ch = pattern.charAt(i);
 
             if (stat == STAT_LITERAL //
-                && (ch == '%' || ch == '_' || ch == '[')) {
+                    && (ch == '%' || ch == '_' || ch == '[')) {
                 String block = pattern.substring(blockStart, i);
                 regexprBuilder.append("\\Q");
                 regexprBuilder.append(block);

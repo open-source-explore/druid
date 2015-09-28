@@ -27,7 +27,7 @@ public class SQLCommentStatement extends SQLStatementImpl implements SQLStatemen
     }
 
     private SQLExpr on;
-    private Type    type;
+    private Type type;
     private SQLExpr comment;
 
     public SQLExpr getComment() {

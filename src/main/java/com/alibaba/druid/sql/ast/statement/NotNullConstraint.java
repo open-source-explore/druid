@@ -19,7 +19,7 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class NotNullConstraint extends SQLConstraintImpl implements SQLColumnConstraint {
 
-    public NotNullConstraint(){
+    public NotNullConstraint() {
 
     }
 

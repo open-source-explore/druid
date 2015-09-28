@@ -15,11 +15,10 @@
  */
 package com.alibaba.druid.support.spring;
 
-import java.lang.management.ManagementFactory;
+import org.springframework.beans.factory.FactoryBean;
 
 import javax.management.MBeanServer;
-
-import org.springframework.beans.factory.FactoryBean;
+import java.lang.management.ManagementFactory;
 
 public class MBeanServerFactoryBean implements FactoryBean<MBeanServer> {
 

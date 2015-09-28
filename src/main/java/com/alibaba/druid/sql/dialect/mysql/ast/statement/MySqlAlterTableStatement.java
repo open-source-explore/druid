@@ -23,9 +23,9 @@ import com.alibaba.druid.util.JdbcConstants;
 public class MySqlAlterTableStatement extends SQLAlterTableStatement {
 
     private boolean ignore = false;
-    
+
     public MySqlAlterTableStatement() {
-        super (JdbcConstants.MYSQL);
+        super(JdbcConstants.MYSQL);
     }
 
     @Override

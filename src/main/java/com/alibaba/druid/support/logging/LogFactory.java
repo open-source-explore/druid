@@ -30,7 +30,7 @@ public class LogFactory {
         tryImplementation("org.apache.logging.log4j.Logger", "com.alibaba.druid.support.logging.Log4j2Impl");
         tryImplementation("org.slf4j.Logger", "com.alibaba.druid.support.logging.SLF4JImpl");
         tryImplementation("org.apache.commons.logging.LogFactory",
-                          "com.alibaba.druid.support.logging.JakartaCommonsLoggingImpl");
+                "com.alibaba.druid.support.logging.JakartaCommonsLoggingImpl");
         tryImplementation("java.util.logging.Logger", "com.alibaba.druid.support.logging.Jdk14LoggingImpl");
 
         if (logConstructor == null) {
@@ -51,7 +51,7 @@ public class LogFactory {
         try {
             Resources.classForName(testClassName);
             Class implClass = Resources.classForName(implClassName);
-            logConstructor = implClass.getConstructor(new Class[] { String.class });
+            logConstructor = implClass.getConstructor(new Class[]{String.class});
 
             Class<?> declareClass = logConstructor.getDeclaringClass();
             if (!Log.class.isAssignableFrom(declareClass)) {
@@ -88,7 +88,7 @@ public class LogFactory {
         try {
             Resources.classForName("org.apache.log4j.Logger");
             Class implClass = Resources.classForName("com.alibaba.druid.support.logging.Log4jImpl");
-            logConstructor = implClass.getConstructor(new Class[] { String.class });
+            logConstructor = implClass.getConstructor(new Class[]{String.class});
         } catch (Throwable t) {
             //ignore
         }
@@ -99,7 +99,7 @@ public class LogFactory {
         try {
             Resources.classForName("java.util.logging.Logger");
             Class implClass = Resources.classForName("com.alibaba.druid.support.logging.Jdk14LoggingImpl");
-            logConstructor = implClass.getConstructor(new Class[] { String.class });
+            logConstructor = implClass.getConstructor(new Class[]{String.class});
         } catch (Throwable t) {
             //ignore
         }

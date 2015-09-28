@@ -22,10 +22,10 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class OracleSelect extends SQLSelect {
 
-    private OracleSelectForUpdate   forUpdate;
+    private OracleSelectForUpdate forUpdate;
     private OracleSelectRestriction restriction;
 
-    public OracleSelect(){
+    public OracleSelect() {
 
     }
 
@@ -68,7 +68,7 @@ public class OracleSelect extends SQLSelect {
         }
         visitor.endVisit(this);
     }
-    
+
     public String toString() {
         return SQLUtils.toOracleString(this);
     }

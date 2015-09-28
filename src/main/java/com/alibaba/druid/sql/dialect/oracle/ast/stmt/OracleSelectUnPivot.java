@@ -15,21 +15,21 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectPivot.Item;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleSelectUnPivot extends OracleSelectPivotBase {
 
-    private NullsIncludeType                   nullsIncludeType;
-    private final List<SQLExpr>                items   = new ArrayList<SQLExpr>();
+    private NullsIncludeType nullsIncludeType;
+    private final List<SQLExpr> items = new ArrayList<SQLExpr>();
 
     private final List<OracleSelectPivot.Item> pivotIn = new ArrayList<Item>();
 
-    public OracleSelectUnPivot(){
+    public OracleSelectUnPivot() {
 
     }
 

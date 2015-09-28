@@ -15,14 +15,14 @@
  */
 package com.alibaba.druid.sql.dialect.postgresql.parser;
 
-import static com.alibaba.druid.sql.parser.Token.LITERAL_CHARS;
+import com.alibaba.druid.sql.parser.Keywords;
+import com.alibaba.druid.sql.parser.Lexer;
+import com.alibaba.druid.sql.parser.Token;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.druid.sql.parser.Keywords;
-import com.alibaba.druid.sql.parser.Lexer;
-import com.alibaba.druid.sql.parser.Token;
+import static com.alibaba.druid.sql.parser.Token.LITERAL_CHARS;
 
 public class PGLexer extends Lexer {
 
@@ -59,7 +59,7 @@ public class PGLexer extends Lexer {
 
         map.put("USING", Token.USING);
         map.put("WINDOW", Token.WINDOW);
-        
+
         map.put("TRUE", Token.TRUE);
         map.put("FALSE", Token.FALSE);
         map.put("ARRAY", Token.ARRAY);
@@ -69,16 +69,16 @@ public class PGLexer extends Lexer {
         DEFAULT_PG_KEYWORDS = new Keywords(map);
     }
 
-    public PGLexer(String input){
+    public PGLexer(String input) {
         super(input);
         super.keywods = DEFAULT_PG_KEYWORDS;
     }
-    
+
     protected void scanString() {
         mark = pos;
         boolean hasSpecial = false;
 
-        for (;;) {
+        for (; ; ) {
             if (isEOF()) {
                 lexError("unclosed.str.lit");
                 return;
@@ -163,7 +163,7 @@ public class PGLexer extends Lexer {
             stringVal = new String(buf, 0, bufPos);
         }
     }
-    
+
     public void scanSharp() {
         token = Token.POUND;
         scanChar();

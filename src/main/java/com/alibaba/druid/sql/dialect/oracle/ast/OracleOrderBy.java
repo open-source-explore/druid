@@ -25,7 +25,7 @@ public class OracleOrderBy extends SQLOrderBy {
 
     private boolean sibings;
 
-    public OracleOrderBy(){
+    public OracleOrderBy() {
 
     }
 
@@ -68,7 +68,7 @@ public class OracleOrderBy extends SQLOrderBy {
             ((OracleOrderByItem) this.items.get(i)).output(buf);
         }
     }
-    
+
     protected SQLSelectOrderByItem createItem() {
         return new OracleOrderByItem();
     }

@@ -15,35 +15,35 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLCreateTriggerStatement extends SQLStatementImpl {
 
-    private SQLName                  name;
+    private SQLName name;
 
-    private boolean                  orReplace     = false;
+    private boolean orReplace = false;
 
-    private TriggerType              triggerType;
+    private TriggerType triggerType;
     private final List<TriggerEvent> triggerEvents = new ArrayList<TriggerEvent>();
 
-    private SQLName                  on;
+    private SQLName on;
 
-    private boolean                  forEachRow    = false;
+    private boolean forEachRow = false;
 
-    private SQLStatement             body;
-    
+    private SQLStatement body;
+
     public SQLCreateTriggerStatement() {
-        
+
     }
-    
+
     public SQLCreateTriggerStatement(String dbType) {
-        super (dbType);
+        super(dbType);
     }
 
     protected void accept0(SQLASTVisitor visitor) {

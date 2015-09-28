@@ -26,6 +26,6 @@ public interface PreparedStatementProxy extends PreparedStatement, StatementProx
     String getSql();
 
     PreparedStatement getRawObject();
-    
+
     Map<Integer, JdbcParameter> getParameters();
 }

@@ -23,30 +23,16 @@ import java.io.Closeable;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
 import java.sql.Date;
-import java.sql.Driver;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author wenshao<szujobs@hotmail.com>
  */
 public final class JdbcUtils implements JdbcConstants {
 
-    private final static Log        LOG                = LogFactory.getLog(JdbcUtils.class);
+    private final static Log LOG = LogFactory.getLog(JdbcUtils.class);
 
     private static final Properties DRIVER_URL_MAPPING = new Properties();
 
@@ -54,7 +40,7 @@ public final class JdbcUtils implements JdbcConstants {
         try {
             ClassLoader ctxClassLoader = Thread.currentThread().getContextClassLoader();
             if (ctxClassLoader != null) {
-                for (Enumeration<URL> e = ctxClassLoader.getResources("META-INF/druid-driver.properties"); e.hasMoreElements();) {
+                for (Enumeration<URL> e = ctxClassLoader.getResources("META-INF/druid-driver.properties"); e.hasMoreElements(); ) {
                     URL url = e.nextElement();
 
                     Properties property = new Properties();
@@ -123,7 +109,7 @@ public final class JdbcUtils implements JdbcConstants {
     public static void printResultSet(ResultSet rs) throws SQLException {
         printResultSet(rs, System.out);
     }
-    
+
     public static void printResultSet(ResultSet rs, PrintStream out) throws SQLException {
         printResultSet(rs, out, true, "\t");
     }
@@ -366,7 +352,7 @@ public final class JdbcUtils implements JdbcConstants {
         } else if (rawUrl.startsWith("jdbc:mariadb:")) {
             return MARIADB_DRIVER;
         } else if (rawUrl.startsWith("jdbc:oracle:") //
-                   || rawUrl.startsWith("JDBC:oracle:")) {
+                || rawUrl.startsWith("JDBC:oracle:")) {
             return ORACLE_DRIVER;
         } else if (rawUrl.startsWith("jdbc:alibaba:oracle:")) {
             return ALI_ORACLE_DRIVER;
@@ -439,7 +425,7 @@ public final class JdbcUtils implements JdbcConstants {
         if (rawUrl.startsWith("jdbc:derby:") || rawUrl.startsWith("jdbc:log4jdbc:derby:")) {
             return DERBY;
         } else if (rawUrl.startsWith("jdbc:mysql:") || rawUrl.startsWith("jdbc:cobar:")
-                   || rawUrl.startsWith("jdbc:log4jdbc:mysql:")) {
+                || rawUrl.startsWith("jdbc:log4jdbc:mysql:")) {
             return MYSQL;
         } else if (rawUrl.startsWith("jdbc:mariadb:")) {
             return MARIADB;
@@ -612,12 +598,12 @@ public final class JdbcUtils implements JdbcConstants {
     }
 
     public static List<Map<String, Object>> executeQuery(DataSource dataSource, String sql, Object... parameters)
-                                                                                                                 throws SQLException {
+            throws SQLException {
         return executeQuery(dataSource, sql, Arrays.asList(parameters));
     }
 
     public static List<Map<String, Object>> executeQuery(DataSource dataSource, String sql, List<Object> parameters)
-                                                                                                                    throws SQLException {
+            throws SQLException {
         Connection conn = null;
         try {
             conn = dataSource.getConnection();
@@ -628,7 +614,7 @@ public final class JdbcUtils implements JdbcConstants {
     }
 
     public static List<Map<String, Object>> executeQuery(Connection conn, String sql, List<Object> parameters)
-                                                                                                              throws SQLException {
+            throws SQLException {
         List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
 
         PreparedStatement stmt = null;
@@ -669,7 +655,7 @@ public final class JdbcUtils implements JdbcConstants {
     }
 
     public static void insertToTable(DataSource dataSource, String tableName, Map<String, Object> data)
-                                                                                                       throws SQLException {
+            throws SQLException {
         Connection conn = null;
         try {
             conn = dataSource.getConnection();
@@ -687,9 +673,9 @@ public final class JdbcUtils implements JdbcConstants {
 
     public static String makeInsertToTableSql(String tableName, Collection<String> names) {
         StringBuilder sql = new StringBuilder() //
-        .append("insert into ") //
-        .append(tableName) //
-        .append("("); //
+                .append("insert into ") //
+                .append(tableName) //
+                .append("("); //
 
         int nameCount = 0;
         for (String name : names) {

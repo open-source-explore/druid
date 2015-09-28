@@ -15,18 +15,18 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.oracle.ast.clause.OracleParameter;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleBlockStatement extends OracleStatementImpl {
 
-    private List<OracleParameter> parameters    = new ArrayList<OracleParameter>();
+    private List<OracleParameter> parameters = new ArrayList<OracleParameter>();
 
-    private List<SQLStatement>    statementList = new ArrayList<SQLStatement>();
+    private List<SQLStatement> statementList = new ArrayList<SQLStatement>();
 
     public List<SQLStatement> getStatementList() {
         return statementList;

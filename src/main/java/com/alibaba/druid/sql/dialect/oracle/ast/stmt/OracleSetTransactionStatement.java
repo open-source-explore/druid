@@ -22,7 +22,7 @@ import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 public class OracleSetTransactionStatement extends OracleSQLObjectImpl implements OracleStatement {
 
     private boolean readOnly = false;
-    private String  dbType;
+    private String dbType;
 
     private SQLExpr name;
 
@@ -53,9 +53,9 @@ public class OracleSetTransactionStatement extends OracleSQLObjectImpl implement
     public String getDbType() {
         return dbType;
     }
-    
+
     public void setDbType(String dbType) {
         this.dbType = dbType;
     }
-    
+
 }

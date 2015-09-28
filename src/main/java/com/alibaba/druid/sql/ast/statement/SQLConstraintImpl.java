@@ -23,7 +23,7 @@ public abstract class SQLConstraintImpl extends SQLObjectImpl implements SQLCons
     private SQLName name;
     private Boolean enable;
 
-    public SQLConstraintImpl(){
+    public SQLConstraintImpl() {
 
     }
 

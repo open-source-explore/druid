@@ -15,13 +15,7 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.visitor;
 
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNullExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumberExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.visitor.ParameterizedOutputVisitorUtils;
 import com.alibaba.druid.sql.visitor.ParameterizedVisitor;
 
@@ -29,15 +23,15 @@ public class OracleParameterizedOutputVisitor extends OracleOutputVisitor implem
 
     private int replaceCount;
 
-    public OracleParameterizedOutputVisitor(){
+    public OracleParameterizedOutputVisitor() {
         this(new StringBuilder());
     }
 
-    public OracleParameterizedOutputVisitor(Appendable appender){
+    public OracleParameterizedOutputVisitor(Appendable appender) {
         super(appender);
     }
 
-    public OracleParameterizedOutputVisitor(Appendable appender, boolean printPostSemi){
+    public OracleParameterizedOutputVisitor(Appendable appender, boolean printPostSemi) {
         super(appender, printPostSemi);
     }
 

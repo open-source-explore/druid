@@ -15,17 +15,17 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLWithSubqueryClause extends SQLObjectImpl {
 
-    private Boolean           recursive;
+    private Boolean recursive;
     private final List<Entry> entries = new ArrayList<Entry>();
 
     public List<Entry> getEntries() {
@@ -50,9 +50,9 @@ public class SQLWithSubqueryClause extends SQLObjectImpl {
 
     public static class Entry extends SQLObjectImpl {
 
-        protected SQLIdentifierExpr   name;
+        protected SQLIdentifierExpr name;
         protected final List<SQLName> columns = new ArrayList<SQLName>();
-        protected SQLSelect           subQuery;
+        protected SQLSelect subQuery;
 
         @Override
         protected void accept0(SQLASTVisitor visitor) {

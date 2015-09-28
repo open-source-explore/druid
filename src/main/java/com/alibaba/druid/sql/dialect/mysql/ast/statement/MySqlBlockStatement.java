@@ -15,21 +15,22 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
-public class MySqlBlockStatement  extends MySqlStatementImpl   {
+import java.util.ArrayList;
+import java.util.List;
 
-	/**
-	 * begin-end block label name 
-	 * @author zz
-	 */
-	private String labelName;
-	
-	private List<SQLStatement>    statementList = new ArrayList<SQLStatement>();
+public class MySqlBlockStatement extends MySqlStatementImpl {
+
+    /**
+     * begin-end block label name
+     *
+     * @author zz
+     */
+    private String labelName;
+
+    private List<SQLStatement> statementList = new ArrayList<SQLStatement>();
 
     public List<SQLStatement> getStatementList() {
         return statementList;
@@ -40,12 +41,12 @@ public class MySqlBlockStatement  extends MySqlStatementImpl   {
     }
 
     public String getLabelName() {
-		return labelName;
-	}
+        return labelName;
+    }
 
-	public void setLabelName(String labelName) {
-		this.labelName = labelName;
-	}
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
+    }
 
     @Override
     public void accept0(MySqlASTVisitor visitor) {

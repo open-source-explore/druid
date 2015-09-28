@@ -15,25 +15,25 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLSelectQueryBlock extends SQLObjectImpl implements SQLSelectQuery {
 
-    protected int                       distionOption;
+    protected int distionOption;
     protected final List<SQLSelectItem> selectList = new ArrayList<SQLSelectItem>();
 
-    protected SQLTableSource            from;
-    protected SQLExprTableSource        into;
-    protected SQLExpr                   where;
-    protected SQLSelectGroupByClause    groupBy;
+    protected SQLTableSource from;
+    protected SQLExprTableSource into;
+    protected SQLExpr where;
+    protected SQLSelectGroupByClause groupBy;
     protected boolean parenthesized = false;
 
-    public SQLSelectQueryBlock(){
+    public SQLSelectQueryBlock() {
 
     }
 
@@ -82,7 +82,7 @@ public class SQLSelectQueryBlock extends SQLObjectImpl implements SQLSelectQuery
     public List<SQLSelectItem> getSelectList() {
         return this.selectList;
     }
-    
+
     public void addSelectItem(SQLSelectItem item) {
         this.selectList.add(item);
         item.setParent(this);
@@ -97,14 +97,14 @@ public class SQLSelectQueryBlock extends SQLObjectImpl implements SQLSelectQuery
     }
 
     public boolean isParenthesized() {
-		return parenthesized;
-	}
+        return parenthesized;
+    }
 
-	public void setParenthesized(boolean parenthesized) {
-		this.parenthesized = parenthesized;
-	}
+    public void setParenthesized(boolean parenthesized) {
+        this.parenthesized = parenthesized;
+    }
 
-	@Override
+    @Override
     protected void accept0(SQLASTVisitor visitor) {
         if (visitor.visit(this)) {
             acceptChild(visitor, this.selectList);

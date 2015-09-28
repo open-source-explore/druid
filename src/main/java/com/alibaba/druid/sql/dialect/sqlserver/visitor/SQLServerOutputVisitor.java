@@ -18,37 +18,18 @@ package com.alibaba.druid.sql.dialect.sqlserver.visitor;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLSetQuantifier;
 import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.statement.SQLAssignItem;
-import com.alibaba.druid.sql.ast.statement.SQLColumnConstraint;
-import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLGrantStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerColumnDefinition;
+import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.sqlserver.ast.*;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerColumnDefinition.Identity;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerDeclareItem;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerOutput;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerSelect;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerTop;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.expr.SQLServerObjectReferenceExpr;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerBlockStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerCommitStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerDeclareStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerExecStatement;
+import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.*;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerExecStatement.SQLServerParameter;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerIfStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerIfStatement.Else;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerInsertStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerRollbackStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerSetStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerSetTransactionIsolationLevelStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerUpdateStatement;
-import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerWaitForStatement;
 import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
 
 public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLServerASTVisitor {
 
-    public SQLServerOutputVisitor(Appendable appender){
+    public SQLServerOutputVisitor(Appendable appender) {
         super(appender);
     }
 
@@ -151,9 +132,9 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
             x.getTop().accept(this);
             print(' ');
         }
-        
+
         print("INTO ");
-        
+
         x.getTableSource().accept(this);
 
         if (x.getColumns().size() > 0) {
@@ -173,7 +154,7 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
             print(")");
             decrementIndent();
         }
-        
+
         if (x.getOutput() != null) {
             println();
             x.getOutput().setParent(x);
@@ -229,7 +210,7 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
             }
             x.getItems().get(i).accept(this);
         }
-        
+
         if (x.getOutput() != null) {
             println();
             x.getOutput().setParent(x);
@@ -339,13 +320,13 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
     @Override
     public boolean visit(SQLServerExecStatement x) {
         print("EXEC ");
-        
+
         SQLName returnStatus = x.getReturnStatus();
         if (returnStatus != null) {
             returnStatus.accept(this);
             print(" = ");
         }
-        
+
         SQLName moduleName = x.getModuleName();
         if (moduleName != null) {
             moduleName.accept(this);
@@ -434,8 +415,8 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
     @Override
     public boolean visit(SQLServerDeclareItem x) {
         x.getName().accept(this);
-        
-        if(x.getType() == SQLServerDeclareItem.Type.TABLE) {
+
+        if (x.getType() == SQLServerDeclareItem.Type.TABLE) {
             print(" TABLE");
             int size = x.getTableElementList().size();
 
@@ -464,13 +445,13 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
                 x.getValue().accept(this);
             }
         }
-        
+
         return false;
     }
 
     @Override
     public void endVisit(SQLServerDeclareItem x) {
-        
+
     }
 
     @Override
@@ -561,7 +542,7 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
     public void endVisit(SQLServerBlockStatement x) {
 
     }
-    
+
     @Override
     protected void printGrantOn(SQLGrantStatement x) {
         if (x.getOn() != null) {
@@ -575,10 +556,10 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
             x.getOn().accept(this);
         }
     }
-    
+
     @Override
     public void endVisit(SQLServerSelect x) {
-        
+
     }
 
     @Override
@@ -588,7 +569,7 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
             println();
             print("FOR BROWSE");
         }
-        
+
         if (x.getForXmlOptions().size() > 0) {
             println();
             print("FOR XML ");
@@ -599,13 +580,13 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
                 }
             }
         }
-        
+
         if (x.getOffset() != null) {
             println();
             print("OFFSET ");
             x.getOffset().accept(this);
             print(" ROWS");
-            
+
             if (x.getRowCount() != null) {
                 print(" FETCH NEXT ");
                 x.getRowCount().accept(this);
@@ -639,7 +620,7 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
 
     @Override
     public void endVisit(SQLServerCommitStatement x) {
-        
+
     }
 
     @Override
@@ -655,13 +636,13 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
                 x.getName().accept(this);
             }
         }
-        
+
         return false;
     }
 
     @Override
     public void endVisit(SQLServerRollbackStatement x) {
-        
+
     }
 
     @Override
@@ -674,38 +655,38 @@ public class SQLServerOutputVisitor extends SQLASTOutputVisitor implements SQLSe
         } else if (x.getTime() != null) {
             print(" TIME ");
             x.getTime().accept(this);
-        } if (x.getStatement() != null) {
+        }
+        if (x.getStatement() != null) {
             print(" DELAY ");
             x.getStatement().accept(this);
         }
-        
-        if(x.getTimeout() != null) {
+
+        if (x.getTimeout() != null) {
             print(" ,TIMEOUT ");
             x.getTimeout().accept(this);
         }
-        
+
         return false;
     }
 
     @Override
     public void endVisit(SQLServerWaitForStatement x) {
-        
+
     }
 
-	@Override
-	public boolean visit(SQLServerParameter x) {
-		// TODO Auto-generated method stub
-		x.getExpr().accept(this);
-		if(x.getType())
-		{
-			print(" OUT");
-		}
-		return false;
-	}
+    @Override
+    public boolean visit(SQLServerParameter x) {
+        // TODO Auto-generated method stub
+        x.getExpr().accept(this);
+        if (x.getType()) {
+            print(" OUT");
+        }
+        return false;
+    }
 
-	@Override
-	public void endVisit(SQLServerParameter x) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void endVisit(SQLServerParameter x) {
+        // TODO Auto-generated method stub
+
+    }
 }

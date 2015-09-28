@@ -23,55 +23,52 @@ import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlUpdateStatement;
 
 /**
- * 
- * @Description: MySql procedure statement type
  * @author zz email:455910092@qq.com
- * @date 2015-9-14
  * @version V1.0
+ * @Description: MySql procedure statement type
+ * @date 2015-9-14
  */
 public enum MySqlStatementType {
-	//select statement
-	SELECT(SQLSelectStatement.class.getName()),
-	//update statement
-	UPDATE(MySqlUpdateStatement.class.getName()),
-	//insert statement
-	INSERT(MySqlInsertStatement.class.getName()),
-	//delete statement
-	DELETE(MySqlDeleteStatement.class.getName()),
-	//while statement
-	WHILE(MySqlWhileStatement.class.getName()),
-	//if statement
-	IF(MySqlIfStatement.class.getName()),
-	//begin-end
-	BLOCK(MySqlBlockStatement.class.getName()),
-	//declare statement
-	DECLARE(MySqlDeclareStatement.class.getName()),
-	//select into
-	SELECTINTO(MySqlSelectIntoStatement.class.getName()),
-	//case
-	CASE(MySqlCaseStatement.class.getName()),
-	
-	UNDEFINED,
-	;
-	
-	
-	
-	public final String name;
+    //select statement
+    SELECT(SQLSelectStatement.class.getName()),
+    //update statement
+    UPDATE(MySqlUpdateStatement.class.getName()),
+    //insert statement
+    INSERT(MySqlInsertStatement.class.getName()),
+    //delete statement
+    DELETE(MySqlDeleteStatement.class.getName()),
+    //while statement
+    WHILE(MySqlWhileStatement.class.getName()),
+    //if statement
+    IF(MySqlIfStatement.class.getName()),
+    //begin-end
+    BLOCK(MySqlBlockStatement.class.getName()),
+    //declare statement
+    DECLARE(MySqlDeclareStatement.class.getName()),
+    //select into
+    SELECTINTO(MySqlSelectIntoStatement.class.getName()),
+    //case
+    CASE(MySqlCaseStatement.class.getName()),
 
-	MySqlStatementType(){
+    UNDEFINED,;
+
+
+    public final String name;
+
+    MySqlStatementType() {
         this(null);
     }
 
-	MySqlStatementType(String name){
+    MySqlStatementType(String name) {
         this.name = name;
     }
-	public static MySqlStatementType getType(SQLStatement stmt)
-	{
-		 for (MySqlStatementType type : MySqlStatementType.values()) {
-             if (type.name == stmt.getClass().getName()) {
-                 return type;
-             }
-         }
-		 return UNDEFINED;
-	}
+
+    public static MySqlStatementType getType(SQLStatement stmt) {
+        for (MySqlStatementType type : MySqlStatementType.values()) {
+            if (type.name == stmt.getClass().getName()) {
+                return type;
+            }
+        }
+        return UNDEFINED;
+    }
 }

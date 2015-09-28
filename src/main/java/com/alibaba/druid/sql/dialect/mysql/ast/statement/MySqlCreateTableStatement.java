@@ -15,16 +15,7 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.alibaba.druid.sql.ast.SQLCommentHint;
-import com.alibaba.druid.sql.ast.SQLExpr;
-import com.alibaba.druid.sql.ast.SQLName;
-import com.alibaba.druid.sql.ast.SQLObject;
-import com.alibaba.druid.sql.ast.SQLPartitioningClause;
+import com.alibaba.druid.sql.ast.*;
 import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
 import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
 import com.alibaba.druid.sql.ast.statement.SQLSelect;
@@ -33,22 +24,27 @@ import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 public class MySqlCreateTableStatement extends SQLCreateTableStatement implements MySqlStatement {
 
     private Map<String, SQLObject> tableOptions = new LinkedHashMap<String, SQLObject>();
 
-    protected SQLSelect            query;
+    protected SQLSelect query;
 
-    private SQLPartitioningClause  partitioning;
+    private SQLPartitioningClause partitioning;
 
-    private List<SQLCommentHint>   hints        = new ArrayList<SQLCommentHint>();
+    private List<SQLCommentHint> hints = new ArrayList<SQLCommentHint>();
 
-    private List<SQLCommentHint>   optionHints  = new ArrayList<SQLCommentHint>();
+    private List<SQLCommentHint> optionHints = new ArrayList<SQLCommentHint>();
 
-    private SQLExprTableSource     like;
+    private SQLExprTableSource like;
 
-    public MySqlCreateTableStatement(){
-        super (JdbcConstants.MYSQL);
+    public MySqlCreateTableStatement() {
+        super(JdbcConstants.MYSQL);
     }
 
     public SQLExprTableSource getLike() {

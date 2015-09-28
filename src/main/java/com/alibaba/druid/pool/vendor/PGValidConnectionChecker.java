@@ -15,12 +15,6 @@
  */
 package com.alibaba.druid.pool.vendor;
 
-import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import com.alibaba.druid.pool.DruidPooledConnection;
 import com.alibaba.druid.pool.ValidConnectionChecker;
 import com.alibaba.druid.pool.ValidConnectionCheckerAdapter;
@@ -29,15 +23,21 @@ import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.alibaba.druid.util.JdbcUtils;
 
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class PGValidConnectionChecker extends ValidConnectionCheckerAdapter implements ValidConnectionChecker, Serializable {
 
-    private static final long serialVersionUID     = -2227528634302168877L;
+    private static final long serialVersionUID = -2227528634302168877L;
 
-    private static final Log  LOG                  = LogFactory.getLog(PGValidConnectionChecker.class);
+    private static final Log LOG = LogFactory.getLog(PGValidConnectionChecker.class);
 
-    private String            defaultValidateQuery = "SELECT 'x'";
+    private String defaultValidateQuery = "SELECT 'x'";
 
-    public PGValidConnectionChecker(){
+    public PGValidConnectionChecker() {
         configFromProperties(System.getProperties());
     }
 

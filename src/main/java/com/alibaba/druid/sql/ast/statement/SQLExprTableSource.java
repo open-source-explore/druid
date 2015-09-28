@@ -22,15 +22,15 @@ public class SQLExprTableSource extends SQLTableSourceImpl {
 
     protected SQLExpr expr;
 
-    public SQLExprTableSource(){
+    public SQLExprTableSource() {
 
     }
 
-    public SQLExprTableSource(SQLExpr expr){
+    public SQLExprTableSource(SQLExpr expr) {
         this(expr, null);
     }
-    
-    public SQLExprTableSource(SQLExpr expr, String alias){
+
+    public SQLExprTableSource(SQLExpr expr, String alias) {
         this.setExpr(expr);
         this.setAlias(alias);
     }

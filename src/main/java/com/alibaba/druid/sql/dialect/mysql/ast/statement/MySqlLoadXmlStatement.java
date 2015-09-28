@@ -15,34 +15,34 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.expr.SQLLiteralExpr;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySqlLoadXmlStatement extends MySqlStatementImpl {
 
-    private boolean             lowPriority = false;
-    private boolean             concurrent  = false;
-    private boolean             local       = false;
+    private boolean lowPriority = false;
+    private boolean concurrent = false;
+    private boolean local = false;
 
-    private SQLLiteralExpr      fileName;
+    private SQLLiteralExpr fileName;
 
-    private boolean             replicate   = false;
-    private boolean             ignore      = false;
+    private boolean replicate = false;
+    private boolean ignore = false;
 
-    private SQLName             tableName;
+    private SQLName tableName;
 
-    private String              charset;
+    private String charset;
 
-    private SQLExpr             rowsIdentifiedBy;
+    private SQLExpr rowsIdentifiedBy;
 
-    private SQLExpr             ignoreLinesNumber;
+    private SQLExpr ignoreLinesNumber;
 
-    private final List<SQLExpr> setList     = new ArrayList<SQLExpr>();
+    private final List<SQLExpr> setList = new ArrayList<SQLExpr>();
 
     public SQLExpr getRowsIdentifiedBy() {
         return rowsIdentifiedBy;

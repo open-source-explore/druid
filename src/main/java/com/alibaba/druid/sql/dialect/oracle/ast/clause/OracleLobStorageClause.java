@@ -15,32 +15,32 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.clause;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.dialect.oracle.ast.OracleSQLObjectImpl;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleLobStorageClause extends OracleSQLObjectImpl {
 
-    private final List<SQLName> items      = new ArrayList<SQLName>();
+    private final List<SQLName> items = new ArrayList<SQLName>();
 
-    private boolean             secureFile = false;
-    private boolean             basicFile  = false;
+    private boolean secureFile = false;
+    private boolean basicFile = false;
 
-    private SQLName             tableSpace;
+    private SQLName tableSpace;
 
-    private Boolean             enable;
+    private Boolean enable;
 
-    private SQLExpr             chunk;
+    private SQLExpr chunk;
 
-    private Boolean             cache;
-    private Boolean             logging;
+    private Boolean cache;
+    private Boolean logging;
 
-    private Boolean             compress;
-    private Boolean             keepDuplicate;
+    private Boolean compress;
+    private Boolean keepDuplicate;
 
     @Override
     public void accept0(OracleASTVisitor visitor) {

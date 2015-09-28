@@ -15,16 +15,13 @@
  */
 package com.alibaba.druid.support.jconsole.model;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JLabel;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
+import java.awt.*;
 
 /**
  * @author yunnysunny<yunnysunny@gmail.com>
- * */
+ */
 public class DruidTableCellRenderer extends JLabel implements TableCellRenderer {
 
     private static final long serialVersionUID = 1L;

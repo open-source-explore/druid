@@ -15,73 +15,36 @@
  */
 package com.alibaba.druid.filter;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidPooledConnection;
+import com.alibaba.druid.proxy.jdbc.*;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.CallableStatement;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.Driver;
-import java.sql.NClob;
-import java.sql.ParameterMetaData;
-import java.sql.PreparedStatement;
-import java.sql.Ref;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
-import java.sql.SQLClientInfoException;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
-import java.sql.Savepoint;
-import java.sql.Statement;
-import java.sql.Struct;
-import java.sql.Wrapper;
+import java.sql.*;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.pool.DruidPooledConnection;
-import com.alibaba.druid.proxy.jdbc.CallableStatementProxy;
-import com.alibaba.druid.proxy.jdbc.CallableStatementProxyImpl;
-import com.alibaba.druid.proxy.jdbc.ClobProxy;
-import com.alibaba.druid.proxy.jdbc.ClobProxyImpl;
-import com.alibaba.druid.proxy.jdbc.ConnectionProxy;
-import com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl;
-import com.alibaba.druid.proxy.jdbc.DataSourceProxy;
-import com.alibaba.druid.proxy.jdbc.NClobProxy;
-import com.alibaba.druid.proxy.jdbc.NClobProxyImpl;
-import com.alibaba.druid.proxy.jdbc.PreparedStatementProxy;
-import com.alibaba.druid.proxy.jdbc.PreparedStatementProxyImpl;
-import com.alibaba.druid.proxy.jdbc.ResultSetMetaDataProxy;
-import com.alibaba.druid.proxy.jdbc.ResultSetMetaDataProxyImpl;
-import com.alibaba.druid.proxy.jdbc.ResultSetProxy;
-import com.alibaba.druid.proxy.jdbc.ResultSetProxyImpl;
-import com.alibaba.druid.proxy.jdbc.StatementProxy;
-import com.alibaba.druid.proxy.jdbc.StatementProxyImpl;
 
 /**
  * @author wenshao<szujobs@hotmail.com>
  */
 public class FilterChainImpl implements FilterChain {
 
-    protected int                 pos = 0;
+    protected int pos = 0;
 
     private final DataSourceProxy dataSource;
 
-    private final int             filterSize;
+    private final int filterSize;
 
-    public FilterChainImpl(DataSourceProxy dataSource){
+    public FilterChainImpl(DataSourceProxy dataSource) {
         this.dataSource = dataSource;
         this.filterSize = getFilters().size();
     }
 
-    public FilterChainImpl(DataSourceProxy dataSource, int pos){
+    public FilterChainImpl(DataSourceProxy dataSource, int pos) {
         this.dataSource = dataSource;
         this.pos = pos;
         this.filterSize = getFilters().size();
@@ -182,7 +145,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public Array connection_createArrayOf(ConnectionProxy connection, String typeName, Object[] elements)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().connection_createArrayOf(this, connection, typeName, elements);
         }
@@ -255,20 +218,20 @@ public class FilterChainImpl implements FilterChain {
     @Override
     public StatementProxy connection_createStatement(ConnectionProxy connection, int resultSetType,
                                                      int resultSetConcurrency, int resultSetHoldability)
-                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().connection_createStatement(this, connection, resultSetType, resultSetConcurrency,
-                                                           resultSetHoldability);
+                    resultSetHoldability);
         }
 
         Statement statement = connection.getRawObject().createStatement(resultSetType, resultSetConcurrency,
-                                                                        resultSetHoldability);
+                resultSetHoldability);
         return wrap(connection, statement);
     }
 
     @Override
     public Struct connection_createStruct(ConnectionProxy connection, String typeName, Object[] attributes)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().connection_createStruct(this, connection, typeName, attributes);
         }
@@ -430,20 +393,20 @@ public class FilterChainImpl implements FilterChain {
     @Override
     public CallableStatementProxy connection_prepareCall(ConnectionProxy connection, String sql, int resultSetType,
                                                          int resultSetConcurrency, int resultSetHoldability)
-                                                                                                            throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().connection_prepareCall(this, connection, sql, resultSetType, resultSetConcurrency,
-                                                       resultSetHoldability);
+                    resultSetHoldability);
         }
 
         CallableStatement statement = connection.getRawObject().prepareCall(sql, resultSetType, resultSetConcurrency,
-                                                                            resultSetHoldability);
+                resultSetHoldability);
         return wrap(connection, statement, sql);
     }
 
     @Override
     public PreparedStatementProxy connection_prepareStatement(ConnectionProxy connection, String sql)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().connection_prepareStatement(this, connection, sql);
         }
@@ -466,13 +429,13 @@ public class FilterChainImpl implements FilterChain {
     @Override
     public PreparedStatementProxy connection_prepareStatement(ConnectionProxy connection, String sql,
                                                               int resultSetType, int resultSetConcurrency)
-                                                                                                          throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().connection_prepareStatement(this, connection, sql, resultSetType, resultSetConcurrency);
         }
 
         PreparedStatement statement = connection.getRawObject().prepareStatement(sql, resultSetType,
-                                                                                 resultSetConcurrency);
+                resultSetConcurrency);
         return wrap(connection, statement, sql);
     }
 
@@ -482,12 +445,12 @@ public class FilterChainImpl implements FilterChain {
                                                               int resultSetHoldability) throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().connection_prepareStatement(this, connection, sql, resultSetType, resultSetConcurrency,
-                                                            resultSetHoldability);
+                    resultSetHoldability);
         }
 
         PreparedStatement statement = connection.getRawObject().prepareStatement(sql, resultSetType,
-                                                                                 resultSetConcurrency,
-                                                                                 resultSetHoldability);
+                resultSetConcurrency,
+                resultSetHoldability);
         return wrap(connection, statement, sql);
     }
 
@@ -565,7 +528,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void connection_setClientInfo(ConnectionProxy connection, Properties properties)
-                                                                                           throws SQLClientInfoException {
+            throws SQLClientInfoException {
         if (this.pos < filterSize) {
             nextFilter().connection_setClientInfo(this, connection, properties);
             return;
@@ -576,7 +539,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void connection_setClientInfo(ConnectionProxy connection, String name, String value)
-                                                                                               throws SQLClientInfoException {
+            throws SQLClientInfoException {
         if (this.pos < filterSize) {
             nextFilter().connection_setClientInfo(this, connection, name, value);
             return;
@@ -788,7 +751,7 @@ public class FilterChainImpl implements FilterChain {
     @SuppressWarnings("deprecation")
     @Override
     public java.io.InputStream resultSet_getUnicodeStream(ResultSetProxy resultSet, int columnIndex)
-                                                                                                    throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getUnicodeStream(this, resultSet, columnIndex);
         }
@@ -870,7 +833,7 @@ public class FilterChainImpl implements FilterChain {
     @SuppressWarnings("deprecation")
     @Override
     public BigDecimal resultSet_getBigDecimal(ResultSetProxy resultSet, String columnLabel, int scale)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getBigDecimal(this, resultSet, columnLabel, scale);
         }
@@ -911,7 +874,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.io.InputStream resultSet_getAsciiStream(ResultSetProxy resultSet, String columnLabel)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getAsciiStream(this, resultSet, columnLabel);
         }
@@ -921,7 +884,7 @@ public class FilterChainImpl implements FilterChain {
     @SuppressWarnings("deprecation")
     @Override
     public java.io.InputStream resultSet_getUnicodeStream(ResultSetProxy resultSet, String columnLabel)
-                                                                                                       throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getUnicodeStream(this, resultSet, columnLabel);
         }
@@ -930,7 +893,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.io.InputStream resultSet_getBinaryStream(ResultSetProxy resultSet, String columnLabel)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getBinaryStream(this, resultSet, columnLabel);
         }
@@ -1026,7 +989,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.io.Reader resultSet_getCharacterStream(ResultSetProxy resultSet, String columnLabel)
-                                                                                                    throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getCharacterStream(this, resultSet, columnLabel);
         }
@@ -1340,7 +1303,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateTimestamp(ResultSetProxy resultSet, int columnIndex, java.sql.Timestamp x)
-                                                                                                          throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateTimestamp(this, resultSet, columnIndex, x);
             return;
@@ -1350,7 +1313,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateAsciiStream(ResultSetProxy resultSet, int columnIndex, java.io.InputStream x, int length)
-                                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateAsciiStream(this, resultSet, columnIndex, x, length);
             return;
@@ -1370,7 +1333,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateCharacterStream(ResultSetProxy resultSet, int columnIndex, java.io.Reader x, int length)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateCharacterStream(this, resultSet, columnIndex, x, length);
             return;
@@ -1380,7 +1343,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateObject(ResultSetProxy resultSet, int columnIndex, Object x, int scaleOrLength)
-                                                                                                              throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateObject(this, resultSet, columnIndex, x, scaleOrLength);
             return;
@@ -1471,7 +1434,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateBigDecimal(ResultSetProxy resultSet, String columnLabel, BigDecimal x)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateBigDecimal(this, resultSet, columnLabel, x);
             return;
@@ -1517,7 +1480,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateTimestamp(ResultSetProxy resultSet, String columnLabel, java.sql.Timestamp x)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateTimestamp(this, resultSet, columnLabel, x);
             return;
@@ -1557,7 +1520,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateObject(ResultSetProxy resultSet, String columnLabel, Object x, int scaleOrLength)
-                                                                                                                 throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateObject(this, resultSet, columnLabel, x, scaleOrLength);
             return;
@@ -1647,7 +1610,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public Object resultSet_getObject(ResultSetProxy resultSet, int columnIndex, java.util.Map<String, Class<?>> map)
-                                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getObject(this, resultSet, columnIndex, map);
         }
@@ -1705,7 +1668,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public Object resultSet_getObject(ResultSetProxy resultSet, String columnLabel, java.util.Map<String, Class<?>> map)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getObject(this, resultSet, columnLabel, map);
         }
@@ -1768,7 +1731,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Date resultSet_getDate(ResultSetProxy resultSet, String columnLabel, Calendar cal)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getDate(this, resultSet, columnLabel, cal);
         }
@@ -1785,7 +1748,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Time resultSet_getTime(ResultSetProxy resultSet, String columnLabel, Calendar cal)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getTime(this, resultSet, columnLabel, cal);
         }
@@ -1794,7 +1757,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Timestamp resultSet_getTimestamp(ResultSetProxy resultSet, int columnIndex, Calendar cal)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getTimestamp(this, resultSet, columnIndex, cal);
         }
@@ -1803,7 +1766,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Timestamp resultSet_getTimestamp(ResultSetProxy resultSet, String columnLabel, Calendar cal)
-                                                                                                                throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getTimestamp(this, resultSet, columnLabel, cal);
         }
@@ -1891,7 +1854,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateArray(ResultSetProxy resultSet, String columnLabel, java.sql.Array x)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateArray(this, resultSet, columnLabel, x);
             return;
@@ -1960,7 +1923,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateNString(ResultSetProxy resultSet, String columnLabel, String nString)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateNString(this, resultSet, columnLabel, nString);
             return;
@@ -2036,7 +1999,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateSQLXML(ResultSetProxy resultSet, String columnLabel, SQLXML xmlObject)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateSQLXML(this, resultSet, columnLabel, xmlObject);
             return;
@@ -2070,7 +2033,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.io.Reader resultSet_getNCharacterStream(ResultSetProxy resultSet, String columnLabel)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSet_getNCharacterStream(this, resultSet, columnLabel);
         }
@@ -2119,7 +2082,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateCharacterStream(ResultSetProxy resultSet, int columnIndex, java.io.Reader x, long length)
-                                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateCharacterStream(this, resultSet, columnIndex, x, length);
             return;
@@ -2159,7 +2122,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateBlob(ResultSetProxy resultSet, int columnIndex, InputStream inputStream, long length)
-                                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateBlob(this, resultSet, columnIndex, inputStream, length);
             return;
@@ -2169,7 +2132,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateBlob(ResultSetProxy resultSet, String columnLabel, InputStream inputStream, long length)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateBlob(this, resultSet, columnLabel, inputStream, length);
             return;
@@ -2179,7 +2142,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateClob(ResultSetProxy resultSet, int columnIndex, Reader reader, long length)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateClob(this, resultSet, columnIndex, reader, length);
             return;
@@ -2189,7 +2152,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateClob(ResultSetProxy resultSet, String columnLabel, Reader reader, long length)
-                                                                                                              throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateClob(this, resultSet, columnLabel, reader, length);
             return;
@@ -2199,7 +2162,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateNClob(ResultSetProxy resultSet, int columnIndex, Reader reader, long length)
-                                                                                                            throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateNClob(this, resultSet, columnIndex, reader, length);
             return;
@@ -2209,7 +2172,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateNClob(ResultSetProxy resultSet, String columnLabel, Reader reader, long length)
-                                                                                                               throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateNClob(this, resultSet, columnLabel, reader, length);
             return;
@@ -2219,7 +2182,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateNCharacterStream(ResultSetProxy resultSet, int columnIndex, java.io.Reader x)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateNCharacterStream(this, resultSet, columnIndex, x);
             return;
@@ -2229,7 +2192,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateNCharacterStream(ResultSetProxy resultSet, String columnLabel, java.io.Reader reader)
-                                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateNCharacterStream(this, resultSet, columnLabel, reader);
             return;
@@ -2239,7 +2202,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateAsciiStream(ResultSetProxy resultSet, int columnIndex, java.io.InputStream x)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateAsciiStream(this, resultSet, columnIndex, x);
             return;
@@ -2249,7 +2212,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateBinaryStream(ResultSetProxy resultSet, int columnIndex, java.io.InputStream x)
-                                                                                                              throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateBinaryStream(this, resultSet, columnIndex, x);
             return;
@@ -2259,7 +2222,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateCharacterStream(ResultSetProxy resultSet, int columnIndex, java.io.Reader x)
-                                                                                                            throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateCharacterStream(this, resultSet, columnIndex, x);
             return;
@@ -2269,7 +2232,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateAsciiStream(ResultSetProxy resultSet, String columnLabel, java.io.InputStream x)
-                                                                                                                throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateAsciiStream(this, resultSet, columnLabel, x);
             return;
@@ -2279,7 +2242,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateBinaryStream(ResultSetProxy resultSet, String columnLabel, java.io.InputStream x)
-                                                                                                                 throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateBinaryStream(this, resultSet, columnLabel, x);
             return;
@@ -2289,7 +2252,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateCharacterStream(ResultSetProxy resultSet, String columnLabel, java.io.Reader reader)
-                                                                                                                    throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateCharacterStream(this, resultSet, columnLabel, reader);
             return;
@@ -2299,7 +2262,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateBlob(ResultSetProxy resultSet, int columnIndex, InputStream inputStream)
-                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateBlob(this, resultSet, columnIndex, inputStream);
             return;
@@ -2309,7 +2272,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void resultSet_updateBlob(ResultSetProxy resultSet, String columnLabel, InputStream inputStream)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().resultSet_updateBlob(this, resultSet, columnLabel, inputStream);
             return;
@@ -2725,7 +2688,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setNull(PreparedStatementProxy statement, int parameterIndex, int sqlType)
-                                                                                                            throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setNull(this, statement, parameterIndex, sqlType);
             return;
@@ -2735,7 +2698,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setBoolean(PreparedStatementProxy statement, int parameterIndex, boolean x)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setBoolean(this, statement, parameterIndex, x);
             return;
@@ -2745,7 +2708,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setByte(PreparedStatementProxy statement, int parameterIndex, byte x)
-                                                                                                       throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setByte(this, statement, parameterIndex, x);
             return;
@@ -2755,7 +2718,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setShort(PreparedStatementProxy statement, int parameterIndex, short x)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setShort(this, statement, parameterIndex, x);
             return;
@@ -2765,7 +2728,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setInt(PreparedStatementProxy statement, int parameterIndex, int x)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setInt(this, statement, parameterIndex, x);
             return;
@@ -2775,7 +2738,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setLong(PreparedStatementProxy statement, int parameterIndex, long x)
-                                                                                                       throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setLong(this, statement, parameterIndex, x);
             return;
@@ -2785,7 +2748,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setFloat(PreparedStatementProxy statement, int parameterIndex, float x)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setFloat(this, statement, parameterIndex, x);
             return;
@@ -2795,7 +2758,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setDouble(PreparedStatementProxy statement, int parameterIndex, double x)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setDouble(this, statement, parameterIndex, x);
             return;
@@ -2805,7 +2768,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setBigDecimal(PreparedStatementProxy statement, int parameterIndex, BigDecimal x)
-                                                                                                                   throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setBigDecimal(this, statement, parameterIndex, x);
             return;
@@ -2815,7 +2778,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setString(PreparedStatementProxy statement, int parameterIndex, String x)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setString(this, statement, parameterIndex, x);
             return;
@@ -2825,7 +2788,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setBytes(PreparedStatementProxy statement, int parameterIndex, byte x[])
-                                                                                                          throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setBytes(this, statement, parameterIndex, x);
             return;
@@ -2835,7 +2798,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setDate(PreparedStatementProxy statement, int parameterIndex, java.sql.Date x)
-                                                                                                                throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setDate(this, statement, parameterIndex, x);
             return;
@@ -2845,7 +2808,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setTime(PreparedStatementProxy statement, int parameterIndex, java.sql.Time x)
-                                                                                                                throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setTime(this, statement, parameterIndex, x);
             return;
@@ -2915,7 +2878,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setObject(PreparedStatementProxy statement, int parameterIndex, Object x)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setObject(this, statement, parameterIndex, x);
             return;
@@ -2952,7 +2915,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setRef(PreparedStatementProxy statement, int parameterIndex, Ref x)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setRef(this, statement, parameterIndex, x);
             return;
@@ -2962,7 +2925,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setBlob(PreparedStatementProxy statement, int parameterIndex, Blob x)
-                                                                                                       throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setBlob(this, statement, parameterIndex, x);
             return;
@@ -2972,7 +2935,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setClob(PreparedStatementProxy statement, int parameterIndex, Clob x)
-                                                                                                       throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setClob(this, statement, parameterIndex, x);
             return;
@@ -2982,7 +2945,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setArray(PreparedStatementProxy statement, int parameterIndex, Array x)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setArray(this, statement, parameterIndex, x);
             return;
@@ -3040,7 +3003,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setURL(PreparedStatementProxy statement, int parameterIndex, java.net.URL x)
-                                                                                                              throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setURL(this, statement, parameterIndex, x);
             return;
@@ -3050,7 +3013,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public ParameterMetaData preparedStatement_getParameterMetaData(PreparedStatementProxy statement)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().preparedStatement_getParameterMetaData(this, statement);
         }
@@ -3059,7 +3022,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setRowId(PreparedStatementProxy statement, int parameterIndex, RowId x)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setRowId(this, statement, parameterIndex, x);
             return;
@@ -3069,7 +3032,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setNString(PreparedStatementProxy statement, int parameterIndex, String value)
-                                                                                                                throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setNString(this, statement, parameterIndex, value);
             return;
@@ -3089,7 +3052,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setNClob(PreparedStatementProxy statement, int parameterIndex, NClob value)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setNClob(this, statement, parameterIndex, value);
             return;
@@ -3129,7 +3092,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setSQLXML(PreparedStatementProxy statement, int parameterIndex, SQLXML xmlObject)
-                                                                                                                   throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setSQLXML(this, statement, parameterIndex, xmlObject);
             return;
@@ -3209,7 +3172,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setNCharacterStream(PreparedStatementProxy statement, int parameterIndex, Reader value)
-                                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setNCharacterStream(this, statement, parameterIndex, value);
             return;
@@ -3219,7 +3182,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setClob(PreparedStatementProxy statement, int parameterIndex, Reader reader)
-                                                                                                              throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setClob(this, statement, parameterIndex, reader);
             return;
@@ -3229,7 +3192,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setBlob(PreparedStatementProxy statement, int parameterIndex, InputStream inputStream)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setBlob(this, statement, parameterIndex, inputStream);
             return;
@@ -3239,7 +3202,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void preparedStatement_setNClob(PreparedStatementProxy statement, int parameterIndex, Reader reader)
-                                                                                                               throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().preparedStatement_setNClob(this, statement, parameterIndex, reader);
             return;
@@ -3251,7 +3214,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_registerOutParameter(CallableStatementProxy statement, int parameterIndex, int sqlType)
-                                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_registerOutParameter(this, statement, parameterIndex, sqlType);
             return;
@@ -3287,7 +3250,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public boolean callableStatement_getBoolean(CallableStatementProxy statement, int parameterIndex)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getBoolean(this, statement, parameterIndex);
         }
@@ -3345,7 +3308,7 @@ public class FilterChainImpl implements FilterChain {
     @SuppressWarnings("deprecation")
     @Override
     public BigDecimal callableStatement_getBigDecimal(CallableStatementProxy statement, int parameterIndex, int scale)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getBigDecimal(this, statement, parameterIndex, scale);
         }
@@ -3362,7 +3325,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Date callableStatement_getDate(CallableStatementProxy statement, int parameterIndex)
-                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getDate(this, statement, parameterIndex);
         }
@@ -3371,7 +3334,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Time callableStatement_getTime(CallableStatementProxy statement, int parameterIndex)
-                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getTime(this, statement, parameterIndex);
         }
@@ -3380,7 +3343,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Timestamp callableStatement_getTimestamp(CallableStatementProxy statement, int parameterIndex)
-                                                                                                                  throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getTimestamp(this, statement, parameterIndex);
         }
@@ -3428,7 +3391,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public Object callableStatement_getObject(CallableStatementProxy statement, String parameterName)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getObject(this, statement, parameterName);
         }
@@ -3468,7 +3431,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public BigDecimal callableStatement_getBigDecimal(CallableStatementProxy statement, int parameterIndex)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getBigDecimal(this, statement, parameterIndex);
         }
@@ -3512,7 +3475,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Date callableStatement_getDate(CallableStatementProxy statement, int parameterIndex, Calendar cal)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getDate(this, statement, parameterIndex, cal);
         }
@@ -3521,7 +3484,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Time callableStatement_getTime(CallableStatementProxy statement, int parameterIndex, Calendar cal)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getTime(this, statement, parameterIndex, cal);
         }
@@ -3579,7 +3542,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.net.URL callableStatement_getURL(CallableStatementProxy statement, int parameterIndex)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getURL(this, statement, parameterIndex);
         }
@@ -3588,7 +3551,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setURL(CallableStatementProxy statement, String parameterName, java.net.URL val)
-                                                                                                                  throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setURL(this, statement, parameterName, val);
             return;
@@ -3598,7 +3561,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setNull(CallableStatementProxy statement, String parameterName, int sqlType)
-                                                                                                              throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setNull(this, statement, parameterName, sqlType);
             return;
@@ -3608,7 +3571,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setBoolean(CallableStatementProxy statement, String parameterName, boolean x)
-                                                                                                               throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setBoolean(this, statement, parameterName, x);
             return;
@@ -3618,7 +3581,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setByte(CallableStatementProxy statement, String parameterName, byte x)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setByte(this, statement, parameterName, x);
         }
@@ -3627,7 +3590,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setShort(CallableStatementProxy statement, String parameterName, short x)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setShort(this, statement, parameterName, x);
             return;
@@ -3637,7 +3600,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setInt(CallableStatementProxy statement, String parameterName, int x)
-                                                                                                       throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setInt(this, statement, parameterName, x);
             return;
@@ -3647,7 +3610,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setLong(CallableStatementProxy statement, String parameterName, long x)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setLong(this, statement, parameterName, x);
             return;
@@ -3657,7 +3620,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setFloat(CallableStatementProxy statement, String parameterName, float x)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setFloat(this, statement, parameterName, x);
             return;
@@ -3667,7 +3630,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setDouble(CallableStatementProxy statement, String parameterName, double x)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setDouble(this, statement, parameterName, x);
             return;
@@ -3677,7 +3640,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setBigDecimal(CallableStatementProxy statement, String parameterName, BigDecimal x)
-                                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setBigDecimal(this, statement, parameterName, x);
             return;
@@ -3687,7 +3650,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setString(CallableStatementProxy statement, String parameterName, String x)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setString(this, statement, parameterName, x);
             return;
@@ -3697,7 +3660,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setBytes(CallableStatementProxy statement, String parameterName, byte x[])
-                                                                                                            throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setBytes(this, statement, parameterName, x);
             return;
@@ -3707,7 +3670,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setDate(CallableStatementProxy statement, String parameterName, java.sql.Date x)
-                                                                                                                  throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setDate(this, statement, parameterName, x);
             return;
@@ -3717,7 +3680,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setTime(CallableStatementProxy statement, String parameterName, java.sql.Time x)
-                                                                                                                  throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setTime(this, statement, parameterName, x);
             return;
@@ -3777,7 +3740,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setObject(CallableStatementProxy statement, String parameterName, Object x)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setObject(this, statement, parameterName, x);
             return;
@@ -3837,7 +3800,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public String callableStatement_getString(CallableStatementProxy statement, String parameterName)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getString(this, statement, parameterName);
         }
@@ -3846,7 +3809,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public boolean callableStatement_getBoolean(CallableStatementProxy statement, String parameterName)
-                                                                                                       throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getBoolean(this, statement, parameterName);
         }
@@ -3895,7 +3858,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public double callableStatement_getDouble(CallableStatementProxy statement, String parameterName)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getDouble(this, statement, parameterName);
         }
@@ -3904,7 +3867,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public byte[] callableStatement_getBytes(CallableStatementProxy statement, String parameterName)
-                                                                                                    throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getBytes(this, statement, parameterName);
         }
@@ -3913,7 +3876,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Date callableStatement_getDate(CallableStatementProxy statement, String parameterName)
-                                                                                                          throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getDate(this, statement, parameterName);
         }
@@ -3922,7 +3885,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Time callableStatement_getTime(CallableStatementProxy statement, String parameterName)
-                                                                                                          throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getTime(this, statement, parameterName);
         }
@@ -3931,7 +3894,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Timestamp callableStatement_getTimestamp(CallableStatementProxy statement, String parameterName)
-                                                                                                                    throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getTimestamp(this, statement, parameterName);
         }
@@ -3940,7 +3903,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public BigDecimal callableStatement_getBigDecimal(CallableStatementProxy statement, String parameterName)
-                                                                                                             throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getBigDecimal(this, statement, parameterName);
         }
@@ -3984,7 +3947,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Date callableStatement_getDate(CallableStatementProxy statement, String parameterName, Calendar cal)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getDate(this, statement, parameterName, cal);
         }
@@ -3993,7 +3956,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.sql.Time callableStatement_getTime(CallableStatementProxy statement, String parameterName, Calendar cal)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getTime(this, statement, parameterName, cal);
         }
@@ -4011,7 +3974,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.net.URL callableStatement_getURL(CallableStatementProxy statement, String parameterName)
-                                                                                                        throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getURL(this, statement, parameterName);
         }
@@ -4036,7 +3999,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setRowId(CallableStatementProxy statement, String parameterName, RowId x)
-                                                                                                           throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setRowId(this, statement, parameterName, x);
             return;
@@ -4046,7 +4009,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setNString(CallableStatementProxy statement, String parameterName, String value)
-                                                                                                                  throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setNString(this, statement, parameterName, value);
             return;
@@ -4066,7 +4029,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setNClob(CallableStatementProxy statement, String parameterName, NClob value)
-                                                                                                               throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setNClob(this, statement, parameterName, value);
             return;
@@ -4128,7 +4091,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setSQLXML(CallableStatementProxy statement, String parameterName, SQLXML xmlObject)
-                                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setSQLXML(this, statement, parameterName, xmlObject);
             return;
@@ -4146,7 +4109,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public SQLXML callableStatement_getSQLXML(CallableStatementProxy statement, String parameterName)
-                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getSQLXML(this, statement, parameterName);
         }
@@ -4155,7 +4118,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public String callableStatement_getNString(CallableStatementProxy statement, int parameterIndex)
-                                                                                                    throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getNString(this, statement, parameterIndex);
         }
@@ -4164,7 +4127,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public String callableStatement_getNString(CallableStatementProxy statement, String parameterName)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getNString(this, statement, parameterName);
         }
@@ -4173,7 +4136,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.io.Reader callableStatement_getNCharacterStream(CallableStatementProxy statement, int parameterIndex)
-                                                                                                                     throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getNCharacterStream(this, statement, parameterIndex);
         }
@@ -4182,7 +4145,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.io.Reader callableStatement_getNCharacterStream(CallableStatementProxy statement, String parameterName)
-                                                                                                                       throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getNCharacterStream(this, statement, parameterName);
         }
@@ -4191,7 +4154,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.io.Reader callableStatement_getCharacterStream(CallableStatementProxy statement, int parameterIndex)
-                                                                                                                    throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getCharacterStream(this, statement, parameterIndex);
         }
@@ -4200,7 +4163,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public java.io.Reader callableStatement_getCharacterStream(CallableStatementProxy statement, String parameterName)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().callableStatement_getCharacterStream(this, statement, parameterName);
         }
@@ -4209,7 +4172,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setBlob(CallableStatementProxy statement, String parameterName, Blob x)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setBlob(this, statement, parameterName, x);
             return;
@@ -4219,7 +4182,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setClob(CallableStatementProxy statement, String parameterName, Clob x)
-                                                                                                         throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setClob(this, statement, parameterName, x);
             return;
@@ -4299,7 +4262,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setClob(CallableStatementProxy statement, String parameterName, Reader reader)
-                                                                                                                throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setClob(this, statement, parameterName, reader);
             return;
@@ -4319,7 +4282,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public void callableStatement_setNClob(CallableStatementProxy statement, String parameterName, Reader reader)
-                                                                                                                 throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             nextFilter().callableStatement_setNClob(this, statement, parameterName, reader);
             return;
@@ -4473,7 +4436,7 @@ public class FilterChainImpl implements FilterChain {
         }
 
         return new ResultSetProxyImpl(statement, resultSet, dataSource.createResultSetId(),
-                                      statement.getLastExecuteSql());
+                statement.getLastExecuteSql());
     }
 
     public ResultSetMetaDataProxy wrap(ResultSetMetaData metaData, ResultSetProxy resultSet) {
@@ -4717,7 +4680,7 @@ public class FilterChainImpl implements FilterChain {
 
     @Override
     public boolean resultSetMetaData_isDefinitelyWritable(ResultSetMetaDataProxy metaData, int column)
-                                                                                                      throws SQLException {
+            throws SQLException {
         if (this.pos < filterSize) {
             return nextFilter().resultSetMetaData_isDefinitelyWritable(this, metaData, column);
         }

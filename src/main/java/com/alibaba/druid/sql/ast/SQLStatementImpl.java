@@ -22,14 +22,14 @@ public abstract class SQLStatementImpl extends SQLObjectImpl implements SQLState
 
     private String dbType;
 
-    public SQLStatementImpl(){
+    public SQLStatementImpl() {
 
     }
-    
-    public SQLStatementImpl(String dbType){
+
+    public SQLStatementImpl(String dbType) {
         this.dbType = dbType;
     }
-    
+
     public String getDbType() {
         return dbType;
     }

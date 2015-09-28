@@ -22,7 +22,7 @@ import com.alibaba.druid.sql.dialect.postgresql.visitor.PGASTVisitor;
 
 public class PGParameter extends PGSQLObjectImpl {
 
-    private SQLExpr     name;
+    private SQLExpr name;
     private SQLDataType dataType;
 
     public SQLExpr getName() {

@@ -26,11 +26,10 @@ import java.util.Map;
 
 public class JSONWriter {
 
-    private StringBuilder    out;
+    private StringBuilder out;
 
 
-
-    public JSONWriter(){
+    public JSONWriter() {
         this.out = new StringBuilder();
     }
 
@@ -45,12 +44,12 @@ public class JSONWriter {
     public void writeArrayEnd() {
         write(']');
     }
-    
+
     public void writeNull() {
         write("null");
     }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void writeObject(Object o) {
         if (o == null) {
             writeNull();
@@ -199,7 +198,7 @@ public class JSONWriter {
             writeNull();
             return;
         }
-        
+
         write('"');
         for (int i = 0; i < text.length(); ++i) {
             char c = text.charAt(i);

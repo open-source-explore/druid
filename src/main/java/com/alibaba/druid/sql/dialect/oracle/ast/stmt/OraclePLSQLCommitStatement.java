@@ -19,7 +19,7 @@ import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
 public class OraclePLSQLCommitStatement extends OracleStatementImpl {
 
-    public OraclePLSQLCommitStatement(){
+    public OraclePLSQLCommitStatement() {
 
     }
 

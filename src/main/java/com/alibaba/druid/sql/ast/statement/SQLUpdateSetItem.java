@@ -24,7 +24,7 @@ public class SQLUpdateSetItem extends SQLObjectImpl {
     private SQLExpr column;
     private SQLExpr value;
 
-    public SQLUpdateSetItem(){
+    public SQLUpdateSetItem() {
 
     }
 

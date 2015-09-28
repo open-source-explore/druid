@@ -15,18 +15,13 @@
  */
 package com.alibaba.druid.support.jconsole.model;
 
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -38,19 +33,19 @@ public class RowHeaderTable extends JTable {
 
     /**
      * 为JTable添加RowHeader，
-     * 
-     * @param refTable 需要添加rowHeader的JTable
+     *
+     * @param refTable    需要添加rowHeader的JTable
      * @param columnWidth rowHeader的宽度
      */
-    public RowHeaderTable(JTable refTable, int columnWidth){
+    public RowHeaderTable(JTable refTable, int columnWidth) {
         this(null, refTable, columnWidth, 1);
     }
 
-    public RowHeaderTable(ArrayList<String> title, JTable refTable, int columnWidth){
+    public RowHeaderTable(ArrayList<String> title, JTable refTable, int columnWidth) {
         this(title, refTable, columnWidth, 1);
     }
 
-    public RowHeaderTable(ArrayList<String> title, JTable refTable, int columnWidth, int rowSpan){
+    public RowHeaderTable(ArrayList<String> title, JTable refTable, int columnWidth, int rowSpan) {
         super(new DefaultTableModel(refTable.getRowCount() / rowSpan, 1));
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);// 不可以调整列宽
         this.getColumnModel().getColumn(0).setPreferredWidth(columnWidth);
@@ -65,17 +60,17 @@ public class RowHeaderTable extends JTable {
 final class RowHeaderRenderer extends JLabel implements TableCellRenderer, ListSelectionListener {
 
     private static final long serialVersionUID = 1L;
-    private JTable            refTable;              // 需要添加rowHeader的JTable
-    private JTable            tableShow;             // 用于显示rowHeader的JTable
+    private JTable refTable;              // 需要添加rowHeader的JTable
+    private JTable tableShow;             // 用于显示rowHeader的JTable
     private ArrayList<String> headerList;
-    private int               rowHeightNow;
-    private int               rowSpan;
+    private int rowHeightNow;
+    private int rowSpan;
 
-    public RowHeaderRenderer(JTable refTable, JTable tableShow){
+    public RowHeaderRenderer(JTable refTable, JTable tableShow) {
         this(null, refTable, tableShow, 0);
     }
 
-    public RowHeaderRenderer(ArrayList<String> headerList, JTable refTable, JTable tableShow, int rowSpan){
+    public RowHeaderRenderer(ArrayList<String> headerList, JTable refTable, JTable tableShow, int rowSpan) {
         this.headerList = headerList;
         this.refTable = refTable;
         this.tableShow = tableShow;

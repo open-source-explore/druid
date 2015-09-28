@@ -15,22 +15,22 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.ast.statement.SQLSelect;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+
 public class SQLInSubQueryExpr extends SQLExprImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private boolean           not              = false;
-    private SQLExpr           expr;
+    private boolean not = false;
+    private SQLExpr expr;
 
-    public SQLSelect          subQuery;
+    public SQLSelect subQuery;
 
-    public SQLInSubQueryExpr(){
+    public SQLInSubQueryExpr() {
 
     }
 
@@ -50,7 +50,7 @@ public class SQLInSubQueryExpr extends SQLExprImpl implements Serializable {
         this.expr = expr;
     }
 
-    public SQLInSubQueryExpr(SQLSelect select){
+    public SQLInSubQueryExpr(SQLSelect select) {
 
         this.subQuery = select;
     }
@@ -73,7 +73,7 @@ public class SQLInSubQueryExpr extends SQLExprImpl implements Serializable {
     @Override
     protected void accept0(SQLASTVisitor visitor) {
         if (visitor.visit(this)) {
-            acceptChild(visitor,this.expr);
+            acceptChild(visitor, this.expr);
             acceptChild(visitor, this.subQuery);
         }
 

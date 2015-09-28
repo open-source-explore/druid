@@ -15,27 +15,27 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.ast.statement.SQLSelect;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+
 public class SQLExistsExpr extends SQLExprImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    public boolean            not              = false;
-    public SQLSelect          subQuery;
+    public boolean not = false;
+    public SQLSelect subQuery;
 
-    public SQLExistsExpr(){
+    public SQLExistsExpr() {
 
     }
 
-    public SQLExistsExpr(SQLSelect subQuery){
+    public SQLExistsExpr(SQLSelect subQuery) {
         this.setSubQuery(subQuery);
     }
 
-    public SQLExistsExpr(SQLSelect subQuery, boolean not){
+    public SQLExistsExpr(SQLSelect subQuery, boolean not) {
         this.setSubQuery(subQuery);
         this.not = not;
     }

@@ -23,9 +23,9 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 public class OracleExtractExpr extends SQLExprImpl implements OracleExpr {
 
     private OracleDateTimeUnit unit;
-    private SQLExpr            from;
+    private SQLExpr from;
 
-    public OracleExtractExpr(){
+    public OracleExtractExpr() {
 
     }
 

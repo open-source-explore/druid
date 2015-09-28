@@ -33,6 +33,6 @@ public interface ConnectionProxy extends Connection, WrapperProxy {
     Date getConnectedTime();
 
     TransactionInfo getTransactionInfo();
-    
+
     int getCloseCount();
 }

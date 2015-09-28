@@ -31,7 +31,7 @@ public class ValidConnectionCheckerAdapter implements ValidConnectionChecker {
 
     @Override
     public void configFromProperties(Properties properties) {
-        
+
     }
 
 }

@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLObject;
@@ -26,77 +23,13 @@ import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.expr.SQLQueryExpr;
 import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableAddColumn;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableAddConstraint;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableAddIndex;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableAddPartition;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableAlterColumn;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableDisableConstraint;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableDisableKeys;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableDisableLifecycle;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableDropColumnItem;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableDropConstraint;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableDropPartition;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableEnableConstraint;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableEnableKeys;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableEnableLifecycle;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableItem;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableRename;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableRenameColumn;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableRenamePartition;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableSetComment;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableSetLifecycle;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableTouch;
-import com.alibaba.druid.sql.ast.statement.SQLAlterViewRenameStatement;
-import com.alibaba.druid.sql.ast.statement.SQLAssignItem;
-import com.alibaba.druid.sql.ast.statement.SQLCallStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCheck;
-import com.alibaba.druid.sql.ast.statement.SQLCloseStatement;
-import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
-import com.alibaba.druid.sql.ast.statement.SQLCommentStatement;
-import com.alibaba.druid.sql.ast.statement.SQLConstraint;
-import com.alibaba.druid.sql.ast.statement.SQLCreateDatabaseStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCreateIndexStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTriggerStatement;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.ast.statement.SQLCreateTriggerStatement.TriggerEvent;
 import com.alibaba.druid.sql.ast.statement.SQLCreateTriggerStatement.TriggerType;
-import com.alibaba.druid.sql.ast.statement.SQLCreateViewStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropDatabaseStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropFunctionStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropIndexStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropProcedureStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropSequenceStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropTableSpaceStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropTriggerStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropUserStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropViewStatement;
-import com.alibaba.druid.sql.ast.statement.SQLExplainStatement;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLFetchStatement;
-import com.alibaba.druid.sql.ast.statement.SQLGrantStatement;
-import com.alibaba.druid.sql.ast.statement.SQLInsertInto;
-import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
-import com.alibaba.druid.sql.ast.statement.SQLObjectType;
-import com.alibaba.druid.sql.ast.statement.SQLOpenStatement;
-import com.alibaba.druid.sql.ast.statement.SQLPrimaryKey;
-import com.alibaba.druid.sql.ast.statement.SQLReleaseSavePointStatement;
-import com.alibaba.druid.sql.ast.statement.SQLRevokeStatement;
-import com.alibaba.druid.sql.ast.statement.SQLRollbackStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSavePointStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectOrderByItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSetStatement;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLTruncateStatement;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateSetItem;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
-import com.alibaba.druid.sql.ast.statement.SQLUseStatement;
 import com.alibaba.druid.sql.dialect.odps.parser.OdpsSelectParser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLStatementParser extends SQLParser {
 
@@ -106,20 +39,20 @@ public class SQLStatementParser extends SQLParser {
 
     protected int parseValuesSize = 3;
 
-    public SQLStatementParser(String sql){
+    public SQLStatementParser(String sql) {
         this(sql, null);
     }
 
-    public SQLStatementParser(String sql, String dbType){
+    public SQLStatementParser(String sql, String dbType) {
         this(new SQLExprParser(sql, dbType));
     }
 
-    public SQLStatementParser(SQLExprParser exprParser){
+    public SQLStatementParser(SQLExprParser exprParser) {
         super(exprParser.getLexer(), exprParser.getDbType());
         this.exprParser = exprParser;
     }
 
-    protected SQLStatementParser(Lexer lexer, String dbType){
+    protected SQLStatementParser(Lexer lexer, String dbType) {
         super(lexer, dbType);
     }
 
@@ -146,7 +79,7 @@ public class SQLStatementParser extends SQLParser {
     }
 
     public void parseStatementList(List<SQLStatement> statementList, int max) {
-        for (;;) {
+        for (; ; ) {
             if (max != -1) {
                 if (statementList.size() >= max) {
                     return;
@@ -165,7 +98,7 @@ public class SQLStatementParser extends SQLParser {
                 int line0 = lexer.getLine();
                 lexer.nextToken();
                 int line1 = lexer.getLine();
-                
+
                 if (lexer.isKeepComments() && statementList.size() > 0) {
                     SQLStatement stmt = statementList.get(statementList.size() - 1);
                     if (line1 - line0 <= 1) {
@@ -223,13 +156,13 @@ public class SQLStatementParser extends SQLParser {
                 if (lexer.isKeepComments() && lexer.hasComment()) {
                     beforeComments = lexer.readAndResetComments();
                 }
-                
+
                 lexer.nextToken();
 
                 if (lexer.token() == Token.TABLE || identifierEquals("TEMPORARY")) {
 
                     SQLDropTableStatement stmt = parseDropTable(false);
-                    
+
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
@@ -241,7 +174,7 @@ public class SQLStatementParser extends SQLParser {
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
-                    
+
                     statementList.add(stmt);
                     continue;
                 } else if (lexer.token() == Token.INDEX) {
@@ -249,61 +182,61 @@ public class SQLStatementParser extends SQLParser {
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
-                    
+
                     statementList.add(stmt);
                     continue;
                 } else if (lexer.token() == Token.VIEW) {
                     SQLStatement stmt = parseDropView(false);
-                    
+
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
-                    
+
                     statementList.add(stmt);
                     continue;
                 } else if (lexer.token() == Token.TRIGGER) {
                     SQLStatement stmt = parseDropTrigger(false);
-                    
+
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
-                    
+
                     statementList.add(stmt);
                     continue;
                 } else if (lexer.token() == Token.DATABASE) {
                     SQLStatement stmt = parseDropDatabase(false);
-                    
+
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
-                    
+
                     statementList.add(stmt);
                     continue;
                 } else if (lexer.token() == Token.FUNCTION) {
                     SQLStatement stmt = parseDropFunction(false);
-                    
+
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
-                    
+
                     statementList.add(stmt);
                     continue;
                 } else if (lexer.token() == Token.TABLESPACE) {
                     SQLStatement stmt = parseDropTablespace(false);
-                    
+
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
-                    
+
                     statementList.add(stmt);
                     continue;
                 } else if (lexer.token() == Token.PROCEDURE) {
                     SQLStatement stmt = parseDropProcedure(false);
-                    
+
                     if (beforeComments != null) {
                         stmt.addBeforeComment(beforeComments);
                     }
-                    
+
                     statementList.add(stmt);
                     continue;
                 } else {
@@ -490,7 +423,7 @@ public class SQLStatementParser extends SQLParser {
         if (lexer.token() == Token.WITH) {
             lexer.nextToken();
 
-            for (;;) {
+            for (; ; ) {
                 if (identifierEquals("MAX_QUERIES_PER_HOUR")) {
                     lexer.nextToken();
                     stmt.setMaxQueriesPerHour(this.exprParser.primary());
@@ -535,7 +468,7 @@ public class SQLStatementParser extends SQLParser {
     }
 
     protected void parsePrivileages(List<SQLExpr> privileges, SQLObject parent) {
-        for (;;) {
+        for (; ; ) {
             String privilege = null;
             if (lexer.token() == Token.ALL) {
                 lexer.nextToken();
@@ -816,7 +749,7 @@ public class SQLStatementParser extends SQLParser {
             SQLAlterTableStatement stmt = new SQLAlterTableStatement();
             stmt.setName(this.exprParser.name());
 
-            for (;;) {
+            for (; ; ) {
                 if (lexer.token() == Token.DROP) {
                     parseAlterDrop(stmt);
                 } else if (identifierEquals("ADD")) {
@@ -928,7 +861,7 @@ public class SQLStatementParser extends SQLParser {
                     stmt.getItems().add(parseAlterTableRename());
                 } else if (lexer.token() == Token.SET) {
                     lexer.nextToken();
-                    
+
                     if (lexer.token() == Token.COMMENT) {
                         lexer.nextToken();
                         SQLAlterTableSetComment setComment = new SQLAlterTableSetComment();
@@ -952,43 +885,43 @@ public class SQLStatementParser extends SQLParser {
                     parseAssignItems(renamePartition.getPartition(), renamePartition);
 
                     accept(Token.RPAREN);
-                    
+
                     if (lexer.token() == Token.ENABLE) {
                         lexer.nextToken();
-                        if(identifierEquals("LIFECYCLE")) {
+                        if (identifierEquals("LIFECYCLE")) {
                             lexer.nextToken();
                         }
-                        
+
                         SQLAlterTableEnableLifecycle enableLifeCycle = new SQLAlterTableEnableLifecycle();
                         for (SQLAssignItem condition : renamePartition.getPartition()) {
                             enableLifeCycle.getPartition().add(condition);
                             condition.setParent(enableLifeCycle);
                         }
                         stmt.getItems().add(enableLifeCycle);
-                        
+
                         continue;
                     }
-                    
+
                     if (lexer.token() == Token.DISABLE) {
                         lexer.nextToken();
-                        if(identifierEquals("LIFECYCLE")) {
+                        if (identifierEquals("LIFECYCLE")) {
                             lexer.nextToken();
                         }
-                        
+
                         SQLAlterTableDisableLifecycle disableLifeCycle = new SQLAlterTableDisableLifecycle();
                         for (SQLAssignItem condition : renamePartition.getPartition()) {
                             disableLifeCycle.getPartition().add(condition);
                             condition.setParent(disableLifeCycle);
                         }
                         stmt.getItems().add(disableLifeCycle);
-                        
+
                         continue;
                     }
-                    
+
                     acceptIdentifier("RENAME");
                     accept(Token.TO);
                     accept(Token.PARTITION);
-                    
+
                     accept(Token.LPAREN);
 
                     parseAssignItems(renamePartition.getTo(), renamePartition);
@@ -996,18 +929,18 @@ public class SQLStatementParser extends SQLParser {
                     accept(Token.RPAREN);
 
                     stmt.getItems().add(renamePartition);
-                } else if(identifierEquals("TOUCH")) {
+                } else if (identifierEquals("TOUCH")) {
                     lexer.nextToken();
                     SQLAlterTableTouch item = new SQLAlterTableTouch();
-                    
+
                     if (lexer.token() == Token.PARTITION) {
                         lexer.nextToken();
-    
+
                         accept(Token.LPAREN);
                         parseAssignItems(item.getPartition(), item);
                         accept(Token.RPAREN);
                     }
-                    
+
                     stmt.getItems().add(item);
                 } else {
                     break;
@@ -1117,7 +1050,7 @@ public class SQLStatementParser extends SQLParser {
             parseAssignItems(dropPartition.getPartition(), dropPartition);
 
             accept(Token.RPAREN);
-            
+
             if (identifierEquals("PURGE")) {
                 lexer.nextToken();
                 dropPartition.setPurge(true);
@@ -1153,7 +1086,7 @@ public class SQLStatementParser extends SQLParser {
             stmt.setIfExists(true);
         }
 
-        for (;;) {
+        for (; ; ) {
             SQLName name = this.exprParser.name();
             stmt.getTableSources().add(new SQLExprTableSource(name));
             if (lexer.token() == Token.COMMA) {
@@ -1163,7 +1096,7 @@ public class SQLStatementParser extends SQLParser {
             break;
         }
 
-        for (;;) {
+        for (; ; ) {
             if (identifierEquals("RESTRICT")) {
                 lexer.nextToken();
                 stmt.setRestrict(true);
@@ -1236,7 +1169,7 @@ public class SQLStatementParser extends SQLParser {
             stmt.setIfExists(true);
         }
 
-        for (;;) {
+        for (; ; ) {
             SQLName name = this.exprParser.name();
             stmt.getTableSources().add(new SQLExprTableSource(name));
             if (lexer.token() == Token.COMMA) {
@@ -1306,15 +1239,15 @@ public class SQLStatementParser extends SQLParser {
 
     protected SQLDropTableSpaceStatement parseDropTablespace(boolean acceptDrop) {
         SQLDropTableSpaceStatement stmt = new SQLDropTableSpaceStatement(getDbType());
-        
+
         if (lexer.isKeepComments() && lexer.hasComment()) {
             stmt.addBeforeComment(lexer.readAndResetComments());
         }
-        
+
         if (acceptDrop) {
             accept(Token.DROP);
         }
-        
+
         accept(Token.TABLESPACE);
 
         if (lexer.token() == Token.IF) {
@@ -1362,7 +1295,7 @@ public class SQLStatementParser extends SQLParser {
             stmt.setOnly(true);
         }
 
-        for (;;) {
+        for (; ; ) {
             SQLName name = this.exprParser.name();
             stmt.addTableSource(name);
 
@@ -1374,7 +1307,7 @@ public class SQLStatementParser extends SQLParser {
             break;
         }
 
-        for (;;) {
+        for (; ; ) {
             if (lexer.token() == Token.PURGE) {
                 lexer.nextToken();
 
@@ -1481,7 +1414,7 @@ public class SQLStatementParser extends SQLParser {
         accept(Token.USER);
 
         SQLDropUserStatement stmt = new SQLDropUserStatement(getDbType());
-        for (;;) {
+        for (; ; ) {
             SQLExpr expr = this.exprParser.expr();
             stmt.getUsers().add(expr);
             if (lexer.token() == Token.COMMA) {
@@ -1550,7 +1483,7 @@ public class SQLStatementParser extends SQLParser {
     }
 
     public void parseAssignItems(List<SQLAssignItem> items, SQLObject parent) {
-        for (;;) {
+        for (; ; ) {
             SQLAssignItem item = exprParser.parseAssignItem();
             item.setParent(parent);
             items.add(item);
@@ -1576,9 +1509,9 @@ public class SQLStatementParser extends SQLParser {
             SQLCreateTableParser createTableParser = getSQLCreateTableParser();
             return createTableParser.parseCrateTable(false);
         } else if (token == Token.INDEX //
-                   || token == Token.UNIQUE //
-                   || identifierEquals("NONCLUSTERED") // sql server
-        ) {
+                || token == Token.UNIQUE //
+                || identifierEquals("NONCLUSTERED") // sql server
+                ) {
             return parseCreateIndex(false);
         } else if (lexer.token() == Token.SEQUENCE) {
             return parseCreateSequence(false);
@@ -1640,7 +1573,7 @@ public class SQLStatementParser extends SQLParser {
             stmt.setTriggerType(TriggerType.INSTEAD_OF);
         }
 
-        for (;;) {
+        for (; ; ) {
             if (lexer.token() == Token.INSERT) {
                 lexer.nextToken();
                 stmt.getTriggerEvents().add(TriggerEvent.INSERT);
@@ -1735,7 +1668,7 @@ public class SQLStatementParser extends SQLParser {
 
         accept(Token.LPAREN);
 
-        for (;;) {
+        for (; ; ) {
             SQLSelectOrderByItem item = this.exprParser.parseSelectOrderByItem();
             item.setParent(stmt);
             stmt.getItems().add(item);
@@ -1787,7 +1720,7 @@ public class SQLStatementParser extends SQLParser {
     protected void parseUpdateSet(SQLUpdateStatement update) {
         accept(Token.SET);
 
-        for (;;) {
+        for (; ; ) {
             SQLUpdateSetItem item = this.exprParser.parseUpdateSetItem();
             update.addItem(item);
 
@@ -1863,7 +1796,7 @@ public class SQLStatementParser extends SQLParser {
         if (lexer.token() == Token.LPAREN) {
             lexer.nextToken();
 
-            for (;;) {
+            for (; ; ) {
                 SQLCreateViewStatement.Column column = new SQLCreateViewStatement.Column();
                 SQLExpr expr = this.exprParser.expr();
                 column.setExpr(expr);
@@ -1923,7 +1856,7 @@ public class SQLStatementParser extends SQLParser {
     protected SQLAlterTableAddColumn parseAlterTableAddColumn() {
         SQLAlterTableAddColumn item = new SQLAlterTableAddColumn();
 
-        for (;;) {
+        for (; ; ) {
             SQLColumnDefinition columnDef = this.exprParser.parseColumn();
             item.getColumns().add(columnDef);
             if (lexer.token() == Token.COMMA) {
@@ -1997,7 +1930,7 @@ public class SQLStatementParser extends SQLParser {
             accept(Token.LPAREN);
         }
 
-        for (;;) {
+        for (; ; ) {
             SQLSelectOrderByItem column = this.exprParser.parseSelectOrderByItem();
             item.getItems().add(column);
             if (lexer.token() == Token.COMMA) {
@@ -2009,26 +1942,27 @@ public class SQLStatementParser extends SQLParser {
         accept(Token.RPAREN);
         return item;
     }
-    
+
     /**
      * parse cursor open statement
+     *
      * @return
      */
     public SQLOpenStatement parseOpen() {
-        SQLOpenStatement stmt=new SQLOpenStatement();
+        SQLOpenStatement stmt = new SQLOpenStatement();
         accept(Token.OPEN);
         stmt.setCursorName(exprParser.name().getSimpleName());
         accept(Token.SEMI);
         return stmt;
     }
-    
+
     public SQLFetchStatement parseFetch() {
         accept(Token.FETCH);
-        
+
         SQLFetchStatement stmt = new SQLFetchStatement();
         stmt.setCursorName(this.exprParser.name());
         accept(Token.INTO);
-        for (;;) {
+        for (; ; ) {
             stmt.getInto().add(this.exprParser.name());
             if (lexer.token() == Token.COMMA) {
                 lexer.nextToken();
@@ -2037,12 +1971,12 @@ public class SQLStatementParser extends SQLParser {
 
             break;
         }
-        
+
         return stmt;
     }
-    
+
     public SQLStatement parseClose() {
-        SQLCloseStatement stmt=new SQLCloseStatement();
+        SQLCloseStatement stmt = new SQLCloseStatement();
         accept(Token.CLOSE);
         stmt.setCursorName(exprParser.name().getSimpleName());
         accept(Token.SEMI);

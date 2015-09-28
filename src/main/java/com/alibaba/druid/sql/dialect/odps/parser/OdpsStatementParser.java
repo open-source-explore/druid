@@ -15,45 +15,24 @@
  */
 package com.alibaba.druid.sql.dialect.odps.parser;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.statement.SQLAssignItem;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSetStatement;
-import com.alibaba.druid.sql.ast.statement.SQLShowTablesStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsAddStatisticStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsAnalyzeTableStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsInsert;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsInsertStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsReadStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsRemoveStatisticStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsSetLabelStatement;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsShowPartitionsStmt;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsShowStatisticStmt;
-import com.alibaba.druid.sql.dialect.odps.ast.OdpsStatisticClause;
-import com.alibaba.druid.sql.parser.ParserException;
-import com.alibaba.druid.sql.parser.SQLCreateTableParser;
-import com.alibaba.druid.sql.parser.SQLExprParser;
-import com.alibaba.druid.sql.parser.SQLSelectParser;
-import com.alibaba.druid.sql.parser.SQLStatementParser;
-import com.alibaba.druid.sql.parser.Token;
+import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.odps.ast.*;
+import com.alibaba.druid.sql.parser.*;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.List;
+
 public class OdpsStatementParser extends SQLStatementParser {
-    public OdpsStatementParser(String sql){
-        super (new OdpsLexer(sql, true, true), JdbcConstants.ODPS);
+    public OdpsStatementParser(String sql) {
+        super(new OdpsLexer(sql, true, true), JdbcConstants.ODPS);
         this.exprParser = new OdpsExprParser(this.lexer);
         this.lexer.nextToken();
     }
 
-    public OdpsStatementParser(SQLExprParser exprParser){
+    public OdpsStatementParser(SQLExprParser exprParser) {
         super(exprParser);
     }
 
@@ -77,16 +56,16 @@ public class OdpsStatementParser extends SQLStatementParser {
             statementList.add(stmt);
             return true;
         }
-        
+
         if (identifierEquals("ANALYZE")) {
             lexer.nextToken();
             accept(Token.TABLE);
-            
+
             OdpsAnalyzeTableStatement stmt = new OdpsAnalyzeTableStatement();
-            
+
             SQLName table = this.exprParser.name();
             stmt.setTable(table);
-            
+
             if (lexer.token() == Token.PARTITION) {
                 lexer.nextToken();
 
@@ -94,17 +73,17 @@ public class OdpsStatementParser extends SQLStatementParser {
                 parseAssignItems(stmt.getPartition(), stmt);
                 accept(Token.RPAREN);
             }
-            
+
             accept(Token.COMPUTE);
             acceptIdentifier("STATISTICS");
-            
+
             statementList.add(stmt);
             return true;
         }
-        
+
         if (identifierEquals("ADD")) {
             lexer.nextToken();
-            
+
             if (identifierEquals("STATISTIC")) {
                 lexer.nextToken();
                 OdpsAddStatisticStatement stmt = new OdpsAddStatisticStatement();
@@ -113,13 +92,13 @@ public class OdpsStatementParser extends SQLStatementParser {
                 statementList.add(stmt);
                 return true;
             }
-            
+
             throw new ParserException("TODO " + lexer.token() + " " + lexer.stringVal());
         }
-        
+
         if (identifierEquals("REMOVE")) {
             lexer.nextToken();
-            
+
             if (identifierEquals("STATISTIC")) {
                 lexer.nextToken();
                 OdpsRemoveStatisticStatement stmt = new OdpsRemoveStatisticStatement();
@@ -128,21 +107,21 @@ public class OdpsStatementParser extends SQLStatementParser {
                 statementList.add(stmt);
                 return true;
             }
-            
+
             throw new ParserException("TODO " + lexer.token() + " " + lexer.stringVal());
         }
-        
+
         if (identifierEquals("READ")) {
             lexer.nextToken();
             OdpsReadStatement stmt = new OdpsReadStatement();
             stmt.setTable(this.exprParser.name());
-            
+
             if (lexer.token() == Token.LPAREN) {
                 lexer.nextToken();
                 this.exprParser.names(stmt.getColumns(), stmt);
                 accept(Token.RPAREN);
             }
-            
+
             if (lexer.token() == Token.PARTITION) {
                 lexer.nextToken();
 
@@ -150,11 +129,11 @@ public class OdpsStatementParser extends SQLStatementParser {
                 parseAssignItems(stmt.getPartition(), stmt);
                 accept(Token.RPAREN);
             }
-            
+
             if (lexer.token() == Token.LITERAL_INT) {
                 stmt.setRowCount(this.exprParser.primary());
             }
-            
+
             statementList.add(stmt);
             return true;
         }
@@ -215,7 +194,7 @@ public class OdpsStatementParser extends SQLStatementParser {
             stmt.setFrom(from);
         }
 
-        for (;;) {
+        for (; ; ) {
             OdpsInsert insert = parseOdpsInsert();
             stmt.getItems().add(insert);
 
@@ -229,11 +208,11 @@ public class OdpsStatementParser extends SQLStatementParser {
 
     public OdpsInsert parseOdpsInsert() {
         OdpsInsert insert = new OdpsInsert();
-        
+
         if (lexer.isKeepComments() && lexer.hasComment()) {
             insert.addBeforeComment(lexer.readAndResetComments());
         }
-        
+
         SQLSelectParser selectParser = createSQLSelectParser();
 
         accept(Token.INSERT);
@@ -251,7 +230,7 @@ public class OdpsStatementParser extends SQLStatementParser {
         if (lexer.token() == Token.PARTITION) {
             lexer.nextToken();
             accept(Token.LPAREN);
-            for (;;) {
+            for (; ; ) {
                 SQLAssignItem ptExpr = new SQLAssignItem();
                 ptExpr.setTarget(this.exprParser.name());
                 if (lexer.token() == Token.EQ) {
@@ -299,17 +278,17 @@ public class OdpsStatementParser extends SQLStatementParser {
 
             return stmt;
         }
-        
+
         if (identifierEquals("TABLES")) {
             lexer.nextToken();
 
             SQLShowTablesStatement stmt = new SQLShowTablesStatement();
-            
+
             if (lexer.token() == Token.FROM) {
                 lexer.nextToken();
                 stmt.setDatabase(this.exprParser.name());
             }
-            
+
             if (lexer.token() == Token.LIKE) {
                 lexer.nextToken();
                 stmt.setLike(this.exprParser.expr());
@@ -317,7 +296,7 @@ public class OdpsStatementParser extends SQLStatementParser {
 
             return stmt;
         }
-        
+
         throw new ParserException("TODO " + lexer.token() + " " + lexer.stringVal());
     }
 
@@ -326,18 +305,18 @@ public class OdpsStatementParser extends SQLStatementParser {
         if (lexer.isKeepComments() && lexer.hasComment()) {
             comments = lexer.readAndResetComments();
         }
-        
+
         accept(Token.SET);
 
         if (identifierEquals("LABEL")) {
             OdpsSetLabelStatement stmt = new OdpsSetLabelStatement();
-            
+
             if (comments != null) {
                 stmt.addBeforeComment(comments);
             }
-            
+
             lexer.nextToken();
-            
+
             stmt.setLabel(lexer.stringVal());
             lexer.nextToken();
             accept(Token.TO);
@@ -361,7 +340,7 @@ public class OdpsStatementParser extends SQLStatementParser {
             return stmt;
         } else {
             SQLSetStatement stmt = new SQLSetStatement(getDbType());
-            
+
             if (comments != null) {
                 stmt.addBeforeComment(comments);
             }

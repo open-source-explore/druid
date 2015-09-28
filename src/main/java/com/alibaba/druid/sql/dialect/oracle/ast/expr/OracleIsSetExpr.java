@@ -24,10 +24,10 @@ public class OracleIsSetExpr extends SQLExprImpl implements OracleExpr {
 
     private SQLExpr nestedTable;
 
-    public OracleIsSetExpr(){
+    public OracleIsSetExpr() {
     }
 
-    public OracleIsSetExpr(SQLExpr nestedTable){
+    public OracleIsSetExpr(SQLExpr nestedTable) {
         this.nestedTable = nestedTable;
     }
 

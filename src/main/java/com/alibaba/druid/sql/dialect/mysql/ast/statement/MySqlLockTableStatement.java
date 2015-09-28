@@ -15,19 +15,19 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLCommentHint;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
+import java.util.List;
+
 public class MySqlLockTableStatement extends MySqlStatementImpl {
 
     private SQLExprTableSource tableSource;
 
-    private LockType           lockType;
-    
+    private LockType lockType;
+
     private List<SQLCommentHint> hints;
 
     public SQLExprTableSource getTableSource() {
@@ -65,7 +65,7 @@ public class MySqlLockTableStatement extends MySqlStatementImpl {
 
         public final String name;
 
-        LockType(String name){
+        LockType(String name) {
             this.name = name;
         }
     }

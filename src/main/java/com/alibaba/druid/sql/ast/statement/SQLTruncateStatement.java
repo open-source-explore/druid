@@ -15,29 +15,29 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLTruncateStatement extends SQLStatementImpl {
 
-    protected List<SQLExprTableSource> tableSources     = new ArrayList<SQLExprTableSource>(2);
+    protected List<SQLExprTableSource> tableSources = new ArrayList<SQLExprTableSource>(2);
 
-    private boolean                    purgeSnapshotLog = false;
+    private boolean purgeSnapshotLog = false;
 
-    private boolean                    only;
-    private Boolean                    restartIdentity;
-    private Boolean                    cascade;
-    
+    private boolean only;
+    private Boolean restartIdentity;
+    private Boolean cascade;
+
     public SQLTruncateStatement() {
-        
+
     }
-    
+
     public SQLTruncateStatement(String dbType) {
-        super (dbType);
+        super(dbType);
     }
 
     public List<SQLExprTableSource> getTableSources() {

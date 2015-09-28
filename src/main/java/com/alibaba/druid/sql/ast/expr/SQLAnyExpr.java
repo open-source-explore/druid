@@ -23,11 +23,11 @@ public class SQLAnyExpr extends SQLExprImpl {
 
     public SQLSelect subQuery;
 
-    public SQLAnyExpr(){
+    public SQLAnyExpr() {
 
     }
 
-    public SQLAnyExpr(SQLSelect select){
+    public SQLAnyExpr(SQLSelect select) {
 
         this.subQuery = select;
     }

@@ -21,14 +21,14 @@ import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
 public class OracleArgumentExpr extends OracleSQLObjectImpl implements SQLExpr {
 
-    private String  argumentName;
+    private String argumentName;
     private SQLExpr value;
 
-    public OracleArgumentExpr(){
+    public OracleArgumentExpr() {
 
     }
 
-    public OracleArgumentExpr(String argumentName, SQLExpr value){
+    public OracleArgumentExpr(String argumentName, SQLExpr value) {
         this.argumentName = argumentName;
         this.value = value;
     }

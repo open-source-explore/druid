@@ -17,27 +17,9 @@ package com.alibaba.druid.sql.dialect.postgresql.parser;
 
 import com.alibaba.druid.sql.ast.SQLDataType;
 import com.alibaba.druid.sql.ast.SQLExpr;
-import com.alibaba.druid.sql.ast.expr.SQLArrayExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLTimestampExpr;
-import com.alibaba.druid.sql.ast.expr.SQLUnaryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLUnaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.dialect.postgresql.ast.PGOrderBy;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGBoxExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGCidrExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGCircleExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGDateField;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGExtractExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGInetExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGIntervalExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGLineSegmentsExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGMacAddrExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGPointExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGPolygonExpr;
-import com.alibaba.druid.sql.dialect.postgresql.ast.expr.PGTypeCastExpr;
+import com.alibaba.druid.sql.dialect.postgresql.ast.expr.*;
 import com.alibaba.druid.sql.parser.Lexer;
 import com.alibaba.druid.sql.parser.SQLExprParser;
 import com.alibaba.druid.sql.parser.Token;
@@ -45,20 +27,20 @@ import com.alibaba.druid.util.JdbcConstants;
 
 public class PGExprParser extends SQLExprParser {
 
-    public final static String[] AGGREGATE_FUNCTIONS = { "AVG", "COUNT", "MAX", "MIN", "STDDEV", "SUM", "ROW_NUMBER" };
+    public final static String[] AGGREGATE_FUNCTIONS = {"AVG", "COUNT", "MAX", "MIN", "STDDEV", "SUM", "ROW_NUMBER"};
 
-    public PGExprParser(String sql){
+    public PGExprParser(String sql) {
         this(new PGLexer(sql));
         this.lexer.nextToken();
         this.dbType = JdbcConstants.POSTGRESQL;
     }
 
-    public PGExprParser(Lexer lexer){
+    public PGExprParser(Lexer lexer) {
         super(lexer);
         this.aggregateFunctions = AGGREGATE_FUNCTIONS;
         this.dbType = JdbcConstants.POSTGRESQL;
     }
-    
+
     @Override
     public SQLDataType parseDataType() {
         if (lexer.token() == Token.TYPE) {
@@ -92,7 +74,7 @@ public class PGExprParser extends SQLExprParser {
 
         return null;
     }
-    
+
     public SQLExpr primary() {
         if (lexer.token() == Token.ARRAY) {
             SQLArrayExpr array = new SQLArrayExpr();
@@ -117,14 +99,14 @@ public class PGExprParser extends SQLExprParser {
                 return primaryRest(expr);
             }
         }
-        
+
         return super.primary();
     }
 
     @Override
     protected SQLExpr parseInterval() {
         accept(Token.INTERVAL);
-        PGIntervalExpr intervalExpr=new PGIntervalExpr();
+        PGIntervalExpr intervalExpr = new PGIntervalExpr();
         if (lexer.token() != Token.LITERAL_CHARS) {
             return new SQLIdentifierExpr("INTERVAL");
         }
@@ -137,15 +119,15 @@ public class PGExprParser extends SQLExprParser {
         if (lexer.token() == Token.COLONCOLON) {
             lexer.nextToken();
             SQLDataType dataType = this.parseDataType();
-            
+
             PGTypeCastExpr castExpr = new PGTypeCastExpr();
-            
+
             castExpr.setExpr(expr);
             castExpr.setDataType(dataType);
 
             return primaryRest(castExpr);
         }
-        
+
         if (lexer.token() == Token.LBRACKET) {
             SQLArrayExpr array = new SQLArrayExpr();
             array.setExpr(expr);
@@ -154,10 +136,10 @@ public class PGExprParser extends SQLExprParser {
             accept(Token.RBRACKET);
             return primaryRest(array);
         }
-        
+
         if (expr.getClass() == SQLIdentifierExpr.class) {
-            String ident = ((SQLIdentifierExpr)expr).getName();
-            
+            String ident = ((SQLIdentifierExpr) expr).getName();
+
             if ("TIMESTAMP".equalsIgnoreCase(ident)) {
                 if (lexer.token() != Token.LITERAL_ALIAS //
                         && lexer.token() != Token.LITERAL_CHARS //
@@ -166,7 +148,7 @@ public class PGExprParser extends SQLExprParser {
                 }
 
                 SQLTimestampExpr timestamp = new SQLTimestampExpr();
-                
+
                 if (lexer.token() == Token.WITH) {
                     lexer.nextToken();
                     acceptIdentifier("TIME");
@@ -188,27 +170,27 @@ public class PGExprParser extends SQLExprParser {
                     accept(Token.LITERAL_CHARS);
                 }
 
-                
-                return primaryRest(timestamp);     
+
+                return primaryRest(timestamp);
             } else if ("EXTRACT".equalsIgnoreCase(ident)) {
                 accept(Token.LPAREN);
-                
+
                 PGExtractExpr extract = new PGExtractExpr();
-                
+
                 String fieldName = lexer.stringVal();
                 PGDateField field = PGDateField.valueOf(fieldName.toUpperCase());
                 lexer.nextToken();
-                
+
                 extract.setField(field);
-                
+
                 accept(Token.FROM);
                 SQLExpr source = this.expr();
-                
+
                 extract.setSource(source);
-                
+
                 accept(Token.RPAREN);
-                
-                return primaryRest(extract);     
+
+                return primaryRest(extract);
             } else if ("POINT".equalsIgnoreCase(ident)) {
                 SQLExpr value = this.primary();
                 PGPointExpr point = new PGPointExpr();

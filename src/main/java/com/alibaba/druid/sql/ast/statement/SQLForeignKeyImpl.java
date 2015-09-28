@@ -15,19 +15,19 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLForeignKeyImpl extends SQLConstraintImpl implements SQLForeignKeyConstraint {
 
-    private SQLName       referencedTableName;
+    private SQLName referencedTableName;
     private List<SQLName> referencingColumns = new ArrayList<SQLName>();
-    private List<SQLName> referencedColumns  = new ArrayList<SQLName>();
+    private List<SQLName> referencedColumns = new ArrayList<SQLName>();
 
-    public SQLForeignKeyImpl(){
+    public SQLForeignKeyImpl() {
 
     }
 
@@ -59,7 +59,7 @@ public class SQLForeignKeyImpl extends SQLConstraintImpl implements SQLForeignKe
             acceptChild(visitor, this.getReferencingColumns());
             acceptChild(visitor, this.getReferencedColumns());
         }
-        visitor.endVisit(this);        
+        visitor.endVisit(this);
     }
 
 }

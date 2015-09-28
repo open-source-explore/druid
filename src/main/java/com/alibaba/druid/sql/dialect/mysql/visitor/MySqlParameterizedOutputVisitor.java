@@ -16,16 +16,7 @@
 package com.alibaba.druid.sql.dialect.mysql.visitor;
 
 import com.alibaba.druid.sql.ast.SQLObject;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLHexExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNullExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumberExpr;
-import com.alibaba.druid.sql.ast.expr.SQLPropertyExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
 import com.alibaba.druid.sql.ast.statement.SQLInsertStatement.ValuesClause;
 import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlCharExpr;
@@ -41,13 +32,13 @@ public class MySqlParameterizedOutputVisitor extends MySqlOutputVisitor implemen
 
     private boolean shardingSupport = true;
 
-    private int     replaceCount;
+    private int replaceCount;
 
-    public MySqlParameterizedOutputVisitor(){
+    public MySqlParameterizedOutputVisitor() {
         this(new StringBuilder());
     }
 
-    public MySqlParameterizedOutputVisitor(Appendable appender){
+    public MySqlParameterizedOutputVisitor(Appendable appender) {
         super(appender);
 
         try {
@@ -181,7 +172,7 @@ public class MySqlParameterizedOutputVisitor extends MySqlOutputVisitor implemen
 
         return ParameterizedOutputVisitorUtils.visit(this, x);
     }
-    
+
     public boolean visit(SQLHexExpr x) {
         if (!ParameterizedOutputVisitorUtils.checkParameterize(x)) {
             return super.visit(x);
@@ -189,7 +180,7 @@ public class MySqlParameterizedOutputVisitor extends MySqlOutputVisitor implemen
 
         return ParameterizedOutputVisitorUtils.visit(this, x);
     }
-    
+
     public boolean visit(MySqlCharExpr x) {
         if (!ParameterizedOutputVisitorUtils.checkParameterize(x)) {
             return super.visit(x);

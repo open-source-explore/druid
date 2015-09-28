@@ -23,13 +23,13 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class DB2SelectQueryBlock extends SQLSelectQueryBlock implements DB2Object {
 
-    private SQLExpr   first;
+    private SQLExpr first;
 
     private Isolation isolation;
 
-    private boolean   forReadOnly;
+    private boolean forReadOnly;
 
-    private SQLExpr   optimizeFor;
+    private SQLExpr optimizeFor;
 
     public SQLExpr getFirst() {
         return first;

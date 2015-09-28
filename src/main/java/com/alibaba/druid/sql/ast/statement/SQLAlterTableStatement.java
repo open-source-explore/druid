@@ -15,24 +15,24 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLAlterTableStatement extends SQLStatementImpl implements SQLDDLStatement {
 
-    private SQLExprTableSource      tableSource;
+    private SQLExprTableSource tableSource;
     private List<SQLAlterTableItem> items = new ArrayList<SQLAlterTableItem>();
-    
+
     public SQLAlterTableStatement() {
-        
+
     }
-    
+
     public SQLAlterTableStatement(String dbType) {
-        super (dbType);
+        super(dbType);
     }
 
     public List<SQLAlterTableItem> getItems() {

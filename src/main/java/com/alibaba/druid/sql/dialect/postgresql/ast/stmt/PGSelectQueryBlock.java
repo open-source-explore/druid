@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.postgresql.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
 import com.alibaba.druid.sql.ast.SQLOrderBy;
@@ -28,17 +25,20 @@ import com.alibaba.druid.sql.dialect.postgresql.ast.PGWithClause;
 import com.alibaba.druid.sql.dialect.postgresql.visitor.PGASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PGSelectQueryBlock extends SQLSelectQueryBlock {
 
-    private PGWithClause  with;
+    private PGWithClause with;
     private List<SQLExpr> distinctOn = new ArrayList<SQLExpr>(2);
-    private PGLimit       limit;
-    private WindowClause  window;
+    private PGLimit limit;
+    private WindowClause window;
 
-    private SQLOrderBy    orderBy;
-    private FetchClause   fetch;
-    private ForClause     forClause;
-    private IntoOption    intoOption;
+    private SQLOrderBy orderBy;
+    private FetchClause fetch;
+    private ForClause forClause;
+    private IntoOption intoOption;
 
     public static enum IntoOption {
         TEMPORARY, TEMP, UNLOGGED
@@ -148,7 +148,7 @@ public class PGSelectQueryBlock extends SQLSelectQueryBlock {
 
     public static class WindowClause extends PGSQLObjectImpl {
 
-        private SQLExpr       name;
+        private SQLExpr name;
         private List<SQLExpr> definition = new ArrayList<SQLExpr>(2);
 
         public SQLExpr getName() {
@@ -183,7 +183,7 @@ public class PGSelectQueryBlock extends SQLSelectQueryBlock {
             FIRST, NEXT
         }
 
-        private Option  option;
+        private Option option;
         private SQLExpr count;
 
         public Option getOption() {
@@ -219,8 +219,8 @@ public class PGSelectQueryBlock extends SQLSelectQueryBlock {
         }
 
         private List<SQLExpr> of = new ArrayList<SQLExpr>(2);
-        private boolean       noWait;
-        private Option        option;
+        private boolean noWait;
+        private Option option;
 
         public Option getOption() {
             return option;
@@ -257,7 +257,7 @@ public class PGSelectQueryBlock extends SQLSelectQueryBlock {
 
     public static class PGLimit extends SQLObjectImpl implements SQLExpr, PGSQLObject {
 
-        public PGLimit(){
+        public PGLimit() {
 
         }
 
@@ -285,7 +285,7 @@ public class PGSelectQueryBlock extends SQLSelectQueryBlock {
             }
             this.offset = offset;
         }
-        
+
         @Override
         protected void accept0(SQLASTVisitor visitor) {
             accept0((PGASTVisitor) visitor);

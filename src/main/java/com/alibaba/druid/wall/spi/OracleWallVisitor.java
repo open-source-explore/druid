@@ -18,35 +18,10 @@ package com.alibaba.druid.wall.spi;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLObject;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
-import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
-import com.alibaba.druid.sql.ast.expr.SQLPropertyExpr;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCallStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTriggerStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSelectGroupByClause;
-import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSetStatement;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleAlterTableStatement;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleCreateTableStatement;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleDeleteStatement;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleInsertStatement;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleMultiInsertStatement;
+import com.alibaba.druid.sql.ast.expr.*;
+import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.oracle.ast.stmt.*;
 import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleMultiInsertStatement.InsertIntoClause;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectTableReference;
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleUpdateStatement;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitorAdapter;
 import com.alibaba.druid.util.JdbcConstants;
 import com.alibaba.druid.wall.Violation;
@@ -61,13 +36,13 @@ import java.util.List;
 
 public class OracleWallVisitor extends OracleASTVisitorAdapter implements WallVisitor {
 
-    private final WallConfig      config;
-    private final WallProvider    provider;
-    private final List<Violation> violations      = new ArrayList<Violation>();
-    private boolean               sqlModified     = false;
-    private boolean               sqlEndOfComment = false;
+    private final WallConfig config;
+    private final WallProvider provider;
+    private final List<Violation> violations = new ArrayList<Violation>();
+    private boolean sqlModified = false;
+    private boolean sqlEndOfComment = false;
 
-    public OracleWallVisitor(WallProvider provider){
+    public OracleWallVisitor(WallProvider provider) {
         this.config = provider.getConfig();
         this.provider = provider;
     }
@@ -112,7 +87,7 @@ public class OracleWallVisitor extends OracleASTVisitorAdapter implements WallVi
         name = WallVisitorUtils.form(name);
         if (config.isVariantCheck() && config.getDenyVariants().contains(name)) {
             getViolations().add(new IllegalSQLObjectViolation(ErrorCode.VARIANT_DENY, "variable not allow : " + name,
-                                                              toSQL(x)));
+                    toSQL(x)));
         }
         return true;
     }
@@ -204,7 +179,7 @@ public class OracleWallVisitor extends OracleASTVisitorAdapter implements WallVi
     public boolean visit(SQLSelectStatement x) {
         if (!config.isSelelctAllow()) {
             this.getViolations().add(new IllegalSQLObjectViolation(ErrorCode.SELECT_NOT_ALLOW, "select not allow",
-                                                                   this.toSQL(x)));
+                    this.toSQL(x)));
             return false;
         }
         WallVisitorUtils.initWallTopStatementContext();
@@ -251,7 +226,7 @@ public class OracleWallVisitor extends OracleASTVisitorAdapter implements WallVi
     public boolean visit(OracleMultiInsertStatement x) {
         if (!config.isInsertAllow()) {
             this.getViolations().add(new IllegalSQLObjectViolation(ErrorCode.INSERT_NOT_ALLOW, "insert not allow",
-                                                                   this.toSQL(x)));
+                    this.toSQL(x)));
             return false;
         }
         WallVisitorUtils.initWallTopStatementContext();
@@ -348,7 +323,7 @@ public class OracleWallVisitor extends OracleASTVisitorAdapter implements WallVi
     public boolean visit(SQLCreateTriggerStatement x) {
         return false;
     }
-    
+
     @Override
     public boolean isSqlEndOfComment() {
         return this.sqlEndOfComment;

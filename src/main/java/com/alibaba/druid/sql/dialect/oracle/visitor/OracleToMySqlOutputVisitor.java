@@ -20,21 +20,16 @@ import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleSelectQueryBlock;
 
 public class OracleToMySqlOutputVisitor extends OracleOutputVisitor {
 
-    public OracleToMySqlOutputVisitor(Appendable appender, boolean printPostSemi){
+    public OracleToMySqlOutputVisitor(Appendable appender, boolean printPostSemi) {
         super(appender, printPostSemi);
     }
 
-    public OracleToMySqlOutputVisitor(Appendable appender){
+    public OracleToMySqlOutputVisitor(Appendable appender) {
         super(appender);
     }
 
@@ -43,7 +38,7 @@ public class OracleToMySqlOutputVisitor extends OracleOutputVisitor {
         {
             if (x.getParent() instanceof SQLSelect) {
                 SQLSelect select = (SQLSelect) x.getParent();
-                if (select.getParent() instanceof SQLSelectStatement || select.getParent() instanceof  SQLSubqueryTableSource) {
+                if (select.getParent() instanceof SQLSelectStatement || select.getParent() instanceof SQLSubqueryTableSource) {
                     parentIsSelectStatment = true;
                 }
             }
@@ -54,8 +49,8 @@ public class OracleToMySqlOutputVisitor extends OracleOutputVisitor {
         }
 
         if (x.getWhere() instanceof SQLBinaryOpExpr //
-            && x.getFrom() instanceof SQLSubqueryTableSource //
-        ) {
+                && x.getFrom() instanceof SQLSubqueryTableSource //
+                ) {
             int rownum;
             String ident;
             SQLBinaryOpExpr where = (SQLBinaryOpExpr) x.getWhere();
@@ -81,7 +76,7 @@ public class OracleToMySqlOutputVisitor extends OracleOutputVisitor {
                 for (SQLSelectItem selectItem : queryBlock.getSelectList()) {
                     if (isRowNumber(selectItem.getExpr())) {
                         if (where.getLeft() instanceof SQLIdentifierExpr
-                            && ((SQLIdentifierExpr) where.getLeft()).getName().equals(selectItem.getAlias())) {
+                                && ((SQLIdentifierExpr) where.getLeft()).getName().equals(selectItem.getAlias())) {
                             isSubQueryRowNumMapping = true;
                         }
                     }
@@ -114,7 +109,7 @@ public class OracleToMySqlOutputVisitor extends OracleOutputVisitor {
                 SQLBinaryOperator subOp = subWhere.getOperator();
 
                 if (isRowNumber(subWhere.getLeft()) //
-                    && subWhere.getRight() instanceof SQLIntegerExpr) {
+                        && subWhere.getRight() instanceof SQLIntegerExpr) {
 
                     int subRownum = ((SQLIntegerExpr) subWhere.getRight()).getNumber().intValue();
 

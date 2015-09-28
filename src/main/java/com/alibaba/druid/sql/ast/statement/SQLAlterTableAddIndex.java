@@ -15,27 +15,27 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
 import com.alibaba.druid.sql.parser.Token;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLAlterTableAddIndex extends SQLObjectImpl implements SQLAlterTableItem {
 
-    private boolean                          unique;
+    private boolean unique;
 
-    private SQLName                          name;
+    private SQLName name;
 
     private final List<SQLSelectOrderByItem> items = new ArrayList<SQLSelectOrderByItem>();
 
-    private String                           type;
+    private String type;
 
-    private String                           using;
-    
-    private String                           keyOrIndex = Token.INDEX.name;
+    private String using;
+
+    private String keyOrIndex = Token.INDEX.name;
 
     @Override
     protected void accept0(SQLASTVisitor visitor) {

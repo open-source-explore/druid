@@ -15,20 +15,20 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock.Limit;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MySqlShowProfileStatement extends MySqlStatementImpl implements MySqlShowStatement {
 
     private List<Type> types = new ArrayList<Type>();
 
-    private SQLExpr    forQuery;
+    private SQLExpr forQuery;
 
-    private Limit      limit;
+    private Limit limit;
 
     public void accept0(MySqlASTVisitor visitor) {
         visitor.visit(this);
@@ -65,7 +65,7 @@ public class MySqlShowProfileStatement extends MySqlStatementImpl implements MyS
 
         public final String name;
 
-        Type(String name){
+        Type(String name) {
             this.name = name;
         }
     }

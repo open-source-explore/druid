@@ -15,12 +15,12 @@
  */
 package com.alibaba.druid.support.spring.stat;
 
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
+
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-
-import com.alibaba.druid.support.logging.Log;
-import com.alibaba.druid.support.logging.LogFactory;
 
 public class SpringStatUtils {
 
@@ -41,13 +41,13 @@ public class SpringStatUtils {
             return null;
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getMethodStatData(Object methodStat, String clazz, String methodSignature) {
         if (methodStat.getClass() == SpringStat.class) {
             return ((SpringStat) methodStat).getMethodStatData(clazz, methodSignature);
         }
-        
+
         try {
             Method method = methodStat.getClass().getMethod("getMethodStatData", String.class, String.class);
             Object obj = method.invoke(methodStat, clazz, methodSignature);

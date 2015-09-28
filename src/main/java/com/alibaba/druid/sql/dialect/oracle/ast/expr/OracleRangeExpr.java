@@ -24,11 +24,11 @@ public class OracleRangeExpr extends OracleSQLObjectImpl implements SQLExpr {
     private SQLExpr lowBound;
     private SQLExpr upBound;
 
-    public OracleRangeExpr(){
+    public OracleRangeExpr() {
 
     }
 
-    public OracleRangeExpr(SQLExpr lowBound, SQLExpr upBound){
+    public OracleRangeExpr(SQLExpr lowBound, SQLExpr upBound) {
         this.lowBound = lowBound;
         this.upBound = upBound;
     }

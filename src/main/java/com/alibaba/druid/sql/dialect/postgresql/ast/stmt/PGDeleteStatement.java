@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.postgresql.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
 import com.alibaba.druid.sql.dialect.postgresql.ast.PGWithClause;
@@ -25,16 +22,19 @@ import com.alibaba.druid.sql.dialect.postgresql.visitor.PGASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PGDeleteStatement extends SQLDeleteStatement implements PGSQLStatement {
 
-    private PGWithClause  with;
-    private boolean       only  = false;
+    private PGWithClause with;
+    private boolean only = false;
     private List<SQLName> using = new ArrayList<SQLName>(2);
-    private boolean       returning;
-    private String        alias;
-    
+    private boolean returning;
+    private String alias;
+
     public PGDeleteStatement() {
-        super (JdbcConstants.POSTGRESQL);
+        super(JdbcConstants.POSTGRESQL);
     }
 
     public boolean isReturning() {

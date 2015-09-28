@@ -24,7 +24,7 @@ public class MySqlUpdateTableSource extends SQLTableSourceImpl {
 
     private MySqlUpdateStatement update;
 
-    public MySqlUpdateTableSource(MySqlUpdateStatement update){
+    public MySqlUpdateTableSource(MySqlUpdateStatement update) {
         this.update = update;
     }
 

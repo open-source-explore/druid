@@ -15,28 +15,27 @@
  */
 package com.alibaba.druid.util;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.sql.XAConnection;
-
 import com.mysql.jdbc.Util;
 import com.mysql.jdbc.jdbc2.optional.MysqlXAConnection;
 import com.mysql.jdbc.jdbc2.optional.SuspendableXAConnection;
 
+import javax.sql.XAConnection;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class MySqlUtils {
 
     public static XAConnection createXAConnection(Connection physicalConn) throws SQLException {
-    	com.mysql.jdbc.ConnectionImpl mysqlConn = (com.mysql.jdbc.ConnectionImpl)physicalConn;
-    	if(mysqlConn.getPinGlobalTxToPhysicalConnection()) {
+        com.mysql.jdbc.ConnectionImpl mysqlConn = (com.mysql.jdbc.ConnectionImpl) physicalConn;
+        if (mysqlConn.getPinGlobalTxToPhysicalConnection()) {
 
-    		if (!Util.isJdbc4()) {
-    			return new SuspendableXAConnection(mysqlConn);
-    		}
+            if (!Util.isJdbc4()) {
+                return new SuspendableXAConnection(mysqlConn);
+            }
 
-    		return new com.mysql.jdbc.jdbc2.optional.JDBC4SuspendableXAConnection(mysqlConn);
-    	
-    	}
+            return new com.mysql.jdbc.jdbc2.optional.JDBC4SuspendableXAConnection(mysqlConn);
+
+        }
         return new MysqlXAConnection(mysqlConn, false);
     }
 }

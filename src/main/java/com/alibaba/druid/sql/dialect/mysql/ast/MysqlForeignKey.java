@@ -29,11 +29,11 @@ public class MysqlForeignKey extends SQLForeignKeyImpl {
 
     private boolean hasConstraint;
 
-    private Match   referenceMatch;
+    private Match referenceMatch;
 
-    private On      referenceOn;
+    private On referenceOn;
 
-    private Option  referenceOption;
+    private Option referenceOption;
 
     public SQLName getIndexName() {
         return indexName;
@@ -100,7 +100,7 @@ public class MysqlForeignKey extends SQLForeignKeyImpl {
 
         private String text;
 
-        Option(String text){
+        Option(String text) {
             this.text = text;
         }
 

@@ -25,7 +25,7 @@ import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
 
 public class DB2OutputVisitor extends SQLASTOutputVisitor implements DB2ASTVisitor {
 
-    public DB2OutputVisitor(Appendable appender){
+    public DB2OutputVisitor(Appendable appender) {
         super(appender);
     }
 
@@ -36,11 +36,10 @@ public class DB2OutputVisitor extends SQLASTOutputVisitor implements DB2ASTVisit
         if (x.getFirst() != null) {
 
             //order by 语句必须在FETCH FIRST ROWS ONLY之前
-            SQLObject parent= x.getParent();
-            if(parent instanceof SQLSelect)
-            {
-                SQLOrderBy orderBy= ((SQLSelect) parent).getOrderBy();
-                if (orderBy!=null&&orderBy.getItems().size() > 0) {
+            SQLObject parent = x.getParent();
+            if (parent instanceof SQLSelect) {
+                SQLOrderBy orderBy = ((SQLSelect) parent).getOrderBy();
+                if (orderBy != null && orderBy.getItems().size() > 0) {
                     println();
                     print("ORDER BY ");
                     printAndAccept(orderBy.getItems(), ", ");

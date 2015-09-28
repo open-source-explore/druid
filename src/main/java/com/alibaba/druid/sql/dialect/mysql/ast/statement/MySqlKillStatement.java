@@ -20,7 +20,7 @@ import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
 public class MySqlKillStatement extends MySqlStatementImpl {
 
-    private Type    type;
+    private Type type;
     private SQLExpr threadId;
 
     public static enum Type {

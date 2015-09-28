@@ -20,16 +20,16 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLCharacterDataType extends SQLDataTypeImpl {
 
-    private String             charSetName;
-    private String             collate;
+    private String charSetName;
+    private String collate;
 
-    private String             charType;
-    private boolean            hasBinary;
+    private String charType;
+    private boolean hasBinary;
 
     public final static String CHAR_TYPE_BYTE = "BYTE";
     public final static String CHAR_TYPE_CHAR = "CHAR";
 
-    public SQLCharacterDataType(String name){
+    public SQLCharacterDataType(String name) {
         super(name);
     }
 
@@ -40,7 +40,7 @@ public class SQLCharacterDataType extends SQLDataTypeImpl {
     public void setCharSetName(String charSetName) {
         this.charSetName = charSetName;
     }
-    
+
     public boolean isHasBinary() {
         return hasBinary;
     }

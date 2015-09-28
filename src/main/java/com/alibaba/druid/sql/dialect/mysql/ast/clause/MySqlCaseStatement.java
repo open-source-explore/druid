@@ -15,77 +15,76 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.clause;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlObjectImpl;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlStatementImpl;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
- * @Description: MySql procedure Case statement
  * @author zz email:455910092@qq.com
  * @version V1.0
+ * @Description: MySql procedure Case statement
  */
-public class MySqlCaseStatement extends MySqlStatementImpl{
+public class MySqlCaseStatement extends MySqlStatementImpl {
 
-	//case expr
-	private SQLExpr            		  condition;
-	//when statement list
-	private List<MySqlWhenStatement> whenList=new ArrayList<MySqlCaseStatement.MySqlWhenStatement>();
-	//else statement
-	private MySqlElseStatement        elseItem;
-	
-	public SQLExpr getCondition() {
-		return condition;
-	}
+    //case expr
+    private SQLExpr condition;
+    //when statement list
+    private List<MySqlWhenStatement> whenList = new ArrayList<MySqlCaseStatement.MySqlWhenStatement>();
+    //else statement
+    private MySqlElseStatement elseItem;
 
-	public void setCondition(SQLExpr condition) {
-		this.condition = condition;
-	}
+    public SQLExpr getCondition() {
+        return condition;
+    }
 
-	public List<MySqlWhenStatement> getWhenList() {
-		return whenList;
-	}
+    public void setCondition(SQLExpr condition) {
+        this.condition = condition;
+    }
 
-	public void setWhenList(List<MySqlWhenStatement> whenList) {
-		this.whenList = whenList;
-	}
-	
-	public void addWhenStatement(MySqlWhenStatement stmt)
-	{
-		this.whenList.add(stmt);
-	}
+    public List<MySqlWhenStatement> getWhenList() {
+        return whenList;
+    }
 
-	public MySqlElseStatement getElseItem() {
-		return elseItem;
-	}
+    public void setWhenList(List<MySqlWhenStatement> whenList) {
+        this.whenList = whenList;
+    }
 
-	public void setElseItem(MySqlElseStatement elseItem) {
-		this.elseItem = elseItem;
-	}
+    public void addWhenStatement(MySqlWhenStatement stmt) {
+        this.whenList.add(stmt);
+    }
 
-	@Override
-	public void accept0(MySqlASTVisitor visitor) {
-		// TODO Auto-generated method stub
-		if (visitor.visit(this)) {
+    public MySqlElseStatement getElseItem() {
+        return elseItem;
+    }
+
+    public void setElseItem(MySqlElseStatement elseItem) {
+        this.elseItem = elseItem;
+    }
+
+    @Override
+    public void accept0(MySqlASTVisitor visitor) {
+        // TODO Auto-generated method stub
+        if (visitor.visit(this)) {
             acceptChild(visitor, condition);
             acceptChild(visitor, whenList);
             acceptChild(visitor, elseItem);
         }
         visitor.endVisit(this);
-	}
-	
-	/**
-	 * case when statement
-	 * @author zz
-	 *
-	 */
-	public static class MySqlWhenStatement extends MySqlObjectImpl {
+    }
 
-        private SQLExpr            condition;
+    /**
+     * case when statement
+     *
+     * @author zz
+     */
+    public static class MySqlWhenStatement extends MySqlObjectImpl {
+
+        private SQLExpr condition;
         private List<SQLStatement> statements = new ArrayList<SQLStatement>();
 
         @Override

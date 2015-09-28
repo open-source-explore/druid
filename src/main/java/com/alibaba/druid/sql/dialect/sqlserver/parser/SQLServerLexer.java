@@ -15,16 +15,16 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.parser;
 
-import static com.alibaba.druid.sql.parser.LayoutCharacters.EOI;
-import static com.alibaba.druid.sql.parser.Token.IDENTIFIER;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import com.alibaba.druid.sql.parser.Keywords;
 import com.alibaba.druid.sql.parser.Lexer;
 import com.alibaba.druid.sql.parser.NotAllowCommentException;
 import com.alibaba.druid.sql.parser.Token;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.alibaba.druid.sql.parser.LayoutCharacters.EOI;
+import static com.alibaba.druid.sql.parser.Token.IDENTIFIER;
 
 public class SQLServerLexer extends Lexer {
 
@@ -32,9 +32,9 @@ public class SQLServerLexer extends Lexer {
 
     static {
         Map<String, Token> map = new HashMap<String, Token>();
-        
+
         map.putAll(Keywords.DEFAULT_KEYWORDS.getKeywords());
-        
+
         map.put("CURSOR", Token.CURSOR);
         map.put("TOP", Token.TOP);
         map.put("USE", Token.USE);
@@ -50,16 +50,16 @@ public class SQLServerLexer extends Lexer {
         DEFAULT_SQL_SERVER_KEYWORDS = new Keywords(map);
     }
 
-    public SQLServerLexer(char[] input, int inputLength, boolean skipComment){
+    public SQLServerLexer(char[] input, int inputLength, boolean skipComment) {
         super(input, inputLength, skipComment);
         super.keywods = DEFAULT_SQL_SERVER_KEYWORDS;
     }
 
-    public SQLServerLexer(String input){
+    public SQLServerLexer(String input) {
         super(input);
         super.keywods = DEFAULT_SQL_SERVER_KEYWORDS;
     }
-    
+
     public void scanComment() {
         if (ch != '/' && ch != '-') {
             throw new IllegalStateException();
@@ -87,7 +87,7 @@ public class SQLServerLexer extends Lexer {
                 bufPos++;
             }
 
-            for (;;) {
+            for (; ; ) {
                 if (ch == '*' && charAt(pos + 1) == '/') {
                     bufPos += 2;
                     scanChar();
@@ -121,7 +121,7 @@ public class SQLServerLexer extends Lexer {
             scanChar();
             bufPos++;
 
-            for (;;) {
+            for (; ; ) {
                 if (ch == '\r') {
                     if (charAt(pos + 1) == '\n') {
                         bufPos += 2;
@@ -150,14 +150,14 @@ public class SQLServerLexer extends Lexer {
                 addComment(stringVal);
             }
             endOfComment = isEOF();
-            
+
             if (!isAllowComment() && (isEOF() || !isSafeComment(stringVal))) {
                 throw new NotAllowCommentException();
             }
             return;
         }
     }
-    
+
     protected void scanLBracket() {
         mark = pos;
 
@@ -165,7 +165,7 @@ public class SQLServerLexer extends Lexer {
             buf = new char[32];
         }
 
-        for (;;) {
+        for (; ; ) {
             if (isEOF()) {
                 lexError("unclosed.str.lit");
                 return;

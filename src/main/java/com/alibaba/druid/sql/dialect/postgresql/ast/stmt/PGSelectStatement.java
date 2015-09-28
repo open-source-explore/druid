@@ -26,11 +26,11 @@ public class PGSelectStatement extends SQLSelectStatement implements PGSQLStatem
 
     private PGWithClause with;
 
-    public PGSelectStatement(){
+    public PGSelectStatement() {
         super(JdbcConstants.POSTGRESQL);
     }
 
-    public PGSelectStatement(SQLSelect select){
+    public PGSelectStatement(SQLSelect select) {
         super(select, JdbcConstants.POSTGRESQL);
     }
 

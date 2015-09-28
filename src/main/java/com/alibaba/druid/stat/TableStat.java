@@ -24,17 +24,17 @@ import java.util.Map;
 
 public class TableStat {
 
-    int selectCount      = 0;
-    int updateCount      = 0;
-    int deleteCount      = 0;
-    int insertCount      = 0;
-    int dropCount        = 0;
-    int mergeCount       = 0;
-    int createCount      = 0;
-    int alterCount       = 0;
+    int selectCount = 0;
+    int updateCount = 0;
+    int deleteCount = 0;
+    int insertCount = 0;
+    int dropCount = 0;
+    int mergeCount = 0;
+    int createCount = 0;
+    int alterCount = 0;
     int createIndexCount = 0;
-    int dropIndexCount   = 0;
-    int referencedCount  = 0;
+    int dropIndexCount = 0;
+    int referencedCount = 0;
 
     public int getReferencedCount() {
         return referencedCount;
@@ -184,7 +184,7 @@ public class TableStat {
 
         private String name;
 
-        public Name(String name){
+        public Name(String name) {
             this.name = name;
         }
 
@@ -296,8 +296,8 @@ public class TableStat {
 
     public static class Condition {
 
-        private Column       column;
-        private String       operator;
+        private Column column;
+        private String operator;
 
         private List<Object> values = new ArrayList<Object>();
 
@@ -385,21 +385,21 @@ public class TableStat {
 
     public static class Column {
 
-        private String              table;
-        private String              name;
-        private boolean             where;
-        private boolean             select;
-        private boolean             groupBy;
-        private boolean             having;
-        private boolean             join;
+        private String table;
+        private String name;
+        private boolean where;
+        private boolean select;
+        private boolean groupBy;
+        private boolean having;
+        private boolean join;
 
         private Map<String, Object> attributes = new HashMap<String, Object>();
 
-        public Column(){
+        public Column() {
 
         }
 
-        public Column(String table, String name){
+        public Column(String table, String name) {
             this.table = table;
             this.name = name;
         }
@@ -485,7 +485,7 @@ public class TableStat {
 
         public boolean equals(Object obj) {
 
-            if (!(obj instanceof  Column)) {
+            if (!(obj instanceof Column)) {
                 return false;
             }
 
@@ -530,7 +530,7 @@ public class TableStat {
 
         public final int mark;
 
-        private Mode(int mark){
+        private Mode(int mark) {
             this.mark = mark;
         }
     }

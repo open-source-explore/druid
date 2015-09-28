@@ -15,14 +15,14 @@
  */
 package com.alibaba.druid.support.profile;
 
-import static com.alibaba.druid.util.JdbcSqlStatUtils.get;
-
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+
+import static com.alibaba.druid.util.JdbcSqlStatUtils.get;
 
 public class ProfileEntryStat {
 
-    private volatile long                                         executeCount     = 0;
-    private volatile long                                         executeTimeNanos = 0;
+    private volatile long executeCount = 0;
+    private volatile long executeTimeNanos = 0;
 
     private static final AtomicLongFieldUpdater<ProfileEntryStat> executeCountUpdater;
     private static final AtomicLongFieldUpdater<ProfileEntryStat> executeTimeNanosUpdater;

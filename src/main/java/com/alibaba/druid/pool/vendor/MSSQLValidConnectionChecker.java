@@ -33,9 +33,9 @@ public class MSSQLValidConnectionChecker extends ValidConnectionCheckerAdapter i
 
     private static final long serialVersionUID = 1L;
 
-    private static final Log  LOG              = LogFactory.getLog(MSSQLValidConnectionChecker.class);
+    private static final Log LOG = LogFactory.getLog(MSSQLValidConnectionChecker.class);
 
-    public MSSQLValidConnectionChecker(){
+    public MSSQLValidConnectionChecker() {
 
     }
 

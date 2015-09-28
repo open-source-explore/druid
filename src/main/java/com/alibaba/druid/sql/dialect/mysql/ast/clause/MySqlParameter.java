@@ -21,28 +21,27 @@ import com.alibaba.druid.sql.dialect.mysql.ast.MySqlObjectImpl;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
 /**
- * 
- * @Description: MySql procedure parameter
  * @author zz email:455910092@qq.com
- * @date 2015-9-14
  * @version V1.0
+ * @Description: MySql procedure parameter
+ * @date 2015-9-14
  */
 public class MySqlParameter extends MySqlObjectImpl {
 
-    private SQLExpr     name;
+    private SQLExpr name;
     private SQLDataType dataType;
-    private SQLExpr     defaultValue;
+    private SQLExpr defaultValue;
     private ParameterType paramType;
 
     public ParameterType getParamType() {
-		return paramType;
-	}
+        return paramType;
+    }
 
-	public void setParamType(ParameterType paramType) {
-		this.paramType = paramType;
-	}
+    public void setParamType(ParameterType paramType) {
+        this.paramType = paramType;
+    }
 
-	public SQLExpr getDefaultValue() {
+    public SQLExpr getDefaultValue() {
         return defaultValue;
     }
 
@@ -75,15 +74,15 @@ public class MySqlParameter extends MySqlObjectImpl {
         }
         visitor.endVisit(this);
     }
+
     /**
      * mysql procedure parameter type
      */
-    public static enum ParameterType
-    {
-    	DEFAULT,
-    	IN,//in
-    	OUT,//out
-    	INOUT//inout
+    public static enum ParameterType {
+        DEFAULT,
+        IN,//in
+        OUT,//out
+        INOUT//inout
     }
 
 }

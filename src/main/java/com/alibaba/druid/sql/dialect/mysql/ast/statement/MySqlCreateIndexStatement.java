@@ -23,9 +23,9 @@ import com.alibaba.druid.util.JdbcConstants;
 public class MySqlCreateIndexStatement extends SQLCreateIndexStatement implements MySqlStatement {
 
     private String using;
-    
+
     public MySqlCreateIndexStatement() {
-        super (JdbcConstants.MYSQL);
+        super(JdbcConstants.MYSQL);
     }
 
     public String getUsing() {

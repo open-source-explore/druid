@@ -21,15 +21,15 @@ public class DataSourceDisableException extends SQLException {
 
     private static final long serialVersionUID = 1L;
 
-    public DataSourceDisableException(){
+    public DataSourceDisableException() {
         super();
     }
 
-    public DataSourceDisableException(String reason){
+    public DataSourceDisableException(String reason) {
         super(reason);
     }
 
-    public DataSourceDisableException(Throwable cause){
+    public DataSourceDisableException(Throwable cause) {
         super(cause);
     }
 

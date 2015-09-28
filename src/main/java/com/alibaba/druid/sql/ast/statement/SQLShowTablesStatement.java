@@ -48,7 +48,7 @@ public class SQLShowTablesStatement extends SQLStatementImpl {
 
         this.like = like;
     }
-    
+
     @Override
     protected void accept0(SQLASTVisitor visitor) {
         if (visitor.visit(this)) {

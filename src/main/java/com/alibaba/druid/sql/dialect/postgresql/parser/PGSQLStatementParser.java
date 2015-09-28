@@ -15,39 +15,30 @@
  */
 package com.alibaba.druid.sql.dialect.postgresql.parser;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.expr.SQLCurrentOfCursorExpr;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.expr.SQLQueryExpr;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableAlterColumn;
-import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
-import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.postgresql.ast.PGWithClause;
 import com.alibaba.druid.sql.dialect.postgresql.ast.PGWithQuery;
-import com.alibaba.druid.sql.dialect.postgresql.ast.stmt.PGDeleteStatement;
-import com.alibaba.druid.sql.dialect.postgresql.ast.stmt.PGInsertStatement;
-import com.alibaba.druid.sql.dialect.postgresql.ast.stmt.PGSelectStatement;
-import com.alibaba.druid.sql.dialect.postgresql.ast.stmt.PGShowStatement;
-import com.alibaba.druid.sql.dialect.postgresql.ast.stmt.PGUpdateStatement;
+import com.alibaba.druid.sql.dialect.postgresql.ast.stmt.*;
 import com.alibaba.druid.sql.parser.Lexer;
 import com.alibaba.druid.sql.parser.ParserException;
 import com.alibaba.druid.sql.parser.SQLStatementParser;
 import com.alibaba.druid.sql.parser.Token;
 
+import java.util.List;
+
 public class PGSQLStatementParser extends SQLStatementParser {
 
-    public PGSQLStatementParser(String sql){
+    public PGSQLStatementParser(String sql) {
         super(new PGExprParser(sql));
     }
 
-    public PGSQLStatementParser(Lexer lexer){
+    public PGSQLStatementParser(Lexer lexer) {
         super(new PGExprParser(lexer));
     }
 
@@ -73,7 +64,7 @@ public class PGSQLStatementParser extends SQLStatementParser {
         if (lexer.token() == Token.RETURNING) {
             lexer.nextToken();
 
-            for (;;) {
+            for (; ; ) {
                 udpateStatement.getReturning().add(this.exprParser.expr());
                 if (lexer.token() == Token.COMMA) {
                     lexer.nextToken();
@@ -102,11 +93,11 @@ public class PGSQLStatementParser extends SQLStatementParser {
             }
 
         }
-        
+
         if (lexer.token() == Token.DEFAULT) {
-        	lexer.nextToken();
-        	accept(Token.VALUES);
-        	stmt.setDefaultValues(true);
+            lexer.nextToken();
+            accept(Token.VALUES);
+            stmt.setDefaultValues(true);
         }
 
         if (lexer.token() == (Token.LPAREN)) {
@@ -118,7 +109,7 @@ public class PGSQLStatementParser extends SQLStatementParser {
         if (lexer.token() == (Token.VALUES)) {
             lexer.nextToken();
 
-            for (;;) {
+            for (; ; ) {
                 accept(Token.LPAREN);
                 SQLInsertStatement.ValuesClause valuesCaluse = new SQLInsertStatement.ValuesClause();
                 this.exprParser.exprList(valuesCaluse.getValues(), valuesCaluse);
@@ -159,18 +150,18 @@ public class PGSQLStatementParser extends SQLStatementParser {
         SQLName tableName = exprParser.name();
 
         deleteStatement.setTableName(tableName);
-        
+
         if (lexer.token() == Token.AS) {
-			accept(Token.AS);
-		}
-		if (lexer.token() == Token.IDENTIFIER) {
-			deleteStatement.setAlias(lexer.stringVal());
-			lexer.nextToken();
-		}
+            accept(Token.AS);
+        }
+        if (lexer.token() == Token.IDENTIFIER) {
+            deleteStatement.setAlias(lexer.stringVal());
+            lexer.nextToken();
+        }
 
         if (lexer.token() == Token.USING) {
             lexer.nextToken();
-            for (;;) {
+            for (; ; ) {
                 SQLName name = this.exprParser.name();
                 deleteStatement.getUsing().add(name);
                 if (lexer.token() == Token.COMMA) {
@@ -225,7 +216,7 @@ public class PGSQLStatementParser extends SQLStatementParser {
             withClause.setRecursive(true);
         }
 
-        for (;;) {
+        for (; ; ) {
             PGWithQuery withQuery = withQuery();
             withClause.getWithQuery().add(withQuery);
             if (lexer.token() == Token.COMMA) {
@@ -240,19 +231,19 @@ public class PGSQLStatementParser extends SQLStatementParser {
 
     private PGWithQuery withQuery() {
         PGWithQuery withQuery = new PGWithQuery();
-        
+
         if (lexer.token() == Token.LITERAL_ALIAS) {
-			withQuery.setName(new SQLIdentifierExpr("\"" + lexer.stringVal()
-					+ "\""));
-		} else {
-			withQuery.setName(new SQLIdentifierExpr(lexer.stringVal()));
-		}
-		lexer.nextToken();
+            withQuery.setName(new SQLIdentifierExpr("\"" + lexer.stringVal()
+                    + "\""));
+        } else {
+            withQuery.setName(new SQLIdentifierExpr(lexer.stringVal()));
+        }
+        lexer.nextToken();
 
         if (lexer.token() == Token.LPAREN) {
             lexer.nextToken();
 
-            for (;;) {
+            for (; ; ) {
                 SQLExpr expr = this.exprParser.expr();
                 withQuery.getColumns().add(expr);
                 if (lexer.token() == Token.COMMA) {
@@ -357,7 +348,7 @@ public class PGSQLStatementParser extends SQLStatementParser {
         }
         return alterColumn;
     }
-    
+
     public SQLStatement parseShow() {
         accept(Token.SHOW);
         PGShowStatement stmt = new PGShowStatement();

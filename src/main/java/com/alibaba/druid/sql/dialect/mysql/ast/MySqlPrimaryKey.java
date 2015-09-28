@@ -20,7 +20,7 @@ import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
 public class MySqlPrimaryKey extends MySqlKey implements SQLPrimaryKey {
 
-    public MySqlPrimaryKey(){
+    public MySqlPrimaryKey() {
 
     }
 

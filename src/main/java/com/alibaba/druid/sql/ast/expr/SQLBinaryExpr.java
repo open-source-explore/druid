@@ -22,11 +22,11 @@ public class SQLBinaryExpr extends SQLExprImpl implements SQLLiteralExpr {
 
     private String value;
 
-    public SQLBinaryExpr(){
+    public SQLBinaryExpr() {
 
     }
 
-    public SQLBinaryExpr(String value){
+    public SQLBinaryExpr(String value) {
         super();
         this.value = value;
     }

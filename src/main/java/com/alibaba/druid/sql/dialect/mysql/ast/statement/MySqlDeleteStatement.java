@@ -26,17 +26,17 @@ import com.alibaba.druid.util.JdbcConstants;
 
 public class MySqlDeleteStatement extends SQLDeleteStatement {
 
-    private boolean        lowPriority = false;
-    private boolean        quick       = false;
-    private boolean        ignore      = false;
+    private boolean lowPriority = false;
+    private boolean quick = false;
+    private boolean ignore = false;
 
     private SQLTableSource from;
     private SQLTableSource using;
-    private SQLOrderBy     orderBy;
-    private Limit          limit;
-    
+    private SQLOrderBy orderBy;
+    private Limit limit;
+
     public MySqlDeleteStatement() {
-        super (JdbcConstants.MYSQL);
+        super(JdbcConstants.MYSQL);
     }
 
     public boolean isLowPriority() {

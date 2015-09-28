@@ -15,18 +15,18 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLInsertStatement extends SQLInsertInto implements SQLStatement {
     private String dbType;
 
-    public SQLInsertStatement(){
+    public SQLInsertStatement() {
 
     }
 
@@ -46,11 +46,11 @@ public class SQLInsertStatement extends SQLInsertInto implements SQLStatement {
 
         private final List<SQLExpr> values;
 
-        public ValuesClause(){
+        public ValuesClause() {
             this(new ArrayList<SQLExpr>());
         }
 
-        public ValuesClause(List<SQLExpr> values){
+        public ValuesClause(List<SQLExpr> values) {
             this.values = values;
             for (int i = 0; i < values.size(); ++i) {
                 values.get(i).setParent(this);
@@ -91,7 +91,7 @@ public class SQLInsertStatement extends SQLInsertInto implements SQLStatement {
     public String getDbType() {
         return dbType;
     }
-    
+
     public void setDbType(String dbType) {
         this.dbType = dbType;
     }

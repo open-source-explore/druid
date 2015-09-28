@@ -21,9 +21,9 @@ public class MySqlSetTransactionStatement extends MySqlStatementImpl {
 
     private Boolean global;
 
-    private String  isolationLevel;
+    private String isolationLevel;
 
-    private String  accessModel;
+    private String accessModel;
 
     public void accept0(MySqlASTVisitor visitor) {
         visitor.visit(this);

@@ -15,26 +15,22 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
+import com.alibaba.druid.sql.SQLUtils;
+import com.alibaba.druid.sql.ast.*;
+import com.alibaba.druid.sql.visitor.SQLASTVisitor;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.alibaba.druid.sql.SQLUtils;
-import com.alibaba.druid.sql.ast.SQLHint;
-import com.alibaba.druid.sql.ast.SQLObject;
-import com.alibaba.druid.sql.ast.SQLObjectImpl;
-import com.alibaba.druid.sql.ast.SQLOrderBy;
-import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLSelect extends SQLObjectImpl {
 
     protected SQLWithSubqueryClause withSubQuery;
-    protected SQLSelectQuery        query;
-    protected SQLOrderBy            orderBy;
+    protected SQLSelectQuery query;
+    protected SQLOrderBy orderBy;
 
-    protected List<SQLHint>           hints;
+    protected List<SQLHint> hints;
 
-    public SQLSelect(){
+    public SQLSelect() {
 
     }
 
@@ -44,7 +40,7 @@ public class SQLSelect extends SQLObjectImpl {
         }
         return hints;
     }
-    
+
     public int getHintsSize() {
         if (hints == null) {
             return 0;
@@ -52,7 +48,7 @@ public class SQLSelect extends SQLObjectImpl {
         return hints.size();
     }
 
-    public SQLSelect(SQLSelectQuery query){
+    public SQLSelect(SQLSelectQuery query) {
         this.setQuery(query);
     }
 
@@ -125,12 +121,12 @@ public class SQLSelect extends SQLObjectImpl {
         SQLObject parent = this.getParent();
         if (parent instanceof SQLStatement) {
             String dbType = ((SQLStatement) parent).getDbType();
-            
+
             if (dbType != null) {
                 return SQLUtils.toSQLString(this, dbType);
             }
         }
-        
+
         return super.toString();
     }
 }

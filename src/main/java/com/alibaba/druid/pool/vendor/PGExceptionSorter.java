@@ -15,10 +15,10 @@
  */
 package com.alibaba.druid.pool.vendor;
 
+import com.alibaba.druid.pool.ExceptionSorter;
+
 import java.sql.SQLException;
 import java.util.Properties;
-
-import com.alibaba.druid.pool.ExceptionSorter;
 
 public class PGExceptionSorter implements ExceptionSorter {
 
@@ -28,12 +28,12 @@ public class PGExceptionSorter implements ExceptionSorter {
         if (sqlState == null) {
             return false;
         }
-        
+
         // org.postgresql.util.PSQLState
         if (sqlState.startsWith("08")) {
             return true;
         }
-        
+
         return false;
     }
 

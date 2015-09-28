@@ -23,7 +23,6 @@ import com.alibaba.druid.util.Utils;
 
 import javax.sql.ConnectionEventListener;
 import javax.sql.StatementEventListener;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
@@ -38,35 +37,35 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public final class DruidConnectionHolder {
 
-    private final static Log                    LOG                      = LogFactory.getLog(DruidConnectionHolder.class);
+    private final static Log LOG = LogFactory.getLog(DruidConnectionHolder.class);
 
-    private final DruidAbstractDataSource       dataSource;
-    private final Connection                    conn;
+    private final DruidAbstractDataSource dataSource;
+    private final Connection conn;
     private final List<ConnectionEventListener> connectionEventListeners = new CopyOnWriteArrayList<ConnectionEventListener>();
-    private final List<StatementEventListener>  statementEventListeners  = new CopyOnWriteArrayList<StatementEventListener>();
-    private final long                          connectTimeMillis;
-    private transient long                      lastActiveTimeMillis;
-    private long                                useCount                 = 0;
+    private final List<StatementEventListener> statementEventListeners = new CopyOnWriteArrayList<StatementEventListener>();
+    private final long connectTimeMillis;
+    private transient long lastActiveTimeMillis;
+    private long useCount = 0;
 
-    private PreparedStatementPool               statementPool;
+    private PreparedStatementPool statementPool;
 
-    private final List<Statement>               statementTrace           = new ArrayList<Statement>(2);
+    private final List<Statement> statementTrace = new ArrayList<Statement>(2);
 
-    private final boolean                       defaultReadOnly;
-    private final int                           defaultHoldability;
-    private final int                           defaultTransactionIsolation;
+    private final boolean defaultReadOnly;
+    private final int defaultHoldability;
+    private final int defaultTransactionIsolation;
 
-    private final boolean                       defaultAutoCommit;
+    private final boolean defaultAutoCommit;
 
-    private boolean                             underlyingReadOnly;
-    private int                                 underlyingHoldability;
-    private int                                 underlyingTransactionIsolation;
-    private boolean                             underlyingAutoCommit;
-    private boolean                             discard                  = false;
-    
-    public static boolean                       holdabilityUnsupported   = false;
+    private boolean underlyingReadOnly;
+    private int underlyingHoldability;
+    private int underlyingTransactionIsolation;
+    private boolean underlyingAutoCommit;
+    private boolean discard = false;
 
-    public DruidConnectionHolder(DruidAbstractDataSource dataSource, Connection conn) throws SQLException{
+    public static boolean holdabilityUnsupported = false;
+
+    public DruidConnectionHolder(DruidAbstractDataSource dataSource, Connection conn) throws SQLException {
 
         this.dataSource = dataSource;
         this.conn = conn;
@@ -78,8 +77,8 @@ public final class DruidConnectionHolder {
         {
             boolean initUnderlyHoldability = !holdabilityUnsupported;
             if (JdbcConstants.SYBASE.equals(dataSource.getDbType()) //
-                || JdbcConstants.DB2.equals(dataSource.getDbType()) //
-            ) {
+                    || JdbcConstants.DB2.equals(dataSource.getDbType()) //
+                    ) {
                 initUnderlyHoldability = false;
             }
             if (initUnderlyHoldability) {
@@ -106,7 +105,7 @@ public final class DruidConnectionHolder {
             this.underlyingTransactionIsolation = conn.getTransactionIsolation();
         } catch (SQLException e) {
             // compartible for alibaba corba
-            if (!"com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException".equals(e.getClass().getName())) { 
+            if (!"com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException".equals(e.getClass().getName())) {
                 throw e;
             }
         }

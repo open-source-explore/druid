@@ -15,23 +15,23 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLHint;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class SQLTableSourceImpl extends SQLObjectImpl implements SQLTableSource {
 
-    protected String        alias;
+    protected String alias;
 
     protected List<SQLHint> hints;
 
-    public SQLTableSourceImpl(){
+    public SQLTableSourceImpl() {
 
     }
 
-    public SQLTableSourceImpl(String alias){
+    public SQLTableSourceImpl(String alias) {
 
         this.alias = alias;
     }

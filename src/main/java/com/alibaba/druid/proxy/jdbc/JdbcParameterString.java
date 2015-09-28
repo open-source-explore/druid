@@ -22,7 +22,7 @@ public final class JdbcParameterString implements JdbcParameter {
 
     private final String value;
 
-    public JdbcParameterString(String value){
+    public JdbcParameterString(String value) {
         this.value = value;
     }
 

@@ -15,31 +15,31 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLInListExpr extends SQLExprImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private boolean           not              = false;
-    private SQLExpr           expr;
-    private List<SQLExpr>     targetList       = new ArrayList<SQLExpr>();
+    private boolean not = false;
+    private SQLExpr expr;
+    private List<SQLExpr> targetList = new ArrayList<SQLExpr>();
 
-    public SQLInListExpr(){
+    public SQLInListExpr() {
 
     }
 
-    public SQLInListExpr(SQLExpr expr){
+    public SQLInListExpr(SQLExpr expr) {
 
         this.expr = expr;
     }
 
-    public SQLInListExpr(SQLExpr expr, boolean not){
+    public SQLInListExpr(SQLExpr expr, boolean not) {
 
         this.expr = expr;
         this.not = not;

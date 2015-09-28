@@ -25,11 +25,11 @@ public class SQLOrderBy extends SQLObjectImpl {
 
     protected final List<SQLSelectOrderByItem> items = new ArrayList<SQLSelectOrderByItem>();
 
-    public SQLOrderBy(){
+    public SQLOrderBy() {
 
     }
 
-    public SQLOrderBy(SQLExpr expr){
+    public SQLOrderBy(SQLExpr expr) {
         SQLSelectOrderByItem item = new SQLSelectOrderByItem(expr);
         addItem(item);
     }

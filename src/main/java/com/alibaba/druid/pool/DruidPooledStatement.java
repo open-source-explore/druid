@@ -15,32 +15,27 @@
  */
 package com.alibaba.druid.pool;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
-import java.sql.SQLWarning;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wenshao<szujobs@hotmail.com>
  */
 public class DruidPooledStatement extends PoolableWrapper implements Statement {
 
-    private final static Log        LOG          = LogFactory.getLog(DruidPooledStatement.class);
+    private final static Log LOG = LogFactory.getLog(DruidPooledStatement.class);
 
-    private final Statement         stmt;
+    private final Statement stmt;
     protected DruidPooledConnection conn;
-    protected List<ResultSet>       resultSetTrace;
-    protected boolean               closed       = false;
-    protected int                   fetchRowPeak = -1;
+    protected List<ResultSet> resultSetTrace;
+    protected boolean closed = false;
+    protected int fetchRowPeak = -1;
 
-    public DruidPooledStatement(DruidPooledConnection conn, Statement stmt){
+    public DruidPooledStatement(DruidPooledConnection conn, Statement stmt) {
         super(stmt);
 
         this.conn = conn;

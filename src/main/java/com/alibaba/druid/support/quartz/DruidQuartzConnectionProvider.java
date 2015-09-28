@@ -15,11 +15,10 @@
  */
 package com.alibaba.druid.support.quartz;
 
-import java.sql.SQLException;
-
+import com.alibaba.druid.pool.DruidDataSource;
 import org.quartz.utils.ConnectionProvider;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import java.sql.SQLException;
 
 public class DruidQuartzConnectionProvider extends DruidDataSource implements ConnectionProvider {
 

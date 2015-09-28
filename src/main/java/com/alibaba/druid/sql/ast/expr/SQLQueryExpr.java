@@ -15,22 +15,22 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.ast.statement.SQLSelect;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+
 public class SQLQueryExpr extends SQLExprImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    public SQLSelect          subQuery;
+    public SQLSelect subQuery;
 
-    public SQLQueryExpr(){
+    public SQLQueryExpr() {
 
     }
 
-    public SQLQueryExpr(SQLSelect select){
+    public SQLQueryExpr(SQLSelect select) {
         setSubQuery(select);
     }
 

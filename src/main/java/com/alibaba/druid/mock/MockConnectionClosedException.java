@@ -21,7 +21,7 @@ public class MockConnectionClosedException extends SQLException {
 
     private static final long serialVersionUID = 1L;
 
-    public MockConnectionClosedException(){
+    public MockConnectionClosedException() {
         super();
     }
 }

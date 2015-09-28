@@ -15,11 +15,11 @@
  */
 package com.alibaba.druid.sql.visitor.functions;
 
-import static com.alibaba.druid.sql.visitor.SQLEvalVisitor.EVAL_VALUE;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
 import com.alibaba.druid.sql.visitor.SQLEvalVisitor;
+
+import static com.alibaba.druid.sql.visitor.SQLEvalVisitor.EVAL_VALUE;
 
 public class Ltrim implements Function {
 
@@ -39,7 +39,7 @@ public class Ltrim implements Function {
         }
 
         String strValue = param0Value.toString();
-        
+
         int index = -1;
         for (int i = 0; i < strValue.length(); ++i) {
             if (!Character.isWhitespace(strValue.charAt(i))) {
@@ -47,7 +47,7 @@ public class Ltrim implements Function {
                 break;
             }
         }
-        
+
         if (index <= 0) {
             return strValue;
         } else {

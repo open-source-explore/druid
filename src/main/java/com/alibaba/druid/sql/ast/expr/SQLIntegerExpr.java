@@ -17,16 +17,16 @@ package com.alibaba.druid.sql.ast.expr;
 
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
-public class SQLIntegerExpr extends SQLNumericLiteralExpr implements SQLValuableExpr{
+public class SQLIntegerExpr extends SQLNumericLiteralExpr implements SQLValuableExpr {
 
     private Number number;
 
-    public SQLIntegerExpr(Number number){
+    public SQLIntegerExpr(Number number) {
 
         this.number = number;
     }
 
-    public SQLIntegerExpr(){
+    public SQLIntegerExpr() {
 
     }
 

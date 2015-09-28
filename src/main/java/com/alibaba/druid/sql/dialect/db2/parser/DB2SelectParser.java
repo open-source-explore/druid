@@ -27,11 +27,11 @@ import com.alibaba.druid.sql.parser.Token;
 
 public class DB2SelectParser extends SQLSelectParser {
 
-    public DB2SelectParser(SQLExprParser exprParser){
+    public DB2SelectParser(SQLExprParser exprParser) {
         super(exprParser);
     }
 
-    public DB2SelectParser(String sql){
+    public DB2SelectParser(String sql) {
         this(new DB2ExprParser(sql));
     }
 
@@ -78,7 +78,7 @@ public class DB2SelectParser extends SQLSelectParser {
         parseGroupBy(queryBlock);
 
 
-        for (;;) {
+        for (; ; ) {
             if (lexer.token() == Token.FETCH) {
                 lexer.nextToken();
                 accept(Token.FIRST);
@@ -90,7 +90,7 @@ public class DB2SelectParser extends SQLSelectParser {
                 accept(Token.ONLY);
                 continue;
             }
-            
+
             if (lexer.token() == Token.WITH) {
                 lexer.nextToken();
                 if (identifierEquals("RR")) {
@@ -107,18 +107,18 @@ public class DB2SelectParser extends SQLSelectParser {
                 lexer.nextToken();
                 continue;
             }
-            
+
             if (lexer.token() == Token.FOR) {
                 lexer.nextToken();
                 acceptIdentifier("READ");
                 accept(Token.ONLY);
                 queryBlock.setForReadOnly(true);
             }
-            
+
             if (lexer.token() == Token.OPTIMIZE) {
                 lexer.nextToken();
                 accept(Token.FOR);
-                
+
                 queryBlock.setOptimizeFor(this.expr());
                 if (identifierEquals("ROW")) {
                     lexer.nextToken();
@@ -126,7 +126,7 @@ public class DB2SelectParser extends SQLSelectParser {
                     acceptIdentifier("ROWS");
                 }
             }
-            
+
             break;
         }
 

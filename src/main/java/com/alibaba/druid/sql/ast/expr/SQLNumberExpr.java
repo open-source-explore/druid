@@ -21,11 +21,11 @@ public class SQLNumberExpr extends SQLNumericLiteralExpr {
 
     private Number number;
 
-    public SQLNumberExpr(){
+    public SQLNumberExpr() {
 
     }
 
-    public SQLNumberExpr(Number number){
+    public SQLNumberExpr(Number number) {
 
         this.number = number;
     }

@@ -23,10 +23,10 @@ public class OracleSelectHierachicalQueryClause extends OracleSQLObjectImpl {
 
     private SQLExpr startWith;
     private SQLExpr connectBy;
-    private boolean prior   = false;
+    private boolean prior = false;
     private boolean noCycle = false;
 
-    public OracleSelectHierachicalQueryClause(){
+    public OracleSelectHierachicalQueryClause() {
 
     }
 

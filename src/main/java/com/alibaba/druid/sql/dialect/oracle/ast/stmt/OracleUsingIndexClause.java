@@ -23,21 +23,21 @@ import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
 public class OracleUsingIndexClause extends OracleSQLObjectImpl {
 
-    private SQLName             index;
-    private SQLName             tablespace;
+    private SQLName index;
+    private SQLName tablespace;
 
-    private SQLExpr             ptcfree;
-    private SQLExpr             pctused;
-    private SQLExpr             initrans;
-    private SQLExpr             maxtrans;
+    private SQLExpr ptcfree;
+    private SQLExpr pctused;
+    private SQLExpr initrans;
+    private SQLExpr maxtrans;
 
-    private Boolean             enable            = null;
+    private Boolean enable = null;
 
-    private boolean             computeStatistics = false;
+    private boolean computeStatistics = false;
 
     private OracleStorageClause storage;
 
-    public OracleUsingIndexClause(){
+    public OracleUsingIndexClause() {
 
     }
 

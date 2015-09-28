@@ -15,20 +15,20 @@
  */
 package com.alibaba.druid.mock;
 
+import com.alibaba.druid.util.jdbc.StatementBase;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.alibaba.druid.util.jdbc.StatementBase;
-
 public class MockStatement extends StatementBase implements MockStatementBase, Statement {
 
     public final static String ERROR_SQL = "THROW ERROR";
 
-    protected MockConnection   mockConnection;
+    protected MockConnection mockConnection;
 
-    public MockStatement(Connection connection){
+    public MockStatement(Connection connection) {
         super(connection);
 
         if (connection instanceof MockConnection) {

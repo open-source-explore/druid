@@ -23,15 +23,15 @@ import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerASTVisitor;
 
 public class SQLServerWaitForStatement extends SQLServerObjectImpl implements SQLServerStatement {
 
-    private SQLExpr      delay;
+    private SQLExpr delay;
 
-    private SQLExpr      time;
+    private SQLExpr time;
 
     private SQLStatement statement;
 
-    private SQLExpr      timeout;
-    
-    private String       dbType;
+    private SQLExpr timeout;
+
+    private String dbType;
 
     @Override
     public void accept0(SQLServerASTVisitor visitor) {
@@ -79,7 +79,7 @@ public class SQLServerWaitForStatement extends SQLServerObjectImpl implements SQ
     public String getDbType() {
         return dbType;
     }
-    
+
     public void setDbType(String dbType) {
         this.dbType = dbType;
     }

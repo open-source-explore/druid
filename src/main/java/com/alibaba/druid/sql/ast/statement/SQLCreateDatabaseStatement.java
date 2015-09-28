@@ -15,27 +15,27 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLCommentHint;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.List;
+
 public class SQLCreateDatabaseStatement extends SQLStatementImpl {
 
-    private SQLName              name;
+    private SQLName name;
 
-    private String               characterSet;
-    private String               collate;
+    private String characterSet;
+    private String collate;
 
     private List<SQLCommentHint> hints;
 
-    public SQLCreateDatabaseStatement(){
+    public SQLCreateDatabaseStatement() {
     }
-    
-    public SQLCreateDatabaseStatement(String dbType){
-        super (dbType);
+
+    public SQLCreateDatabaseStatement(String dbType) {
+        super(dbType);
     }
 
     @Override

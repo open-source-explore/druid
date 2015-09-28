@@ -30,7 +30,7 @@ public class SQLDescribeStatement extends SQLStatementImpl {
     public void setObject(SQLName object) {
         this.object = object;
     }
-    
+
     @Override
     protected void accept0(SQLASTVisitor visitor) {
         throw new UnsupportedOperationException(this.getClass().getName());

@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.statement.SQLPrimaryKey;
@@ -25,16 +22,19 @@ import com.alibaba.druid.sql.ast.statement.SQLTableElement;
 import com.alibaba.druid.sql.dialect.oracle.ast.OracleSQLObjectImpl;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OraclePrimaryKey extends OracleSQLObjectImpl implements OracleConstraint, SQLPrimaryKey, SQLTableElement {
 
-    private SQLName                name;
-    private List<SQLExpr>          columns = new ArrayList<SQLExpr>();
+    private SQLName name;
+    private List<SQLExpr> columns = new ArrayList<SQLExpr>();
 
     private OracleUsingIndexClause using;
-    private SQLName                exceptionsInto;
-    private Boolean                enable;
-    private Initially              initially;
-    private Boolean                deferrable;
+    private SQLName exceptionsInto;
+    private Boolean enable;
+    private Initially initially;
+    private Boolean deferrable;
 
     @Override
     public void accept0(OracleASTVisitor visitor) {

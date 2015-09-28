@@ -15,21 +15,17 @@
  */
 package com.alibaba.druid.filter;
 
+import com.alibaba.druid.proxy.jdbc.*;
+
 import java.sql.SQLException;
 import java.util.Properties;
-
-import com.alibaba.druid.proxy.jdbc.CallableStatementProxy;
-import com.alibaba.druid.proxy.jdbc.ConnectionProxy;
-import com.alibaba.druid.proxy.jdbc.PreparedStatementProxy;
-import com.alibaba.druid.proxy.jdbc.ResultSetProxy;
-import com.alibaba.druid.proxy.jdbc.StatementProxy;
 
 /**
  * @author wenshao<szujobs@hotmail.com>
  */
 public abstract class FilterEventAdapter extends FilterAdapter {
 
-    public FilterEventAdapter(){
+    public FilterEventAdapter() {
     }
 
     public ConnectionProxy connection_connect(FilterChain chain, Properties info) throws SQLException {
@@ -63,7 +59,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
     public StatementProxy connection_createStatement(FilterChain chain, ConnectionProxy connection, int resultSetType,
                                                      int resultSetConcurrency) throws SQLException {
         StatementProxy statement = super.connection_createStatement(chain, connection, resultSetType,
-                                                                    resultSetConcurrency);
+                resultSetConcurrency);
 
         statementCreateAfter(statement);
 
@@ -73,9 +69,9 @@ public abstract class FilterEventAdapter extends FilterAdapter {
     @Override
     public StatementProxy connection_createStatement(FilterChain chain, ConnectionProxy connection, int resultSetType,
                                                      int resultSetConcurrency, int resultSetHoldability)
-                                                                                                        throws SQLException {
+            throws SQLException {
         StatementProxy statement = super.connection_createStatement(chain, connection, resultSetType,
-                                                                    resultSetConcurrency, resultSetHoldability);
+                resultSetConcurrency, resultSetHoldability);
 
         statementCreateAfter(statement);
 
@@ -84,7 +80,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public CallableStatementProxy connection_prepareCall(FilterChain chain, ConnectionProxy connection, String sql)
-                                                                                                                   throws SQLException {
+            throws SQLException {
         CallableStatementProxy statement = super.connection_prepareCall(chain, connection, sql);
 
         statementPrepareCallAfter(statement);
@@ -95,9 +91,9 @@ public abstract class FilterEventAdapter extends FilterAdapter {
     @Override
     public CallableStatementProxy connection_prepareCall(FilterChain chain, ConnectionProxy connection, String sql,
                                                          int resultSetType, int resultSetConcurrency)
-                                                                                                     throws SQLException {
+            throws SQLException {
         CallableStatementProxy statement = super.connection_prepareCall(chain, connection, sql, resultSetType,
-                                                                        resultSetConcurrency);
+                resultSetConcurrency);
 
         statementPrepareCallAfter(statement);
 
@@ -109,7 +105,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
                                                          int resultSetType, int resultSetConcurrency,
                                                          int resultSetHoldability) throws SQLException {
         CallableStatementProxy statement = super.connection_prepareCall(chain, connection, sql, resultSetType,
-                                                                        resultSetConcurrency, resultSetHoldability);
+                resultSetConcurrency, resultSetHoldability);
 
         statementPrepareCallAfter(statement);
 
@@ -118,7 +114,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public PreparedStatementProxy connection_prepareStatement(FilterChain chain, ConnectionProxy connection, String sql)
-                                                                                                                        throws SQLException {
+            throws SQLException {
         PreparedStatementProxy statement = super.connection_prepareStatement(chain, connection, sql);
 
         statementPrepareAfter(statement);
@@ -139,9 +135,9 @@ public abstract class FilterEventAdapter extends FilterAdapter {
     @Override
     public PreparedStatementProxy connection_prepareStatement(FilterChain chain, ConnectionProxy connection,
                                                               String sql, int resultSetType, int resultSetConcurrency)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         PreparedStatementProxy statement = super.connection_prepareStatement(chain, connection, sql, resultSetType,
-                                                                             resultSetConcurrency);
+                resultSetConcurrency);
 
         statementPrepareAfter(statement);
 
@@ -153,7 +149,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
                                                               String sql, int resultSetType, int resultSetConcurrency,
                                                               int resultSetHoldability) throws SQLException {
         PreparedStatementProxy statement = super.connection_prepareStatement(chain, connection, sql, resultSetType,
-                                                                             resultSetConcurrency, resultSetHoldability);
+                resultSetConcurrency, resultSetHoldability);
 
         statementPrepareAfter(statement);
 
@@ -204,7 +200,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public boolean statement_execute(FilterChain chain, StatementProxy statement, String sql, int autoGeneratedKeys)
-                                                                                                                    throws SQLException {
+            throws SQLException {
         statementExecuteBefore(statement, sql);
 
         try {
@@ -227,7 +223,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public boolean statement_execute(FilterChain chain, StatementProxy statement, String sql, int columnIndexes[])
-                                                                                                                  throws SQLException {
+            throws SQLException {
         statementExecuteBefore(statement, sql);
 
         try {
@@ -250,7 +246,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public boolean statement_execute(FilterChain chain, StatementProxy statement, String sql, String columnNames[])
-                                                                                                                   throws SQLException {
+            throws SQLException {
         statementExecuteBefore(statement, sql);
 
         try {
@@ -295,7 +291,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public ResultSetProxy statement_executeQuery(FilterChain chain, StatementProxy statement, String sql)
-                                                                                                         throws SQLException {
+            throws SQLException {
         statementExecuteQueryBefore(statement, sql);
 
         try {
@@ -343,7 +339,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public int statement_executeUpdate(FilterChain chain, StatementProxy statement, String sql, int autoGeneratedKeys)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         statementExecuteUpdateBefore(statement, sql);
 
         try {
@@ -366,7 +362,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public int statement_executeUpdate(FilterChain chain, StatementProxy statement, String sql, int columnIndexes[])
-                                                                                                                    throws SQLException {
+            throws SQLException {
         statementExecuteUpdateBefore(statement, sql);
 
         try {
@@ -389,7 +385,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public int statement_executeUpdate(FilterChain chain, StatementProxy statement, String sql, String columnNames[])
-                                                                                                                     throws SQLException {
+            throws SQLException {
         statementExecuteUpdateBefore(statement, sql);
 
         try {
@@ -458,7 +454,7 @@ public abstract class FilterEventAdapter extends FilterAdapter {
 
     @Override
     public ResultSetProxy preparedStatement_executeQuery(FilterChain chain, PreparedStatementProxy statement)
-                                                                                                             throws SQLException {
+            throws SQLException {
         try {
             statementExecuteQueryBefore(statement, statement.getSql());
 

@@ -21,15 +21,15 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLDropIndexStatement extends SQLStatementImpl implements SQLDDLStatement {
 
-    private SQLExpr            indexName;
+    private SQLExpr indexName;
     private SQLExprTableSource tableName;
-    
+
     public SQLDropIndexStatement() {
-        
+
     }
-    
+
     public SQLDropIndexStatement(String dbType) {
-        super (dbType);
+        super(dbType);
     }
 
     public SQLExpr getIndexName() {

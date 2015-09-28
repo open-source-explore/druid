@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.postgresql.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.statement.SQLTableSource;
 import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
@@ -26,18 +23,21 @@ import com.alibaba.druid.sql.dialect.postgresql.visitor.PGASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PGUpdateStatement extends SQLUpdateStatement implements PGSQLStatement {
 
-    private boolean        only      = false;
+    private boolean only = false;
 
-    private PGWithClause   with;
+    private PGWithClause with;
 
-    private List<SQLExpr>  returning = new ArrayList<SQLExpr>(2);
+    private List<SQLExpr> returning = new ArrayList<SQLExpr>(2);
 
     private SQLTableSource from;
-    
-    public PGUpdateStatement(){
-        super (JdbcConstants.POSTGRESQL);
+
+    public PGUpdateStatement() {
+        super(JdbcConstants.POSTGRESQL);
     }
 
     public SQLTableSource getFrom() {

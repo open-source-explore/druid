@@ -27,7 +27,7 @@ public class PoolableWrapper implements Wrapper {
 
     private final Wrapper wrapper;
 
-    public PoolableWrapper(Wrapper wraaper){
+    public PoolableWrapper(Wrapper wraaper) {
         this.wrapper = wraaper;
     }
 
@@ -50,7 +50,7 @@ public class PoolableWrapper implements Wrapper {
         if (iface == this.getClass()) {
             return true;
         }
-        
+
         if (!(wrapper instanceof WrapperProxy)) {
             if (iface.isInstance(wrapper)) {
                 return true;
@@ -80,7 +80,7 @@ public class PoolableWrapper implements Wrapper {
         if (iface == this.getClass()) {
             return (T) this;
         }
-        
+
         if (!(wrapper instanceof WrapperProxy)) {
             if (iface.isInstance(wrapper)) {
                 return (T) wrapper;

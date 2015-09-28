@@ -23,13 +23,13 @@ import java.util.List;
 public class SQLOver extends SQLObjectImpl {
 
     protected final List<SQLExpr> partitionBy = new ArrayList<SQLExpr>();
-    protected SQLOrderBy          orderBy;
+    protected SQLOrderBy orderBy;
 
-    public SQLOver(){
+    public SQLOver() {
 
     }
 
-    public SQLOver(SQLOrderBy orderBy){
+    public SQLOver(SQLOrderBy orderBy) {
         this.setOrderBy(orderBy);
     }
 

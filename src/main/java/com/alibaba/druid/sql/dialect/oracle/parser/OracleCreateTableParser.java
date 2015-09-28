@@ -31,11 +31,11 @@ import com.alibaba.druid.sql.parser.Token;
 
 public class OracleCreateTableParser extends SQLCreateTableParser {
 
-    public OracleCreateTableParser(Lexer lexer){
+    public OracleCreateTableParser(Lexer lexer) {
         super(new OracleExprParser(lexer));
     }
 
-    public OracleCreateTableParser(String sql){
+    public OracleCreateTableParser(String sql) {
         super(new OracleExprParser(sql));
     }
 
@@ -46,7 +46,7 @@ public class OracleCreateTableParser extends SQLCreateTableParser {
     public OracleCreateTableStatement parseCrateTable(boolean acceptCreate) {
         OracleCreateTableStatement stmt = (OracleCreateTableStatement) super.parseCrateTable(acceptCreate);
 
-        for (;;) {
+        for (; ; ) {
             if (lexer.token() == Token.TABLESPACE) {
                 lexer.nextToken();
                 stmt.setTablespace(this.exprParser.name());
@@ -141,7 +141,7 @@ public class OracleCreateTableParser extends SQLCreateTableParser {
                     lexer.nextToken();
                     accept(Token.LPAREN);
                     OraclePartitionByRangeClause clause = new OraclePartitionByRangeClause();
-                    for (;;) {
+                    for (; ; ) {
                         SQLName column = this.exprParser.name();
                         clause.getColumns().add(column);
 
@@ -163,7 +163,7 @@ public class OracleCreateTableParser extends SQLCreateTableParser {
                         lexer.nextToken();
                         accept(Token.IN);
                         accept(Token.LPAREN);
-                        for (;;) {
+                        for (; ; ) {
                             SQLName tablespace = this.exprParser.name();
                             clause.getStoreIn().add(tablespace);
 
@@ -179,7 +179,7 @@ public class OracleCreateTableParser extends SQLCreateTableParser {
 
                     accept(Token.LPAREN);
 
-                    for (;;) {
+                    for (; ; ) {
                         acceptIdentifier("PARTITION");
                         OracleRangeValuesClause range = new OracleRangeValuesClause();
                         range.setName(this.exprParser.name());
@@ -189,7 +189,7 @@ public class OracleCreateTableParser extends SQLCreateTableParser {
                         acceptIdentifier("THAN");
 
                         accept(Token.LPAREN);
-                        for (;;) {
+                        for (; ; ) {
                             SQLExpr rangeValue = this.exprParser.expr();
                             range.getValues().add(rangeValue);
 

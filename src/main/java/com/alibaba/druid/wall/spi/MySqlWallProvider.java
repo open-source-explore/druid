@@ -28,11 +28,11 @@ public class MySqlWallProvider extends WallProvider {
 
     public final static String DEFAULT_CONFIG_DIR = "META-INF/druid/wall/mysql";
 
-    public MySqlWallProvider(){
+    public MySqlWallProvider() {
         this(new WallConfig(DEFAULT_CONFIG_DIR));
     }
 
-    public MySqlWallProvider(WallConfig config){
+    public MySqlWallProvider(WallConfig config) {
         super(config, JdbcConstants.MYSQL);
     }
 

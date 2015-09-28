@@ -41,7 +41,7 @@ public class SQLServerSetTransactionIsolationLevelStatement extends SQLServerObj
     public String getDbType() {
         return dbType;
     }
-    
+
     public void setDbType(String dbType) {
         this.dbType = dbType;
     }

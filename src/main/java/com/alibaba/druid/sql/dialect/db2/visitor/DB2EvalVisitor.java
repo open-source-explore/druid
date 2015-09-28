@@ -15,41 +15,30 @@
  */
 package com.alibaba.druid.sql.dialect.db2.visitor;
 
+import com.alibaba.druid.sql.ast.expr.*;
+import com.alibaba.druid.sql.visitor.SQLEvalVisitor;
+import com.alibaba.druid.sql.visitor.SQLEvalVisitorUtils;
+import com.alibaba.druid.sql.visitor.functions.Function;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCaseExpr;
-import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNullExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumberExpr;
-import com.alibaba.druid.sql.ast.expr.SQLQueryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLUnaryExpr;
-import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
-import com.alibaba.druid.sql.visitor.SQLEvalVisitor;
-import com.alibaba.druid.sql.visitor.SQLEvalVisitorUtils;
-import com.alibaba.druid.sql.visitor.functions.Function;
-
 public class DB2EvalVisitor extends DB2ASTVisitorAdapter implements SQLEvalVisitor {
 
-    private Map<String, Function> functions        = new HashMap<String, Function>();
-    private List<Object>          parameters       = new ArrayList<Object>();
+    private Map<String, Function> functions = new HashMap<String, Function>();
+    private List<Object> parameters = new ArrayList<Object>();
 
-    private int                   variantIndex     = -1;
+    private int variantIndex = -1;
 
-    private boolean               markVariantIndex = true;
+    private boolean markVariantIndex = true;
 
-    public DB2EvalVisitor(){
+    public DB2EvalVisitor() {
         this(new ArrayList<Object>(1));
     }
 
-    public DB2EvalVisitor(List<Object> parameters){
+    public DB2EvalVisitor(List<Object> parameters) {
         this.parameters = parameters;
     }
 
@@ -135,7 +124,7 @@ public class DB2EvalVisitor extends DB2ASTVisitorAdapter implements SQLEvalVisit
     public void registerFunction(String funcName, Function function) {
         functions.put(funcName, function);
     }
-    
+
     @Override
     public void unregisterFunction(String funcName) {
         functions.remove(funcName);

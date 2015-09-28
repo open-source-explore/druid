@@ -22,13 +22,13 @@ import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 public class OracleSizeExpr extends OracleSQLObjectImpl implements OracleExpr {
 
     private SQLExpr value;
-    private Unit    unit;
+    private Unit unit;
 
-    public OracleSizeExpr(){
+    public OracleSizeExpr() {
 
     }
 
-    public OracleSizeExpr(SQLExpr value, Unit unit){
+    public OracleSizeExpr(SQLExpr value, Unit unit) {
         super();
         this.value = value;
         this.unit = unit;

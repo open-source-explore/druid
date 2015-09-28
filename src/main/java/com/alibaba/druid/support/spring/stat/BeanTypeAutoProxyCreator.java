@@ -31,18 +31,18 @@ import java.util.List;
 
 /**
  * 类BeanTypeAutoProxyCreator.java的实现描述：使用配置类型代替Springframework中配置名称的实现
- * 
+ *
  * @author hualiang.lihl 2011-12-31 上午10:48:20
  */
 public class BeanTypeAutoProxyCreator extends AbstractAutoProxyCreator implements InitializingBean, ApplicationContextAware {
 
-    private static final long  serialVersionUID = -9094985530794052264L;
+    private static final long serialVersionUID = -9094985530794052264L;
 
-    private Class<?>           targetBeanType;
+    private Class<?> targetBeanType;
 
     private ApplicationContext context;
 
-    private List<String>       beanNames        = new ArrayList<String>();
+    private List<String> beanNames = new ArrayList<String>();
 
     /**
      * @param targetClass the targetClass to set
@@ -76,11 +76,11 @@ public class BeanTypeAutoProxyCreator extends AbstractAutoProxyCreator implement
 
     /**
      * Return if the given bean name matches the mapped name.
-     * <p>
+     * <p/>
      * The default implementation checks for "xxx*", "*xxx" and "*xxx*" matches, as well as direct equality. Can be
      * overridden in subclasses.
-     * 
-     * @param beanName the bean name to check
+     *
+     * @param beanName   the bean name to check
      * @param mappedName the name in the configured list of names
      * @return if the names match
      * @see org.springframework.util.PatternMatchUtils#simpleMatch(String, String)

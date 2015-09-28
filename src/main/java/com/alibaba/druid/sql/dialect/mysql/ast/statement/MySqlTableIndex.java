@@ -15,22 +15,22 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.statement.SQLTableElement;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlObjectImpl;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySqlTableIndex extends MySqlObjectImpl implements SQLTableElement {
 
-    private SQLName       name;
-    private String        indexType;
+    private SQLName name;
+    private String indexType;
     private List<SQLExpr> columns = new ArrayList<SQLExpr>();
 
-    public MySqlTableIndex(){
+    public MySqlTableIndex() {
 
     }
 

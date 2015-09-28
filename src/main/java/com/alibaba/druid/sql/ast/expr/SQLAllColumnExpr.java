@@ -20,7 +20,7 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLAllColumnExpr extends SQLExprImpl {
 
-    public SQLAllColumnExpr(){
+    public SQLAllColumnExpr() {
 
     }
 

@@ -22,10 +22,10 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLCastExpr extends SQLExprImpl {
 
-    protected SQLExpr     expr;
+    protected SQLExpr expr;
     protected SQLDataType dataType;
 
-    public SQLCastExpr(){
+    public SQLCastExpr() {
 
     }
 

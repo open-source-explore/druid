@@ -26,12 +26,12 @@ import com.alibaba.druid.util.JdbcConstants;
 
 public class SQLServerUpdateStatement extends SQLUpdateStatement implements SQLServerStatement {
 
-    private SQLServerTop    top;
-    private SQLTableSource  from;
+    private SQLServerTop top;
+    private SQLTableSource from;
     private SQLServerOutput output;
-    
-    public SQLServerUpdateStatement(){
-        super (JdbcConstants.SQL_SERVER);
+
+    public SQLServerUpdateStatement() {
+        super(JdbcConstants.SQL_SERVER);
     }
 
     public SQLServerTop getTop() {

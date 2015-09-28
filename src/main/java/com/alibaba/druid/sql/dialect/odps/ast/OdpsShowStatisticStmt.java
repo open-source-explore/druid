@@ -25,9 +25,9 @@ import com.alibaba.druid.util.JdbcConstants;
 public class OdpsShowStatisticStmt extends SQLStatementImpl implements SQLStatement {
 
     private SQLExprTableSource tableSource;
-    
+
     public OdpsShowStatisticStmt() {
-        super (JdbcConstants.ODPS);
+        super(JdbcConstants.ODPS);
     }
 
     public SQLExprTableSource getTableSource() {
@@ -42,7 +42,7 @@ public class OdpsShowStatisticStmt extends SQLStatementImpl implements SQLStatem
     protected void accept0(SQLASTVisitor visitor) {
         accept0((OdpsASTVisitor) visitor);
     }
-    
+
     protected void accept0(OdpsASTVisitor visitor) {
         if (visitor.visit(this)) {
             acceptChild(visitor, tableSource);

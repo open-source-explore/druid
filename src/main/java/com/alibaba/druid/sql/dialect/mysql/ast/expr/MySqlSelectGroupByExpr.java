@@ -23,7 +23,7 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class MySqlSelectGroupByExpr extends SQLExprImpl implements MySqlExpr {
 
-    protected SQLExpr                  expr;
+    protected SQLExpr expr;
     protected SQLOrderingSpecification type;
 
     @Override

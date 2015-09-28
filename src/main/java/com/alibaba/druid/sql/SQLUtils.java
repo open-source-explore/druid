@@ -15,24 +15,13 @@
  */
 package com.alibaba.druid.sql;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.DruidRuntimeException;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLObject;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
-import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectOrderByItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSetStatement;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateSetItem;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.db2.visitor.DB2OutputVisitor;
 import com.alibaba.druid.sql.dialect.db2.visitor.DB2SchemaStatVisitor;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlOutputVisitor;
@@ -46,11 +35,7 @@ import com.alibaba.druid.sql.dialect.postgresql.visitor.PGOutputVisitor;
 import com.alibaba.druid.sql.dialect.postgresql.visitor.PGSchemaStatVisitor;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerOutputVisitor;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerSchemaStatVisitor;
-import com.alibaba.druid.sql.parser.ParserException;
-import com.alibaba.druid.sql.parser.SQLExprParser;
-import com.alibaba.druid.sql.parser.SQLParserUtils;
-import com.alibaba.druid.sql.parser.SQLStatementParser;
-import com.alibaba.druid.sql.parser.Token;
+import com.alibaba.druid.sql.parser.*;
 import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
 import com.alibaba.druid.sql.visitor.SchemaStatVisitor;
 import com.alibaba.druid.support.logging.Log;
@@ -59,14 +44,17 @@ import com.alibaba.druid.util.JdbcConstants;
 import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.druid.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLUtils {
 
     private final static Log LOG = LogFactory.getLog(SQLUtils.class);
 
     public static String toSQLString(SQLObject sqlObject, String dbType) {
         if (JdbcUtils.MYSQL.equals(dbType) || //
-            JdbcUtils.MARIADB.equals(dbType) || //
-            JdbcUtils.H2.equals(dbType)) {
+                JdbcUtils.MARIADB.equals(dbType) || //
+                JdbcUtils.H2.equals(dbType)) {
             return toMySqlString(sqlObject);
         }
 
@@ -179,29 +167,29 @@ public class SQLUtils {
 
         return expr;
     }
-    
+
     public static SQLSelectOrderByItem toOrderByItem(String sql, String dbType) {
         SQLExprParser parser = SQLParserUtils.createExprParser(sql, dbType);
         SQLSelectOrderByItem orderByItem = parser.parseSelectOrderByItem();
-        
+
         if (parser.getLexer().token() != Token.EOF) {
             throw new ParserException("illegal sql expr : " + sql);
         }
-        
+
         return orderByItem;
     }
-    
+
     public static SQLUpdateSetItem toUpdateSetItem(String sql, String dbType) {
         SQLExprParser parser = SQLParserUtils.createExprParser(sql, dbType);
         SQLUpdateSetItem updateSetItem = parser.parseUpdateSetItem();
-        
+
         if (parser.getLexer().token() != Token.EOF) {
             throw new ParserException("illegal sql expr : " + sql);
         }
-        
+
         return updateSetItem;
     }
-    
+
     public static SQLSelectItem toSelectItem(String sql, String dbType) {
         SQLExprParser parser = SQLParserUtils.createExprParser(sql, dbType);
         SQLSelectItem selectItem = parser.parseSelectItem();
@@ -230,7 +218,7 @@ public class SQLUtils {
         try {
             SQLStatementParser parser = SQLParserUtils.createSQLStatementParser(sql, dbType);
             parser.setKeepComments(true);
-            
+
             List<SQLStatement> statementList = parser.parseStatementList();
 
             return toSQLString(statementList, dbType, parameters);
@@ -253,13 +241,13 @@ public class SQLUtils {
 
         for (int i = 0; i < statementList.size(); i++) {
             SQLStatement stmt = statementList.get(i);
-            
+
             if (i > 0) {
                 visitor.print(";");
-                
+
                 SQLStatement preStmt = statementList.get(i - 1);
                 List<String> comments = preStmt.getAfterCommentsDirect();
-                if (comments != null){
+                if (comments != null) {
                     for (int j = 0; j < comments.size(); ++j) {
                         String comment = comments.get(j);
                         if (j != 0) {
@@ -269,21 +257,21 @@ public class SQLUtils {
                     }
                 }
                 visitor.println();
-                
+
                 if (!(stmt instanceof SQLSetStatement)) {
                     visitor.println();
                 }
             }
             {
                 List<String> comments = stmt.getBeforeCommentsDirect();
-                if (comments != null){
-                    for(String comment : comments) {
+                if (comments != null) {
+                    for (String comment : comments) {
                         visitor.println(comment);
                     }
                 }
             }
             stmt.accept(visitor);
-            
+
             if (i == statementList.size() - 1) {
                 Boolean semi = (Boolean) stmt.getAttribute("format.semi");
                 if (semi != null && semi.booleanValue()) {
@@ -292,9 +280,9 @@ public class SQLUtils {
 //                    }
                     visitor.print(";");
                 }
-                
+
                 List<String> comments = stmt.getAfterCommentsDirect();
-                if (comments != null){
+                if (comments != null) {
                     for (int j = 0; j < comments.size(); ++j) {
                         String comment = comments.get(j);
                         if (j != 0) {
@@ -320,8 +308,8 @@ public class SQLUtils {
         }
 
         if (JdbcUtils.MYSQL.equals(dbType) || //
-            JdbcUtils.MARIADB.equals(dbType) || //
-            JdbcUtils.H2.equals(dbType)) {
+                JdbcUtils.MARIADB.equals(dbType) || //
+                JdbcUtils.H2.equals(dbType)) {
             return new MySqlOutputVisitor(out);
         }
 
@@ -343,7 +331,7 @@ public class SQLUtils {
 
         return new SQLASTOutputVisitor(out);
     }
-    
+
     @Deprecated
     public static SchemaStatVisitor createSchemaStatVisitor(List<SQLStatement> statementList, String dbType) {
         return createSchemaStatVisitor(dbType);
@@ -355,8 +343,8 @@ public class SQLUtils {
         }
 
         if (JdbcUtils.MYSQL.equals(dbType) || //
-            JdbcUtils.MARIADB.equals(dbType) || //
-            JdbcUtils.H2.equals(dbType)) {
+                JdbcUtils.MARIADB.equals(dbType) || //
+                JdbcUtils.H2.equals(dbType)) {
             return new MySqlSchemaStatVisitor();
         }
 
@@ -371,7 +359,7 @@ public class SQLUtils {
         if (JdbcUtils.DB2.equals(dbType)) {
             return new DB2SchemaStatVisitor();
         }
-        
+
         if (JdbcUtils.ODPS.equals(dbType)) {
             return new OdpsSchemaStatVisitor();
         }
@@ -389,12 +377,12 @@ public class SQLUtils {
     }
 
     /**
-     * @author owenludong.lud
      * @param columnName
      * @param tableAlias
-     * @param pattern if pattern is null,it will be set {%Y-%m-%d %H:%i:%s} as mysql default value and set {yyyy-mm-dd
-     * hh24:mi:ss} as oracle default value
-     * @param dbType {@link JdbcConstants} if dbType is null ,it will be set the mysql as a default value
+     * @param pattern    if pattern is null,it will be set {%Y-%m-%d %H:%i:%s} as mysql default value and set {yyyy-mm-dd
+     *                   hh24:mi:ss} as oracle default value
+     * @param dbType     {@link JdbcConstants} if dbType is null ,it will be set the mysql as a default value
+     * @author owenludong.lud
      */
     public static String buildToDate(String columnName, String tableAlias, String pattern, String dbType) {
         StringBuilder sql = new StringBuilder();
@@ -425,7 +413,7 @@ public class SQLUtils {
         groupList.add(x.getRight());
 
         SQLExpr left = x.getLeft();
-        for (;;) {
+        for (; ; ) {
             if (left instanceof SQLBinaryOpExpr && ((SQLBinaryOpExpr) left).getOperator() == x.getOperator()) {
                 SQLBinaryOpExpr binaryLeft = (SQLBinaryOpExpr) left;
                 groupList.add(binaryLeft.getRight());
@@ -471,7 +459,7 @@ public class SQLUtils {
         }
 
         if (op != SQLBinaryOperator.BooleanAnd //
-            && op != SQLBinaryOperator.BooleanOr) {
+                && op != SQLBinaryOperator.BooleanOr) {
             throw new IllegalArgumentException("add condition not support : " + op);
         }
 
@@ -528,7 +516,7 @@ public class SQLUtils {
 
         throw new IllegalArgumentException("add condition not support " + stmt.getClass().getName());
     }
-    
+
     public static SQLExpr buildCondition(SQLBinaryOperator op, SQLExpr condition, boolean left, SQLExpr where) {
         if (where == null) {
             return condition;
@@ -536,17 +524,17 @@ public class SQLUtils {
 
         SQLBinaryOpExpr newCondition;
         if (left) {
-            newCondition = new SQLBinaryOpExpr(condition, op, where);            
+            newCondition = new SQLBinaryOpExpr(condition, op, where);
         } else {
             newCondition = new SQLBinaryOpExpr(where, op, condition);
         }
         return newCondition;
     }
-   
+
     public static String addSelectItem(String selectSql, String expr, String alias, String dbType) {
         return addSelectItem(selectSql, expr, alias, false, dbType);
     }
-                                       
+
     public static String addSelectItem(String selectSql, String expr, String alias, boolean first, String dbType) {
         List<SQLStatement> stmtList = parseStatements(selectSql, dbType);
 
@@ -566,12 +554,12 @@ public class SQLUtils {
 
         return toSQLString(stmt, dbType);
     }
-    
+
     public static void addSelectItem(SQLStatement stmt, SQLExpr expr, String alias, boolean first) {
         if (expr == null) {
             return;
         }
-        
+
         if (stmt instanceof SQLSelectStatement) {
             SQLSelectQuery query = ((SQLSelectStatement) stmt).getSelect().getQuery();
             if (query instanceof SQLSelectQueryBlock) {
@@ -583,10 +571,10 @@ public class SQLUtils {
 
             return;
         }
-        
+
         throw new IllegalArgumentException("add selectItem not support " + stmt.getClass().getName());
     }
-    
+
     public static void addSelectItem(SQLSelectQueryBlock queryBlock, SQLExpr expr, String alias, boolean first) {
         SQLSelectItem selectItem = new SQLSelectItem(expr, alias);
         queryBlock.getSelectList().add(selectItem);

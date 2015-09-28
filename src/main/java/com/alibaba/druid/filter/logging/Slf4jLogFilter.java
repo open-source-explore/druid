@@ -22,8 +22,8 @@ public class Slf4jLogFilter extends LogFilter {
 
     private Logger dataSourceLogger = LoggerFactory.getLogger(dataSourceLoggerName);
     private Logger connectionLogger = LoggerFactory.getLogger(connectionLoggerName);
-    private Logger statementLogger  = LoggerFactory.getLogger(statementLoggerName);
-    private Logger resultSetLogger  = LoggerFactory.getLogger(resultSetLoggerName);
+    private Logger statementLogger = LoggerFactory.getLogger(statementLoggerName);
+    private Logger resultSetLogger = LoggerFactory.getLogger(resultSetLoggerName);
 
     @Override
     public String getDataSourceLoggerName() {

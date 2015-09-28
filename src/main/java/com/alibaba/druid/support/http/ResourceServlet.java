@@ -34,26 +34,26 @@ import java.util.List;
 @SuppressWarnings("serial")
 public abstract class ResourceServlet extends HttpServlet {
 
-    private final static Log   LOG                 = LogFactory.getLog(ResourceServlet.class);
+    private final static Log LOG = LogFactory.getLog(ResourceServlet.class);
 
-    public static final String SESSION_USER_KEY    = "druid-user";
+    public static final String SESSION_USER_KEY = "druid-user";
     public static final String PARAM_NAME_USERNAME = "loginUsername";
     public static final String PARAM_NAME_PASSWORD = "loginPassword";
-    public static final String PARAM_NAME_ALLOW    = "allow";
-    public static final String PARAM_NAME_DENY     = "deny";
-    public static final String PARAM_REMOTE_ADDR   = "remoteAddress";
+    public static final String PARAM_NAME_ALLOW = "allow";
+    public static final String PARAM_NAME_DENY = "deny";
+    public static final String PARAM_REMOTE_ADDR = "remoteAddress";
 
-    protected String           username            = null;
-    protected String           password            = null;
+    protected String username = null;
+    protected String password = null;
 
-    protected List<IPRange>    allowList           = new ArrayList<IPRange>();
-    protected List<IPRange>    denyList            = new ArrayList<IPRange>();
+    protected List<IPRange> allowList = new ArrayList<IPRange>();
+    protected List<IPRange> denyList = new ArrayList<IPRange>();
 
-    protected final String     resourcePath;
+    protected final String resourcePath;
 
-    protected String           remoteAddressHeader = null;
+    protected String remoteAddressHeader = null;
 
-    public ResourceServlet(String resourcePath){
+    public ResourceServlet(String resourcePath) {
         this.resourcePath = resourcePath;
     }
 
@@ -151,8 +151,8 @@ public abstract class ResourceServlet extends HttpServlet {
     }
 
     protected void returnResourceFile(String fileName, String uri, HttpServletResponse response)
-                                                                                                throws ServletException,
-                                                                                                IOException {
+            throws ServletException,
+            IOException {
 
         String filePath = getFilePath(fileName);
         if (fileName.endsWith(".jpg")) {
@@ -209,11 +209,11 @@ public abstract class ResourceServlet extends HttpServlet {
         }
 
         if (isRequireAuth() //
-            && !ContainsUser(request)//
-            && !("/login.html".equals(path) //
-                 || path.startsWith("/css")//
-                 || path.startsWith("/js") //
-            || path.startsWith("/img"))) {
+                && !ContainsUser(request)//
+                && !("/login.html".equals(path) //
+                || path.startsWith("/css")//
+                || path.startsWith("/js") //
+                || path.startsWith("/img"))) {
             if (contextPath.equals("") || contextPath.equals("/")) {
                 response.sendRedirect("/druid/login.html");
             } else {
@@ -269,15 +269,15 @@ public abstract class ResourceServlet extends HttpServlet {
 
     protected String getRemoteAddress(HttpServletRequest request) {
         String remoteAddress = null;
-        
+
         if (remoteAddressHeader != null) {
             remoteAddress = request.getHeader(remoteAddressHeader);
         }
-        
+
         if (remoteAddress == null) {
             remoteAddress = request.getRemoteAddr();
         }
-        
+
         return remoteAddress;
     }
 

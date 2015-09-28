@@ -16,10 +16,10 @@
 
 package com.alibaba.druid.proxy.jdbc;
 
+import com.alibaba.druid.filter.FilterChainImpl;
+
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-
-import com.alibaba.druid.filter.FilterChainImpl;
 
 /**
  * @author kiki
@@ -27,11 +27,11 @@ import com.alibaba.druid.filter.FilterChainImpl;
 public class ResultSetMetaDataProxyImpl extends WrapperProxyImpl implements ResultSetMetaDataProxy {
 
     private final ResultSetMetaData metaData;
-    private final ResultSetProxy    resultSet;
+    private final ResultSetProxy resultSet;
 
-    private FilterChainImpl         filterChain = null;
+    private FilterChainImpl filterChain = null;
 
-    public ResultSetMetaDataProxyImpl(ResultSetMetaData metaData, long id, ResultSetProxy resultSet){
+    public ResultSetMetaDataProxyImpl(ResultSetMetaData metaData, long id, ResultSetProxy resultSet) {
         super(metaData, id);
         this.metaData = metaData;
         this.resultSet = resultSet;

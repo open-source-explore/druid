@@ -15,8 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.parser;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
@@ -35,17 +33,19 @@ import com.alibaba.druid.sql.parser.SQLExprParser;
 import com.alibaba.druid.sql.parser.Token;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.List;
+
 public class SQLServerExprParser extends SQLExprParser {
 
-    public final static String[] AGGREGATE_FUNCTIONS = { "AVG", "COUNT", "MAX", "MIN", "ROW_NUMBER", "STDDEV", "SUM" };
+    public final static String[] AGGREGATE_FUNCTIONS = {"AVG", "COUNT", "MAX", "MIN", "ROW_NUMBER", "STDDEV", "SUM"};
 
-    public SQLServerExprParser(Lexer lexer){
+    public SQLServerExprParser(Lexer lexer) {
         super(lexer);
         this.dbType = JdbcConstants.SQL_SERVER;
         this.aggregateFunctions = AGGREGATE_FUNCTIONS;
     }
 
-    public SQLServerExprParser(String sql){
+    public SQLServerExprParser(String sql) {
         this(new SQLServerLexer(sql));
         this.lexer.nextToken();
         this.dbType = JdbcConstants.SQL_SERVER;
@@ -142,14 +142,14 @@ public class SQLServerExprParser extends SQLExprParser {
 
         return null;
     }
-    
+
     protected SQLServerOutput parserOutput() {
         if (identifierEquals("OUTPUT")) {
             lexer.nextToken();
             SQLServerOutput output = new SQLServerOutput();
 
             final List<SQLSelectItem> selectList = output.getSelectList();
-            for (;;) {
+            for (; ; ) {
                 final SQLSelectItem selectItem = parseSelectItem();
                 selectList.add(selectItem);
 

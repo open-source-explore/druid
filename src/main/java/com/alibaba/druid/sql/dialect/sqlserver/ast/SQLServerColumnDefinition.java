@@ -23,7 +23,7 @@ public class SQLServerColumnDefinition extends SQLColumnDefinition implements SQ
 
     private Identity identity;
 
-    public SQLServerColumnDefinition(){
+    public SQLServerColumnDefinition() {
 
     }
 
@@ -62,7 +62,7 @@ public class SQLServerColumnDefinition extends SQLColumnDefinition implements SQ
 
         private boolean notForReplication;
 
-        public Identity(){
+        public Identity() {
 
         }
 

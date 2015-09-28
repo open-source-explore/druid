@@ -15,12 +15,12 @@
  */
 package com.alibaba.druid.support.http.stat;
 
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
+
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-
-import com.alibaba.druid.support.logging.Log;
-import com.alibaba.druid.support.logging.LogFactory;
 
 public class WebAppStatUtils {
 
@@ -73,13 +73,13 @@ public class WebAppStatUtils {
             return null;
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getSessionStatData(Object webStat, String sessionId) {
         if (webStat.getClass() == WebAppStat.class) {
             return ((WebAppStat) webStat).getSessionStatData(sessionId);
         }
-        
+
         try {
             Method method = webStat.getClass().getMethod("getSessionStatData", String.class);
             Object obj = method.invoke(webStat);
@@ -89,13 +89,13 @@ public class WebAppStatUtils {
             return null;
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getURIStatData(Object webStat, String uri) {
         if (webStat.getClass() == WebAppStat.class) {
             return ((WebAppStat) webStat).getURIStatData(uri);
         }
-        
+
         try {
             Method method = webStat.getClass().getMethod("getURIStatData", String.class);
             Object obj = method.invoke(webStat);

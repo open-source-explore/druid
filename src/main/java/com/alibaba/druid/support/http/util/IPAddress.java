@@ -100,42 +100,47 @@ import java.util.NoSuchElementException;
  * <------- network  number -------->&nbsp;<-- host number --><br/>
  * </code> <br/>
  * <br/>
- * 
+ *
  * @author Marcel Dullaart
  * @version 1.0
  */
 public class IPAddress implements Cloneable {
 
-    /** IP address */
+    /**
+     * IP address
+     */
     protected int ipAddress = 0;
 
     // -------------------------------------------------------------------------
+
     /**
      * Constructor.
-     * 
+     *
      * @param ip String representation of the IP address. The format of the ip's string representation must follow the
-     * decimal-dotted notation xxx.xxx.xxx.xxx.
-     * @exception InvalidIPAddressException Throws this exception when the specified string doesn't represent a valid IP
-     * address.
+     *           decimal-dotted notation xxx.xxx.xxx.xxx.
+     * @throws InvalidIPAddressException Throws this exception when the specified string doesn't represent a valid IP
+     *                                   address.
      */
-    public IPAddress(String ipAddressStr){
+    public IPAddress(String ipAddressStr) {
         ipAddress = parseIPAddress(ipAddressStr);
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Constructor.
-     * 
+     *
      * @param ip Binary representation of the IP address.
      */
-    public IPAddress(int address){
+    public IPAddress(int address) {
         ipAddress = address;
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Return the integer representation of the IP address.
-     * 
+     *
      * @return The IP address.
      */
     public final int getIPAddress() {
@@ -143,9 +148,10 @@ public class IPAddress implements Cloneable {
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Return the string representation of the IP Address following the common decimal-dotted notation xxx.xxx.xxx.xxx.
-     * 
+     *
      * @return Return the string representation of the IP address.
      */
     public String toString() {
@@ -171,9 +177,10 @@ public class IPAddress implements Cloneable {
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Check if the IP address is belongs to a Class A IP address.
-     * 
+     *
      * @return Return <code>true</code> if the encapsulated IP address belongs to a class A IP address, otherwise
      * returne <code>false</code>.
      */
@@ -182,9 +189,10 @@ public class IPAddress implements Cloneable {
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Check if the IP address is belongs to a Class B IP address.
-     * 
+     *
      * @return Return <code>true</code> if the encapsulated IP address belongs to a class B IP address, otherwise
      * returne <code>false</code>.
      */
@@ -193,9 +201,10 @@ public class IPAddress implements Cloneable {
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Check if the IP address is belongs to a Class C IP address.
-     * 
+     *
      * @return Return <code>true</code> if the encapsulated IP address belongs to a class C IP address, otherwise
      * returne <code>false</code>.
      */
@@ -204,13 +213,14 @@ public class IPAddress implements Cloneable {
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Convert a decimal-dotted notation representation of an IP address into an 32 bits interger value.
-     * 
+     *
      * @param ipAddressStr Decimal-dotted notation (xxx.xxx.xxx.xxx) of the IP address.
      * @return Return the 32 bits integer representation of the IP address.
-     * @exception InvalidIPAddressException Throws this exception if the specified IP address is not compliant to the
-     * decimal-dotted notation xxx.xxx.xxx.xxx.
+     * @throws InvalidIPAddressException Throws this exception if the specified IP address is not compliant to the
+     *                                   decimal-dotted notation xxx.xxx.xxx.xxx.
      */
     final int parseIPAddress(String ipAddressStr) {
         int result = 0;

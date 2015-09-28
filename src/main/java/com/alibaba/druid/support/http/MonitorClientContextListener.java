@@ -15,10 +15,10 @@
  */
 package com.alibaba.druid.support.http;
 
+import com.alibaba.druid.support.monitor.MonitorClient;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
-import com.alibaba.druid.support.monitor.MonitorClient;
 
 public class MonitorClientContextListener implements ServletContextListener {
 

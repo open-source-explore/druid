@@ -23,11 +23,11 @@ public class SQLCurrentOfCursorExpr extends SQLExprImpl {
 
     private SQLName cursorName;
 
-    public SQLCurrentOfCursorExpr(){
+    public SQLCurrentOfCursorExpr() {
 
     }
 
-    public SQLCurrentOfCursorExpr(SQLName cursorName){
+    public SQLCurrentOfCursorExpr(SQLName cursorName) {
         this.cursorName = cursorName;
     }
 

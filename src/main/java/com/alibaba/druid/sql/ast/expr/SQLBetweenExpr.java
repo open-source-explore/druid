@@ -15,31 +15,31 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+
 public class SQLBetweenExpr extends SQLExprImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    public SQLExpr            testExpr;
-    private boolean           not;
-    public SQLExpr            beginExpr;
-    public SQLExpr            endExpr;
+    public SQLExpr testExpr;
+    private boolean not;
+    public SQLExpr beginExpr;
+    public SQLExpr endExpr;
 
-    public SQLBetweenExpr(){
+    public SQLBetweenExpr() {
 
     }
 
-    public SQLBetweenExpr(SQLExpr testExpr, SQLExpr beginExpr, SQLExpr endExpr){
+    public SQLBetweenExpr(SQLExpr testExpr, SQLExpr beginExpr, SQLExpr endExpr) {
         setTestExpr(testExpr);
         setBeginExpr(beginExpr);
         setEndExpr(endExpr);
     }
 
-    public SQLBetweenExpr(SQLExpr testExpr, boolean not, SQLExpr beginExpr, SQLExpr endExpr){
+    public SQLBetweenExpr(SQLExpr testExpr, boolean not, SQLExpr beginExpr, SQLExpr endExpr) {
         this(testExpr, beginExpr, endExpr);
         this.not = not;
     }

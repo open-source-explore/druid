@@ -22,10 +22,10 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class OracleAnalyticWindowing extends SQLObjectImpl implements OracleExpr {
 
-    private Type    type;
+    private Type type;
     private SQLExpr expr;
 
-    public OracleAnalyticWindowing(){
+    public OracleAnalyticWindowing() {
 
     }
 

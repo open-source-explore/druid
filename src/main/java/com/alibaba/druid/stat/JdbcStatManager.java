@@ -20,14 +20,7 @@ import com.alibaba.druid.proxy.DruidDriver;
 import com.alibaba.druid.proxy.jdbc.DataSourceProxyImpl;
 
 import javax.management.JMException;
-import javax.management.openmbean.ArrayType;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.SimpleType;
-import javax.management.openmbean.TabularData;
-import javax.management.openmbean.TabularDataSupport;
-import javax.management.openmbean.TabularType;
+import javax.management.openmbean.*;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
@@ -35,19 +28,19 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public final class JdbcStatManager implements JdbcStatManagerMBean {
 
-    private final AtomicLong                  sqlIdSeed      = new AtomicLong(1000);
+    private final AtomicLong sqlIdSeed = new AtomicLong(1000);
 
-    private final static JdbcStatManager      instance       = new JdbcStatManager();
+    private final static JdbcStatManager instance = new JdbcStatManager();
 
-    private final JdbcConnectionStat          connectionStat = new JdbcConnectionStat();
-    private final JdbcResultSetStat           resultSetStat  = new JdbcResultSetStat();
-    private final JdbcStatementStat           statementStat  = new JdbcStatementStat();
+    private final JdbcConnectionStat connectionStat = new JdbcConnectionStat();
+    private final JdbcResultSetStat resultSetStat = new JdbcResultSetStat();
+    private final JdbcStatementStat statementStat = new JdbcStatementStat();
 
-    private final AtomicLong                  resetCount     = new AtomicLong();
+    private final AtomicLong resetCount = new AtomicLong();
 
-    public final ThreadLocal<JdbcStatContext> contextLocal   = new ThreadLocal<JdbcStatContext>();
+    public final ThreadLocal<JdbcStatContext> contextLocal = new ThreadLocal<JdbcStatContext>();
 
-    private JdbcStatManager(){
+    private JdbcStatManager() {
 
     }
 
@@ -91,7 +84,7 @@ public final class JdbcStatManager implements JdbcStatManagerMBean {
             return COMPOSITE_TYPE;
         }
 
-        OpenType<?>[] indexTypes = new OpenType<?>[] {
+        OpenType<?>[] indexTypes = new OpenType<?>[]{
                 // 0 - 4
                 SimpleType.LONG, //
                 SimpleType.STRING, //
@@ -171,8 +164,8 @@ public final class JdbcStatManager implements JdbcStatManagerMBean {
 
                 // 55 -
                 new ArrayType<Long>(SimpleType.LONG, true)
-        //
-        //
+                //
+                //
         };
 
         String[] indexNames = {
@@ -252,7 +245,7 @@ public final class JdbcStatManager implements JdbcStatManagerMBean {
 
                 // 55 -
                 "StatementHistogram",
-        //
+                //
         };
 
         COMPOSITE_TYPE = new CompositeType("DataSourceStatistic", "DataSource Statistic", indexNames,

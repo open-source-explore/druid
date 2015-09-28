@@ -15,42 +15,41 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.ast.clause;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlStatementImpl;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
- * @Description: MySql procedure while statement
  * @author zz email:455910092@qq.com
- * @date 2015-9-14
  * @version V1.0
+ * @Description: MySql procedure while statement
+ * @date 2015-9-14
  */
 public class MySqlWhileStatement extends MySqlStatementImpl {
-	
-	//while expr
-	private SQLExpr            condition;
-	private List<SQLStatement> statements = new ArrayList<SQLStatement>();
-	//while label name
-	private String labelName;
-	
-    
-	public String getLabelName() {
-		return labelName;
-	}
 
-	public void setLabelName(String labelName) {
-		this.labelName = labelName;
-	}
+    //while expr
+    private SQLExpr condition;
+    private List<SQLStatement> statements = new ArrayList<SQLStatement>();
+    //while label name
+    private String labelName;
 
-	@Override
+
+    public String getLabelName() {
+        return labelName;
+    }
+
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
+    }
+
+    @Override
     public void accept0(MySqlASTVisitor visitor) {
         if (visitor.visit(this)) {
-        	acceptChild(visitor, condition);
+            acceptChild(visitor, condition);
             acceptChild(visitor, statements);
         }
         visitor.endVisit(this);
@@ -63,11 +62,12 @@ public class MySqlWhileStatement extends MySqlStatementImpl {
     public void setStatements(List<SQLStatement> statements) {
         this.statements = statements;
     }
-    public SQLExpr getCondition() {
-		return condition;
-	}
 
-	public void setCondition(SQLExpr condition) {
-		this.condition = condition;
-	}
+    public SQLExpr getCondition() {
+        return condition;
+    }
+
+    public void setCondition(SQLExpr condition) {
+        this.condition = condition;
+    }
 }

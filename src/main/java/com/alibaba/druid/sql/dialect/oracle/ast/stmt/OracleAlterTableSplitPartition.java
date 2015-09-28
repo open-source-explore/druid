@@ -15,23 +15,23 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLObject;
 import com.alibaba.druid.sql.dialect.oracle.ast.OracleSQLObjectImpl;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleAlterTableSplitPartition extends OracleAlterTableItem {
 
-    private SQLName                        name;
-    private List<SQLExpr>                  at            = new ArrayList<SQLExpr>();
-    private List<SQLExpr>                  values        = new ArrayList<SQLExpr>();
-    private List<NestedTablePartitionSpec> into          = new ArrayList<NestedTablePartitionSpec>();
+    private SQLName name;
+    private List<SQLExpr> at = new ArrayList<SQLExpr>();
+    private List<SQLExpr> values = new ArrayList<SQLExpr>();
+    private List<NestedTablePartitionSpec> into = new ArrayList<NestedTablePartitionSpec>();
 
-    private UpdateIndexesClause            updateIndexes = null;
+    private UpdateIndexesClause updateIndexes = null;
 
     @Override
     public void accept0(OracleASTVisitor visitor) {
@@ -86,7 +86,7 @@ public class OracleAlterTableSplitPartition extends OracleAlterTableItem {
 
     public static class NestedTablePartitionSpec extends OracleSQLObjectImpl {
 
-        private SQLName         partition;
+        private SQLName partition;
 
         private List<SQLObject> segmentAttributeItems = new ArrayList<SQLObject>();
 
@@ -121,11 +121,11 @@ public class OracleAlterTableSplitPartition extends OracleAlterTableItem {
 
         private SQLName tablespace;
 
-        public TableSpaceItem(){
+        public TableSpaceItem() {
 
         }
 
-        public TableSpaceItem(SQLName tablespace){
+        public TableSpaceItem(SQLName tablespace) {
             this.tablespace = tablespace;
         }
 

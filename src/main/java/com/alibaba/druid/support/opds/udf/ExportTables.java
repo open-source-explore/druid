@@ -15,14 +15,14 @@
  */
 package com.alibaba.druid.support.opds.udf;
 
-import java.util.List;
-import java.util.Map;
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.visitor.SchemaStatVisitor;
 import com.alibaba.druid.stat.TableStat;
 import com.aliyun.odps.udf.UDF;
+
+import java.util.List;
+import java.util.Map;
 
 public class ExportTables extends UDF {
 

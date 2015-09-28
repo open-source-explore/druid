@@ -15,29 +15,10 @@
  */
 package com.alibaba.druid.wall;
 
-import static com.alibaba.druid.util.JdbcSqlStatUtils.get;
-
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlHintStatement;
-import com.alibaba.druid.sql.parser.Lexer;
-import com.alibaba.druid.sql.parser.NotAllowCommentException;
-import com.alibaba.druid.sql.parser.ParserException;
-import com.alibaba.druid.sql.parser.SQLStatementParser;
-import com.alibaba.druid.sql.parser.Token;
+import com.alibaba.druid.sql.parser.*;
 import com.alibaba.druid.sql.visitor.ExportParameterVisitor;
 import com.alibaba.druid.sql.visitor.ParameterizedOutputVisitorUtils;
 import com.alibaba.druid.util.LRUCache;
@@ -47,59 +28,69 @@ import com.alibaba.druid.wall.violation.ErrorCode;
 import com.alibaba.druid.wall.violation.IllegalSQLObjectViolation;
 import com.alibaba.druid.wall.violation.SyntaxErrorViolation;
 
+import java.security.PrivilegedAction;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import static com.alibaba.druid.util.JdbcSqlStatUtils.get;
+
 public abstract class WallProvider {
 
-    private String                                        name;
+    private String name;
 
-    private final Map<String, Object>                     attributes              = new ConcurrentHashMap<String, Object>(
-                                                                                                                          1,
-                                                                                                                          0.75f,
-                                                                                                                          1);
+    private final Map<String, Object> attributes = new ConcurrentHashMap<String, Object>(
+            1,
+            0.75f,
+            1);
 
-    private boolean                                       whiteListEnable         = true;
-    private LRUCache<String, WallSqlStat>                 whiteList;
+    private boolean whiteListEnable = true;
+    private LRUCache<String, WallSqlStat> whiteList;
 
-    private int                                           MAX_SQL_LENGTH          = 8192;                                              // 8k
+    private int MAX_SQL_LENGTH = 8192;                                              // 8k
 
-    private int                                           whiteSqlMaxSize         = 1000;
+    private int whiteSqlMaxSize = 1000;
 
-    private boolean                                       blackListEnable         = true;
-    private LRUCache<String, WallSqlStat>                 blackList;
-    private LRUCache<String, WallSqlStat>                 blackMergedList;
+    private boolean blackListEnable = true;
+    private LRUCache<String, WallSqlStat> blackList;
+    private LRUCache<String, WallSqlStat> blackMergedList;
 
-    private int                                           blackSqlMaxSize         = 200;
+    private int blackSqlMaxSize = 200;
 
-    protected final WallConfig                            config;
+    protected final WallConfig config;
 
-    private final ReentrantReadWriteLock                  lock                    = new ReentrantReadWriteLock();
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    private static final ThreadLocal<Boolean>             privileged              = new ThreadLocal<Boolean>();
+    private static final ThreadLocal<Boolean> privileged = new ThreadLocal<Boolean>();
 
-    private final ConcurrentMap<String, WallFunctionStat> functionStats           = new ConcurrentHashMap<String, WallFunctionStat>(
-                                                                                                                                    16,
-                                                                                                                                    0.75f,
-                                                                                                                                    1);
-    private final ConcurrentMap<String, WallTableStat>    tableStats              = new ConcurrentHashMap<String, WallTableStat>(
-                                                                                                                                 16,
-                                                                                                                                 0.75f,
-                                                                                                                                 1);
+    private final ConcurrentMap<String, WallFunctionStat> functionStats = new ConcurrentHashMap<String, WallFunctionStat>(
+            16,
+            0.75f,
+            1);
+    private final ConcurrentMap<String, WallTableStat> tableStats = new ConcurrentHashMap<String, WallTableStat>(
+            16,
+            0.75f,
+            1);
 
-    public final WallDenyStat                             commentDeniedStat       = new WallDenyStat();
+    public final WallDenyStat commentDeniedStat = new WallDenyStat();
 
-    protected String                                      dbType                  = null;
-    protected final AtomicLong                            checkCount              = new AtomicLong();
-    protected final AtomicLong                            hardCheckCount          = new AtomicLong();
-    protected final AtomicLong                            whiteListHitCount       = new AtomicLong();
-    protected final AtomicLong                            blackListHitCount       = new AtomicLong();
-    protected final AtomicLong                            syntaxErrorCount        = new AtomicLong();
-    protected final AtomicLong                            violationCount          = new AtomicLong();
-    protected final AtomicLong                            violationEffectRowCount = new AtomicLong();
+    protected String dbType = null;
+    protected final AtomicLong checkCount = new AtomicLong();
+    protected final AtomicLong hardCheckCount = new AtomicLong();
+    protected final AtomicLong whiteListHitCount = new AtomicLong();
+    protected final AtomicLong blackListHitCount = new AtomicLong();
+    protected final AtomicLong syntaxErrorCount = new AtomicLong();
+    protected final AtomicLong violationCount = new AtomicLong();
+    protected final AtomicLong violationEffectRowCount = new AtomicLong();
 
-    public WallProvider(WallConfig config){
+    public WallProvider(WallConfig config) {
         this.config = config;
     }
 
-    public WallProvider(WallConfig config, String dbType){
+    public WallProvider(WallConfig config, String dbType) {
         this.config = config;
         this.dbType = dbType;
     }
@@ -367,7 +358,7 @@ public abstract class WallProvider {
             lock.readLock().unlock();
         }
 
-        return Collections.<String> unmodifiableSet(hashSet);
+        return Collections.<String>unmodifiableSet(hashSet);
     }
 
     public Set<String> getSqlList() {
@@ -385,7 +376,7 @@ public abstract class WallProvider {
             lock.readLock().unlock();
         }
 
-        return Collections.<String> unmodifiableSet(hashSet);
+        return Collections.<String>unmodifiableSet(hashSet);
     }
 
     public Set<String> getBlackList() {
@@ -399,7 +390,7 @@ public abstract class WallProvider {
             lock.readLock().unlock();
         }
 
-        return Collections.<String> unmodifiableSet(hashSet);
+        return Collections.<String>unmodifiableSet(hashSet);
     }
 
     public void clearCache() {
@@ -616,13 +607,13 @@ public abstract class WallProvider {
                 parser.setParseCompleteValues(false);
                 parser.setParseValuesSize(config.getInsertValuesCheckSize());
             }
-            
+
             parser.parseStatementList(statementList);
 
             final Token lastToken = parser.getLexer().token();
             if (lastToken != Token.EOF && config.isStrictSyntaxCheck()) {
                 violations.add(new IllegalSQLObjectViolation(ErrorCode.SYNTAX_ERROR, "not terminal sql, token "
-                                                                                     + lastToken, sql));
+                        + lastToken, sql));
             }
             endOfComment = parser.getLexer().isEndOfComment();
         } catch (NotAllowCommentException e) {
@@ -649,7 +640,7 @@ public abstract class WallProvider {
 
         if (statementList.size() > 0) {
             boolean lastIsHint = false;
-            for (int i=0; i<statementList.size(); i++) {
+            for (int i = 0; i < statementList.size(); i++) {
                 SQLStatement stmt = statementList.get(i);
                 if ((i == 0 || lastIsHint) && stmt instanceof MySqlHintStatement) {
                     lastIsHint = true;

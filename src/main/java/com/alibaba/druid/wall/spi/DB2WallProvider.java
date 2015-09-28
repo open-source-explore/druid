@@ -29,11 +29,11 @@ public class DB2WallProvider extends WallProvider {
 
     public final static String DEFAULT_CONFIG_DIR = "META-INF/druid/wall/db2";
 
-    public DB2WallProvider(){
+    public DB2WallProvider() {
         this(new WallConfig(DEFAULT_CONFIG_DIR));
     }
 
-    public DB2WallProvider(WallConfig config){
+    public DB2WallProvider(WallConfig config) {
         super(config, JdbcConstants.DB2);
     }
 

@@ -25,15 +25,15 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class OracleSelectTableReference extends SQLExprTableSource implements OracleSelectTableSource {
 
-    private boolean                    only = false;
-    protected OracleSelectPivotBase    pivot;
+    private boolean only = false;
+    protected OracleSelectPivotBase pivot;
 
     protected PartitionExtensionClause partition;
-    protected SampleClause             sampleClause;
+    protected SampleClause sampleClause;
 
-    protected FlashbackQueryClause     flashback;
+    protected FlashbackQueryClause flashback;
 
-    public OracleSelectTableReference(){
+    public OracleSelectTableReference() {
 
     }
 
@@ -110,8 +110,8 @@ public class OracleSelectTableReference extends SQLExprTableSource implements Or
             buf.append(this.alias);
         }
     }
-    
-    public String toString () {
+
+    public String toString() {
         return SQLUtils.toOracleString(this);
     }
 }

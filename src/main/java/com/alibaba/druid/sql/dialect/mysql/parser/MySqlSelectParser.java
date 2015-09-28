@@ -19,28 +19,11 @@ import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLSetQuantifier;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.expr.SQLLiteralExpr;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectGroupByClause;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateSetItem;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlForceIndexHint;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlIgnoreIndexHint;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlIndexHint;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlIndexHintImpl;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlUseIndexHint;
+import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.mysql.ast.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlOutFileExpr;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectGroupBy;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlUpdateStatement;
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock.Limit;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlUnionQuery;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlUpdateTableSource;
 import com.alibaba.druid.sql.parser.ParserException;
 import com.alibaba.druid.sql.parser.SQLExprParser;
 import com.alibaba.druid.sql.parser.SQLSelectParser;
@@ -48,11 +31,11 @@ import com.alibaba.druid.sql.parser.Token;
 
 public class MySqlSelectParser extends SQLSelectParser {
 
-    public MySqlSelectParser(SQLExprParser exprParser){
+    public MySqlSelectParser(SQLExprParser exprParser) {
         super(exprParser);
     }
 
-    public MySqlSelectParser(String sql){
+    public MySqlSelectParser(String sql) {
         this(new MySqlExprParser(sql));
     }
 
@@ -132,7 +115,7 @@ public class MySqlSelectParser extends SQLSelectParser {
             }
 
             parseSelectList(queryBlock);
-            
+
             parseInto(queryBlock);
         }
 
@@ -172,7 +155,7 @@ public class MySqlSelectParser extends SQLSelectParser {
 
         return queryRest(queryBlock);
     }
-    
+
     public SQLTableSource parseTableSource() {
         if (lexer.token() == Token.LPAREN) {
             lexer.nextToken();
@@ -196,8 +179,8 @@ public class MySqlSelectParser extends SQLSelectParser {
 
             return parseTableSourceRest(tableSource);
         }
-        
-        if(lexer.token() == Token.UPDATE) {
+
+        if (lexer.token() == Token.UPDATE) {
             SQLTableSource tableSource = new MySqlUpdateTableSource(parseUpdateStatment());
             return parseTableSourceRest(tableSource);
         }
@@ -211,14 +194,14 @@ public class MySqlSelectParser extends SQLSelectParser {
         parseTableSourceQueryTableExpr(tableReference);
 
         SQLTableSource tableSrc = parseTableSourceRest(tableReference);
-        
+
         if (lexer.hasComment() && lexer.isKeepComments()) {
             tableSrc.addAfterComment(lexer.readAndResetComments());
         }
-        
+
         return tableSrc;
     }
-    
+
     private MySqlUpdateStatement parseUpdateStatment() {
         MySqlUpdateStatement update = new MySqlUpdateStatement();
 
@@ -239,7 +222,7 @@ public class MySqlSelectParser extends SQLSelectParser {
 
         accept(Token.SET);
 
-        for (;;) {
+        for (; ; ) {
             SQLUpdateSetItem item = this.exprParser.parseUpdateSetItem();
             update.addItem(item);
 
@@ -257,10 +240,10 @@ public class MySqlSelectParser extends SQLSelectParser {
 
         update.setOrderBy(this.exprParser.parseOrderBy());
         update.setLimit(parseLimit());
-        
+
         return update;
     }
-    
+
     protected void parseInto(SQLSelectQueryBlock queryBlock) {
         if (lexer.token() == (Token.INTO)) {
             lexer.nextToken();
@@ -441,7 +424,7 @@ public class MySqlSelectParser extends SQLSelectParser {
     public Limit parseLimit() {
         return ((MySqlExprParser) this.exprParser).parseLimit();
     }
-    
+
     public MySqlExprParser getExprParser() {
         return (MySqlExprParser) exprParser;
     }

@@ -19,28 +19,27 @@ import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlStatementImpl;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
 /**
- * 
- * @Description: MySql procedure leave statement
  * @author zz email:455910092@qq.com
- * @date 2015-9-14
  * @version V1.0
+ * @Description: MySql procedure leave statement
+ * @date 2015-9-14
  */
 public class MySqlLeaveStatement extends MySqlStatementImpl {
-	
-	private String labelName;
-	
-	@Override
+
+    private String labelName;
+
+    @Override
     public void accept0(MySqlASTVisitor visitor) {
-		visitor.visit(this);
+        visitor.visit(this);
         visitor.endVisit(this);
     }
 
-	public String getLabelName() {
-		return labelName;
-	}
+    public String getLabelName() {
+        return labelName;
+    }
 
-	public void setLabelName(String labelName) {
-		this.labelName = labelName;
-	}
-    
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
+    }
+
 }

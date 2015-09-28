@@ -15,21 +15,21 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerObjectImpl;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLServerExecStatement extends SQLServerObjectImpl implements SQLServerStatement {
 
-    private SQLName       returnStatus;
-    private SQLName       moduleName;
+    private SQLName returnStatus;
+    private SQLName moduleName;
     private List<SQLServerParameter> parameters = new ArrayList<SQLServerParameter>();
-    private String        dbType;
+    private String dbType;
 
     public SQLName getModuleName() {
         return moduleName;
@@ -59,45 +59,48 @@ public class SQLServerExecStatement extends SQLServerObjectImpl implements SQLSe
     public void setReturnStatus(SQLName returnStatus) {
         this.returnStatus = returnStatus;
     }
-    
+
     public String getDbType() {
         return dbType;
     }
-    
+
     public void setDbType(String dbType) {
         this.dbType = dbType;
     }
-    
+
     /**
-     * 
-     * @Description: SQLServer execute Parameter statement
      * @author zz email:455910092@qq.com
-     * @date 2015-9-20
      * @version V1.0
+     * @Description: SQLServer execute Parameter statement
+     * @date 2015-9-20
      */
-    public static class SQLServerParameter extends SQLServerObjectImpl
-    {
-    	private SQLExpr expr;
-    	private boolean type;//sql server 支持参数只有input 和 output 两种
-		public SQLExpr getExpr() {
-			return expr;
-		}
-		public void setExpr(SQLExpr expr) {
-			this.expr = expr;
-		}
-		public boolean getType() {
-			return type;
-		}
-		public void setType(boolean type) {
-			this.type = type;
-		}
-		@Override
-		public void accept0(SQLServerASTVisitor visitor) {
-			if (visitor.visit(this)) {
-	            acceptChild(visitor, expr);
-	        }
-	        visitor.endVisit(this);
-			
-		}
+    public static class SQLServerParameter extends SQLServerObjectImpl {
+        private SQLExpr expr;
+        private boolean type;//sql server 支持参数只有input 和 output 两种
+
+        public SQLExpr getExpr() {
+            return expr;
+        }
+
+        public void setExpr(SQLExpr expr) {
+            this.expr = expr;
+        }
+
+        public boolean getType() {
+            return type;
+        }
+
+        public void setType(boolean type) {
+            this.type = type;
+        }
+
+        @Override
+        public void accept0(SQLServerASTVisitor visitor) {
+            if (visitor.visit(this)) {
+                acceptChild(visitor, expr);
+            }
+            visitor.endVisit(this);
+
+        }
     }
 }

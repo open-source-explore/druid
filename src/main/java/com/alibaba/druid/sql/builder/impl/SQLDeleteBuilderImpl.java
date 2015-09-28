@@ -15,8 +15,6 @@
  */
 package com.alibaba.druid.sql.builder.impl;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
@@ -30,16 +28,18 @@ import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleDeleteStatement;
 import com.alibaba.druid.sql.dialect.postgresql.ast.stmt.PGDeleteStatement;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.List;
+
 public class SQLDeleteBuilderImpl implements SQLDeleteBuilder {
 
     private SQLDeleteStatement stmt;
-    private String             dbType;
+    private String dbType;
 
-    public SQLDeleteBuilderImpl(String dbType){
+    public SQLDeleteBuilderImpl(String dbType) {
         this.dbType = dbType;
     }
-    
-    public SQLDeleteBuilderImpl(String sql, String dbType){
+
+    public SQLDeleteBuilderImpl(String sql, String dbType) {
         List<SQLStatement> stmtList = SQLUtils.parseStatements(sql, dbType);
 
         if (stmtList.size() == 0) {
@@ -55,7 +55,7 @@ public class SQLDeleteBuilderImpl implements SQLDeleteBuilder {
         this.dbType = dbType;
     }
 
-    public SQLDeleteBuilderImpl(SQLDeleteStatement stmt, String dbType){
+    public SQLDeleteBuilderImpl(SQLDeleteStatement stmt, String dbType) {
         this.stmt = stmt;
         this.dbType = dbType;
     }
@@ -124,17 +124,17 @@ public class SQLDeleteBuilderImpl implements SQLDeleteBuilder {
 
     public SQLDeleteStatement createSQLDeleteStatement() {
         if (JdbcConstants.ORACLE.equals(dbType)) {
-            return new OracleDeleteStatement();    
+            return new OracleDeleteStatement();
         }
-        
+
         if (JdbcConstants.MYSQL.equals(dbType)) {
-            return new MySqlDeleteStatement();    
+            return new MySqlDeleteStatement();
         }
-        
+
         if (JdbcConstants.POSTGRESQL.equals(dbType)) {
-            return new PGDeleteStatement();    
+            return new PGDeleteStatement();
         }
-        
+
         return new SQLDeleteStatement();
     }
 

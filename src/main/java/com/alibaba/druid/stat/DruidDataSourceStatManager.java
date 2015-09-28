@@ -24,13 +24,7 @@ import com.alibaba.druid.util.JMXUtils;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.SimpleType;
-import javax.management.openmbean.TabularData;
-import javax.management.openmbean.TabularDataSupport;
-import javax.management.openmbean.TabularType;
+import javax.management.openmbean.*;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Method;
 import java.util.IdentityHashMap;
@@ -42,19 +36,19 @@ import java.util.concurrent.atomic.AtomicLong;
 @SuppressWarnings("rawtypes")
 public class DruidDataSourceStatManager implements DruidDataSourceStatManagerMBean {
 
-    public final static String                      SYS_PROP_INSTANCES             = "druid.dataSources";
-    public final static String                      SYS_PROP_REGISTER_SYS_PROPERTY = "druid.registerToSysProperty";
+    public final static String SYS_PROP_INSTANCES = "druid.dataSources";
+    public final static String SYS_PROP_REGISTER_SYS_PROPERTY = "druid.registerToSysProperty";
 
-    private final static Log                        LOG                            = LogFactory.getLog(DruidDataSourceStatManager.class);
+    private final static Log LOG = LogFactory.getLog(DruidDataSourceStatManager.class);
 
-    private final static DruidDataSourceStatManager instance                       = new DruidDataSourceStatManager();
+    private final static DruidDataSourceStatManager instance = new DruidDataSourceStatManager();
 
-    private final AtomicLong                        resetCount                     = new AtomicLong();
+    private final AtomicLong resetCount = new AtomicLong();
 
     // global instances
-    private static volatile IdentityHashMap         dataSources;
+    private static volatile IdentityHashMap dataSources;
 
-    private final static String                     MBEAN_NAME                     = "com.alibaba.druid:type=DruidDataSourceStat";
+    private final static String MBEAN_NAME = "com.alibaba.druid:type=DruidDataSourceStat";
 
     public static DruidDataSourceStatManager getInstance() {
         return instance;
@@ -201,7 +195,7 @@ public class DruidDataSourceStatManager implements DruidDataSourceStatManagerMBe
                 } catch (Throwable ex) {
                     LOG.error("unregister mbean error", ex);
                 }
-                
+
                 DruidStatService.unregisterMBean();
             }
         }
@@ -282,7 +276,7 @@ public class DruidDataSourceStatManager implements DruidDataSourceStatManagerMBe
             return COMPOSITE_TYPE;
         }
 
-        OpenType<?>[] indexTypes = new OpenType<?>[] {
+        OpenType<?>[] indexTypes = new OpenType<?>[]{
                 // 0 - 4
                 SimpleType.STRING, //
                 SimpleType.STRING, //
@@ -344,7 +338,7 @@ public class DruidDataSourceStatManager implements DruidDataSourceStatManagerMBe
                 SimpleType.DATE, //
                 SimpleType.LONG, //
                 SimpleType.LONG //
-        //
+                //
         };
 
         String[] indexNames = {
@@ -409,12 +403,12 @@ public class DruidDataSourceStatManager implements DruidDataSourceStatManagerMBe
                 "LastCreateErrorTime", //
                 "CreateErrorCount", //
                 "DiscardCount", //
-        //
+                //
         };
 
         String[] indexDescriptions = indexNames;
         COMPOSITE_TYPE = new CompositeType("DataSourceStatistic", "DataSource Statistic", indexNames,
-                                           indexDescriptions, indexTypes);
+                indexDescriptions, indexTypes);
 
         return COMPOSITE_TYPE;
     }

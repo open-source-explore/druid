@@ -25,10 +25,10 @@ public class MySqlAlterTableModifyColumn extends MySqlObjectImpl implements SQLA
 
     private SQLColumnDefinition newColumnDefinition;
 
-    private boolean             first;
+    private boolean first;
 
-    private SQLExpr             firstColumn;
-    private SQLExpr             afterColumn;
+    private SQLExpr firstColumn;
+    private SQLExpr afterColumn;
 
     @Override
     public void accept0(MySqlASTVisitor visitor) {

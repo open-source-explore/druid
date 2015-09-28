@@ -27,7 +27,7 @@ import com.alibaba.druid.sql.parser.Token;
 
 public class OdpsSelectParser extends SQLSelectParser {
 
-    public OdpsSelectParser(SQLExprParser exprParser){
+    public OdpsSelectParser(SQLExprParser exprParser) {
         super(exprParser.getLexer());
         this.exprParser = exprParser;
     }
@@ -44,13 +44,13 @@ public class OdpsSelectParser extends SQLSelectParser {
         }
 
         OdpsSelectQueryBlock queryBlock = new OdpsSelectQueryBlock();
-        
+
         if (lexer.hasComment() && lexer.isKeepComments()) {
             queryBlock.addBeforeComment(lexer.readAndResetComments());
         }
-        
+
         accept(Token.SELECT);
-        
+
         if (lexer.token() == Token.HINT) {
             this.exprParser.parseHints(queryBlock.getHints());
         }
@@ -79,23 +79,23 @@ public class OdpsSelectParser extends SQLSelectParser {
         parseGroupBy(queryBlock);
 
         queryBlock.setOrderBy(this.exprParser.parseOrderBy());
-        
+
         if (lexer.token() == Token.DISTRIBUTE) {
             lexer.nextToken();
             accept(Token.BY);
             SQLExpr distributeBy = this.expr();
             queryBlock.setDistributeBy(distributeBy);
-            
+
 
             if (identifierEquals("SORT")) {
                 lexer.nextToken();
                 accept(Token.BY);
-                
-                for (;;) {
+
+                for (; ; ) {
                     SQLExpr expr = this.expr();
-                    
+
                     SQLSelectOrderByItem sortByItem = new SQLSelectOrderByItem(expr);
-                    
+
                     if (lexer.token() == Token.ASC) {
                         sortByItem.setType(SQLOrderingSpecification.ASC);
                         lexer.nextToken();
@@ -103,9 +103,9 @@ public class OdpsSelectParser extends SQLSelectParser {
                         sortByItem.setType(SQLOrderingSpecification.DESC);
                         lexer.nextToken();
                     }
-                    
+
                     queryBlock.getSortBy().add(sortByItem);
-                    
+
                     if (lexer.token() == Token.COMMA) {
                         lexer.nextToken();
                     } else {

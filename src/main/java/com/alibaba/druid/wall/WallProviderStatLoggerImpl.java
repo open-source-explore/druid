@@ -15,19 +15,19 @@
  */
 package com.alibaba.druid.wall;
 
-import java.util.Map;
-import java.util.Properties;
-
 import com.alibaba.druid.pool.DruidDataSourceStatLoggerImpl;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 
+import java.util.Map;
+import java.util.Properties;
+
 public class WallProviderStatLoggerImpl extends WallProviderStatLoggerAdapter implements WallProviderStatLogger {
 
-    private static Log LOG    = LogFactory.getLog(DruidDataSourceStatLoggerImpl.class);
+    private static Log LOG = LogFactory.getLog(DruidDataSourceStatLoggerImpl.class);
 
-    private Log        logger = LOG;
+    private Log logger = LOG;
 
     @Override
     public void configFromProperties(Properties properties) {
@@ -61,7 +61,7 @@ public class WallProviderStatLoggerImpl extends WallProviderStatLoggerAdapter im
         if (!isLogEnable()) {
             return;
         }
-        
+
         Map<String, Object> map = statValue.toMap();
         String text = JSONUtils.toJSONString(map);
 

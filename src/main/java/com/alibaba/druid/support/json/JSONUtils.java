@@ -22,7 +22,7 @@ public class JSONUtils {
         writer.writeObject(o);
         return writer.toString();
     }
-    
+
     public static Object parse(String text) {
         JSONParser parser = new JSONParser(text);
         return parser.parse();

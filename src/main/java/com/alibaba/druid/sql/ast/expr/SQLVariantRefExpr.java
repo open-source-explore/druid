@@ -20,22 +20,22 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class SQLVariantRefExpr extends SQLExprImpl {
 
-    private String  name;
+    private String name;
 
     private boolean global = false;
 
-    private int     index  = -1;
+    private int index = -1;
 
-    public SQLVariantRefExpr(String name){
+    public SQLVariantRefExpr(String name) {
         this.name = name;
     }
 
-    public SQLVariantRefExpr(String name, boolean global){
+    public SQLVariantRefExpr(String name, boolean global) {
         this.name = name;
         this.global = global;
     }
 
-    public SQLVariantRefExpr(){
+    public SQLVariantRefExpr() {
 
     }
 

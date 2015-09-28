@@ -15,69 +15,35 @@
  */
 package com.alibaba.druid.wall.spi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLCommentHint;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLObject;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
-import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumericLiteralExpr;
-import com.alibaba.druid.sql.ast.expr.SQLPropertyExpr;
-import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
-import com.alibaba.druid.sql.ast.statement.SQLAlterTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLAssignItem;
-import com.alibaba.druid.sql.ast.statement.SQLCallStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTriggerStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
-import com.alibaba.druid.sql.ast.statement.SQLDropTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSelectGroupByClause;
-import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSetStatement;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
-import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
+import com.alibaba.druid.sql.ast.expr.*;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlOutFileExpr;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlAlterTableStatement;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCreateTableStatement;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlDeleteStatement;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlReplaceStatement;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectGroupBy;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock;
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock.Limit;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlShowCreateTableStatement;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlUnionQuery;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlUpdateStatement;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitorAdapter;
 import com.alibaba.druid.util.JdbcConstants;
-import com.alibaba.druid.wall.Violation;
-import com.alibaba.druid.wall.WallConfig;
-import com.alibaba.druid.wall.WallContext;
-import com.alibaba.druid.wall.WallProvider;
-import com.alibaba.druid.wall.WallSqlTableStat;
-import com.alibaba.druid.wall.WallVisitor;
+import com.alibaba.druid.wall.*;
 import com.alibaba.druid.wall.spi.WallVisitorUtils.WallTopStatementContext;
 import com.alibaba.druid.wall.violation.ErrorCode;
 import com.alibaba.druid.wall.violation.IllegalSQLObjectViolation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySqlWallVisitor extends MySqlASTVisitorAdapter implements WallVisitor, MySqlASTVisitor {
 
-    private final WallConfig      config;
-    private final WallProvider    provider;
-    private final List<Violation> violations      = new ArrayList<Violation>();
-    private boolean               sqlModified     = false;
-    private boolean               sqlEndOfComment = false;
+    private final WallConfig config;
+    private final WallProvider provider;
+    private final List<Violation> violations = new ArrayList<Violation>();
+    private boolean sqlModified = false;
+    private boolean sqlEndOfComment = false;
 
-    public MySqlWallVisitor(WallProvider provider){
+    public MySqlWallVisitor(WallProvider provider) {
         this.config = provider.getConfig();
         this.provider = provider;
     }
@@ -200,7 +166,7 @@ public class MySqlWallVisitor extends MySqlASTVisitorAdapter implements WallVisi
     public boolean visit(SQLSelectStatement x) {
         if (!config.isSelelctAllow()) {
             this.getViolations().add(new IllegalSQLObjectViolation(ErrorCode.SELECT_NOT_ALLOW, "select not allow",
-                                                                   this.toSQL(x)));
+                    this.toSQL(x)));
             return false;
         }
 
@@ -226,7 +192,7 @@ public class MySqlWallVisitor extends MySqlASTVisitorAdapter implements WallVisi
 
                 if (!provider.getConfig().isLimitZeroAllow()) {
                     this.getViolations().add(new IllegalSQLObjectViolation(ErrorCode.LIMIT_ZERO, "limit row 0",
-                                                                           this.toSQL(x)));
+                            this.toSQL(x)));
                 }
             }
         }
@@ -241,7 +207,7 @@ public class MySqlWallVisitor extends MySqlASTVisitorAdapter implements WallVisi
             if (varName.equalsIgnoreCase("@@session") || varName.equalsIgnoreCase("@@global")) {
                 if (!(parent instanceof SQLSelectItem) && !(parent instanceof SQLAssignItem)) {
                     violations.add(new IllegalSQLObjectViolation(ErrorCode.VARIANT_DENY,
-                                                                 "variable in condition not allow", toSQL(x)));
+                            "variable in condition not allow", toSQL(x)));
                     return false;
                 }
 
@@ -250,14 +216,14 @@ public class MySqlWallVisitor extends MySqlASTVisitorAdapter implements WallVisi
                     if (!isTop) {
                         boolean allow = true;
                         if (isDeny(varName)
-                            && (WallVisitorUtils.isWhereOrHaving(x) || WallVisitorUtils.checkSqlExpr(varExpr))) {
+                                && (WallVisitorUtils.isWhereOrHaving(x) || WallVisitorUtils.checkSqlExpr(varExpr))) {
                             allow = false;
                         }
 
                         if (!allow) {
                             violations.add(new IllegalSQLObjectViolation(ErrorCode.VARIANT_DENY,
-                                                                         "variable not allow : " + x.getName(),
-                                                                         toSQL(x)));
+                                    "variable not allow : " + x.getName(),
+                                    toSQL(x)));
                         }
                     }
                 }
@@ -316,7 +282,7 @@ public class MySqlWallVisitor extends MySqlASTVisitorAdapter implements WallVisi
 
             final WallTopStatementContext topStatementContext = WallVisitorUtils.getWallTopStatementContext();
             if (topStatementContext != null
-                && (topStatementContext.fromSysSchema() || topStatementContext.fromSysTable())) {
+                    && (topStatementContext.fromSysSchema() || topStatementContext.fromSysTable())) {
                 return false;
             }
 
@@ -329,7 +295,7 @@ public class MySqlWallVisitor extends MySqlASTVisitorAdapter implements WallVisi
 
                 if (!allow) {
                     violations.add(new IllegalSQLObjectViolation(ErrorCode.VARIANT_DENY, "variable not allow : "
-                                                                                         + x.getName(), toSQL(x)));
+                            + x.getName(), toSQL(x)));
                 }
             }
         }
@@ -477,5 +443,5 @@ public class MySqlWallVisitor extends MySqlASTVisitorAdapter implements WallVisi
     public void setSqlEndOfComment(boolean sqlEndOfComment) {
         this.sqlEndOfComment = sqlEndOfComment;
     }
-    
+
 }

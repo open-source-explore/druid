@@ -15,6 +15,9 @@
  */
 package com.alibaba.druid.support.spring;
 
+import com.alibaba.druid.util.JdbcUtils;
+import org.springframework.jdbc.support.lob.LobCreator;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -22,10 +25,6 @@ import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import org.springframework.jdbc.support.lob.LobCreator;
-
-import com.alibaba.druid.util.JdbcUtils;
 
 public class DruidLobCreator implements LobCreator {
 
@@ -38,7 +37,7 @@ public class DruidLobCreator implements LobCreator {
 
     @Override
     public void setBlobAsBinaryStream(PreparedStatement ps, int paramIndex, InputStream contentStream, int contentLength)
-                                                                                                                         throws SQLException {
+            throws SQLException {
         ps.setBlob(paramIndex, contentStream, contentLength);
     }
 
@@ -51,7 +50,7 @@ public class DruidLobCreator implements LobCreator {
 
     @Override
     public void setClobAsAsciiStream(PreparedStatement ps, int paramIndex, InputStream asciiStream, int contentLength)
-                                                                                                                      throws SQLException {
+            throws SQLException {
         if (asciiStream != null) {
             Clob clob = ps.getConnection().createClob();
 
@@ -80,7 +79,7 @@ public class DruidLobCreator implements LobCreator {
 
     @Override
     public void setClobAsCharacterStream(PreparedStatement ps, int paramIndex, Reader characterStream, int contentLength)
-                                                                                                                         throws SQLException {
+            throws SQLException {
         ps.setClob(paramIndex, characterStream, contentLength);
     }
 

@@ -23,7 +23,7 @@ public class SQLHexExpr extends SQLExprImpl implements SQLLiteralExpr {
 
     private final String hex;
 
-    public SQLHexExpr(String hex){
+    public SQLHexExpr(String hex) {
         this.hex = hex;
     }
 

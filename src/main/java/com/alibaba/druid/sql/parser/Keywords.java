@@ -25,7 +25,7 @@ public class Keywords {
 
     private final Map<String, Token> keywords;
 
-    public final static Keywords     DEFAULT_KEYWORDS;
+    public final static Keywords DEFAULT_KEYWORDS;
 
     static {
         Map<String, Token> map = new HashMap<String, Token>();
@@ -134,7 +134,7 @@ public class Keywords {
         map.put("WITH", Token.WITH);
         map.put("GRANT", Token.GRANT);
         map.put("REVOKE", Token.REVOKE);
-        
+
         // MySql procedure: add by zz
         map.put("WHILE", Token.WHILE);
         map.put("DO", Token.DO);
@@ -150,7 +150,7 @@ public class Keywords {
         map.put("FETCH", Token.FETCH);
         map.put("OUT", Token.OUT);
         map.put("INOUT", Token.INOUT);
-        
+
         DEFAULT_KEYWORDS = new Keywords(map);
     }
 
@@ -158,7 +158,7 @@ public class Keywords {
         return this.keywords.containsValue(token);
     }
 
-    public Keywords(Map<String, Token> keywords){
+    public Keywords(Map<String, Token> keywords) {
         this.keywords = keywords;
     }
 

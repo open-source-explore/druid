@@ -15,18 +15,18 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.dialect.oracle.ast.clause.OracleParameter;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleCreateProcedureStatement extends OracleStatementImpl {
 
-    private boolean               orReplace;
-    private SQLName               name;
-    private OracleBlockStatement  block;
+    private boolean orReplace;
+    private SQLName name;
+    private OracleBlockStatement block;
     private List<OracleParameter> parameters = new ArrayList<OracleParameter>();
 
     @Override

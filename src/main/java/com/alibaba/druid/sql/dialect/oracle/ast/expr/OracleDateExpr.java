@@ -24,7 +24,7 @@ public class OracleDateExpr extends SQLExprImpl implements SQLLiteralExpr, Oracl
 
     private String literal;
 
-    public OracleDateExpr(){
+    public OracleDateExpr() {
 
     }
 

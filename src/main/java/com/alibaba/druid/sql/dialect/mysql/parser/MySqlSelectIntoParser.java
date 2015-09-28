@@ -15,25 +15,13 @@
  */
 package com.alibaba.druid.sql.dialect.mysql.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLSetQuantifier;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.expr.SQLLiteralExpr;
 import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectGroupByClause;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlForceIndexHint;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlIgnoreIndexHint;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlIndexHint;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlIndexHintImpl;
-import com.alibaba.druid.sql.dialect.mysql.ast.MySqlUseIndexHint;
+import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.mysql.ast.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.clause.MySqlSelectIntoStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlOutFileExpr;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectGroupBy;
@@ -45,32 +33,33 @@ import com.alibaba.druid.sql.parser.SQLExprParser;
 import com.alibaba.druid.sql.parser.SQLSelectParser;
 import com.alibaba.druid.sql.parser.Token;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
- * @Description: parse select into statement
  * @author zz email:455910092@qq.com
- * @date 2015-9-14
  * @version V1.0
+ * @Description: parse select into statement
+ * @date 2015-9-14
  */
 public class MySqlSelectIntoParser extends SQLSelectParser {
-	private List<SQLExpr> argsList;
+    private List<SQLExpr> argsList;
 
-    public MySqlSelectIntoParser(SQLExprParser exprParser){
+    public MySqlSelectIntoParser(SQLExprParser exprParser) {
         super(exprParser);
     }
 
-    public MySqlSelectIntoParser(String sql){
+    public MySqlSelectIntoParser(String sql) {
         this(new MySqlExprParser(sql));
     }
-    
-    public MySqlSelectIntoStatement parseSelectInto()
-    {
-    	SQLSelect select=select();
-    	MySqlSelectIntoStatement stmt=new MySqlSelectIntoStatement();
-    	stmt.setSelect(select);
-    	stmt.setVarList(argsList);
-    	return stmt;
-    	
+
+    public MySqlSelectIntoStatement parseSelectInto() {
+        SQLSelect select = select();
+        MySqlSelectIntoStatement stmt = new MySqlSelectIntoStatement();
+        stmt.setSelect(select);
+        stmt.setVarList(argsList);
+        return stmt;
+
     }
 
     @Override
@@ -149,8 +138,8 @@ public class MySqlSelectIntoParser extends SQLSelectParser {
             }
 
             parseSelectList(queryBlock);
-            
-            argsList=parseIntoArgs();
+
+            argsList = parseIntoArgs();
         }
 
         parseFrom(queryBlock);
@@ -189,37 +178,37 @@ public class MySqlSelectIntoParser extends SQLSelectParser {
 
         return queryRest(queryBlock);
     }
+
     /**
      * parser the select into arguments
+     *
      * @return
      */
-	protected List<SQLExpr> parseIntoArgs() {
-		
-		List<SQLExpr> args=new ArrayList<SQLExpr>();
-		if (lexer.token() == (Token.INTO)) {
-			accept(Token.INTO);
-			//lexer.nextToken();
-			for (;;) {
-				SQLExpr var = exprParser.primary();
-				if (var instanceof SQLIdentifierExpr) {
-					var = new SQLVariantRefExpr(
-							((SQLIdentifierExpr) var).getName());
-				}
-				args.add(var);
-				if (lexer.token() == Token.COMMA) {
-					accept(Token.COMMA);
-					continue;
-				}
-				else
-				{
-					break;
-				}
-			}
-		}
-		return args;
-	}
-    
-    
+    protected List<SQLExpr> parseIntoArgs() {
+
+        List<SQLExpr> args = new ArrayList<SQLExpr>();
+        if (lexer.token() == (Token.INTO)) {
+            accept(Token.INTO);
+            //lexer.nextToken();
+            for (; ; ) {
+                SQLExpr var = exprParser.primary();
+                if (var instanceof SQLIdentifierExpr) {
+                    var = new SQLVariantRefExpr(
+                            ((SQLIdentifierExpr) var).getName());
+                }
+                args.add(var);
+                if (lexer.token() == Token.COMMA) {
+                    accept(Token.COMMA);
+                    continue;
+                } else {
+                    break;
+                }
+            }
+        }
+        return args;
+    }
+
+
     protected void parseInto(SQLSelectQueryBlock queryBlock) {
         if (lexer.token() == (Token.INTO)) {
             lexer.nextToken();
@@ -400,7 +389,7 @@ public class MySqlSelectIntoParser extends SQLSelectParser {
     public Limit parseLimit() {
         return ((MySqlExprParser) this.exprParser).parseLimit();
     }
-    
+
     public MySqlExprParser getExprParser() {
         return (MySqlExprParser) exprParser;
     }

@@ -22,18 +22,18 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 public class SQLSelectItem extends SQLObjectImpl {
 
     protected SQLExpr expr;
-    protected String  alias;
+    protected String alias;
     protected boolean connectByRoot = false;
 
-    public SQLSelectItem(){
+    public SQLSelectItem() {
 
     }
 
-    public SQLSelectItem(SQLExpr expr){
+    public SQLSelectItem(SQLExpr expr) {
         this(expr, null);
     }
 
-    public SQLSelectItem(SQLExpr expr, String alias){
+    public SQLSelectItem(SQLExpr expr, String alias) {
         this.expr = expr;
         this.alias = alias;
 
@@ -41,12 +41,12 @@ public class SQLSelectItem extends SQLObjectImpl {
             expr.setParent(this);
         }
     }
-    
-    public SQLSelectItem(SQLExpr expr, String alias, boolean connectByRoot){
+
+    public SQLSelectItem(SQLExpr expr, String alias, boolean connectByRoot) {
         this.connectByRoot = connectByRoot;
         this.expr = expr;
         this.alias = alias;
-        
+
         if (expr != null) {
             expr.setParent(this);
         }
@@ -72,7 +72,7 @@ public class SQLSelectItem extends SQLObjectImpl {
     }
 
     public void output(StringBuffer buf) {
-        if(this.connectByRoot) {
+        if (this.connectByRoot) {
             buf.append(" CONNECT_BY_ROOT ");
         }
         this.expr.output(buf);

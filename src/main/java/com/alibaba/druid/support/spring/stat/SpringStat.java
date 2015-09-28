@@ -25,7 +25,7 @@ public class SpringStat {
 
     private ConcurrentMap<SpringMethodInfo, SpringMethodStat> methodStats = new ConcurrentHashMap<SpringMethodInfo, SpringMethodStat>(16, 0.75f, 1);
 
-    public SpringStat(){
+    public SpringStat() {
 
     }
 
@@ -48,20 +48,20 @@ public class SpringStat {
 
         return methodStat;
     }
-    
+
     public List<SpringMethodStatValue> getStatList(boolean reset) {
         List<SpringMethodStatValue> statValueList = new ArrayList<SpringMethodStatValue>(this.methodStats.size());
-        
+
         for (SpringMethodStat methodStat : this.methodStats.values()) {
             SpringMethodStatValue statValue = methodStat.getStatValue(reset);
-            
+
             if (statValue.getRunningCount() == 0 && statValue.getExecuteCount() == 0) {
                 continue;
             }
-            
+
             statValueList.add(statValue);
         }
-        
+
         return statValueList;
     }
 
@@ -89,7 +89,7 @@ public class SpringStat {
                 return methodStat.getStatData();
             }
         }
-        
+
         return null;
     }
 }

@@ -23,13 +23,13 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 public class SQLUseStatement extends SQLStatementImpl implements SQLStatement {
 
     private SQLName database;
-    
+
     public SQLUseStatement() {
-        
+
     }
-    
+
     public SQLUseStatement(String dbType) {
-        super (dbType);
+        super(dbType);
     }
 
     public SQLName getDatabase() {

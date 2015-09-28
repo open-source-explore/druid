@@ -15,20 +15,20 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.oracle.ast.OracleSQLObjectImpl;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleIfStatement extends OracleStatementImpl {
 
-    private SQLExpr            condition;
+    private SQLExpr condition;
     private List<SQLStatement> statements = new ArrayList<SQLStatement>();
-    private List<ElseIf>       elseIfList = new ArrayList<ElseIf>();
-    private Else               elseItem;
+    private List<ElseIf> elseIfList = new ArrayList<ElseIf>();
+    private Else elseItem;
 
     @Override
     public void accept0(OracleASTVisitor visitor) {
@@ -75,7 +75,7 @@ public class OracleIfStatement extends OracleStatementImpl {
 
     public static class ElseIf extends OracleSQLObjectImpl {
 
-        private SQLExpr            condition;
+        private SQLExpr condition;
         private List<SQLStatement> statements = new ArrayList<SQLStatement>();
 
         @Override

@@ -15,21 +15,21 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.statement.SQLSelect;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLServerSelect extends SQLSelect implements SQLServerObject {
 
-    private boolean      forBrowse;
+    private boolean forBrowse;
     private List<String> forXmlOptions = new ArrayList<String>(4);
 
-    private SQLExpr      rowCount;
-    private SQLExpr      offset;
+    private SQLExpr rowCount;
+    private SQLExpr offset;
 
     public boolean isForBrowse() {
         return forBrowse;
@@ -55,7 +55,7 @@ public class SQLServerSelect extends SQLSelect implements SQLServerObject {
         if (rowCount != null) {
             rowCount.setParent(this);
         }
-        
+
         this.rowCount = rowCount;
     }
 

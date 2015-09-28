@@ -24,9 +24,9 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 public class OracleDbLinkExpr extends SQLExprImpl implements SQLName, OracleExpr {
 
     private SQLExpr expr;
-    private String  dbLink;
+    private String dbLink;
 
-    public OracleDbLinkExpr(){
+    public OracleDbLinkExpr() {
 
     }
 

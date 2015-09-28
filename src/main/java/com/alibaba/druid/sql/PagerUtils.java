@@ -15,27 +15,12 @@
  */
 package com.alibaba.druid.sql;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLOrderBy;
 import com.alibaba.druid.sql.ast.SQLOver;
 import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.expr.SQLAggregateExpr;
-import com.alibaba.druid.sql.ast.expr.SQLAllColumnExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLIntegerExpr;
-import com.alibaba.druid.sql.ast.expr.SQLNumberExpr;
-import com.alibaba.druid.sql.ast.expr.SQLPropertyExpr;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
-import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
+import com.alibaba.druid.sql.ast.expr.*;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.db2.ast.stmt.DB2SelectQueryBlock;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock.Limit;
@@ -46,6 +31,8 @@ import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerSelectQueryBlock;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerTop;
 import com.alibaba.druid.util.JdbcConstants;
 import com.alibaba.druid.util.JdbcUtils;
+
+import java.util.List;
 
 public class PagerUtils {
 
@@ -109,8 +96,8 @@ public class PagerUtils {
     private static String limitQueryBlock(SQLSelect select, String dbType, int offset, int count) {
         SQLSelectQueryBlock queryBlock = (SQLSelectQueryBlock) select.getQuery();
         if (JdbcConstants.MYSQL.equals(dbType) || //
-            JdbcConstants.MARIADB.equals(dbType) || //
-            JdbcConstants.H2.equals(dbType)) {
+                JdbcConstants.MARIADB.equals(dbType) || //
+                JdbcConstants.H2.equals(dbType)) {
             return limitMySqlQueryBlock((MySqlSelectQueryBlock) queryBlock, dbType, offset, count);
         }
 
@@ -139,13 +126,13 @@ public class PagerUtils {
         SQLSelectQuery query = select.getQuery();
 
         SQLBinaryOpExpr gt = new SQLBinaryOpExpr(new SQLIdentifierExpr("ROWNUM"), //
-                                                 SQLBinaryOperator.GreaterThan, //
-                                                 new SQLNumberExpr(offset), //
-                                                 JdbcConstants.DB2);
+                SQLBinaryOperator.GreaterThan, //
+                new SQLNumberExpr(offset), //
+                JdbcConstants.DB2);
         SQLBinaryOpExpr lteq = new SQLBinaryOpExpr(new SQLIdentifierExpr("ROWNUM"), //
-                                                   SQLBinaryOperator.LessThanOrEqual, //
-                                                   new SQLNumberExpr(count + offset), //
-                                                   JdbcConstants.DB2);
+                SQLBinaryOperator.LessThanOrEqual, //
+                new SQLNumberExpr(count + offset), //
+                JdbcConstants.DB2);
         SQLBinaryOpExpr pageCondition = new SQLBinaryOpExpr(gt, SQLBinaryOperator.BooleanAnd, lteq, JdbcConstants.DB2);
 
         if (query instanceof SQLSelectQueryBlock) {
@@ -198,15 +185,15 @@ public class PagerUtils {
         SQLSelectQuery query = select.getQuery();
 
         SQLBinaryOpExpr gt = new SQLBinaryOpExpr(new SQLIdentifierExpr("ROWNUM"), //
-                                                 SQLBinaryOperator.GreaterThan, //
-                                                 new SQLNumberExpr(offset), //
-                                                 JdbcConstants.SQL_SERVER);
+                SQLBinaryOperator.GreaterThan, //
+                new SQLNumberExpr(offset), //
+                JdbcConstants.SQL_SERVER);
         SQLBinaryOpExpr lteq = new SQLBinaryOpExpr(new SQLIdentifierExpr("ROWNUM"), //
-                                                   SQLBinaryOperator.LessThanOrEqual, //
-                                                   new SQLNumberExpr(count + offset), //
-                                                   JdbcConstants.SQL_SERVER);
+                SQLBinaryOperator.LessThanOrEqual, //
+                new SQLNumberExpr(count + offset), //
+                JdbcConstants.SQL_SERVER);
         SQLBinaryOpExpr pageCondition = new SQLBinaryOpExpr(gt, SQLBinaryOperator.BooleanAnd, lteq,
-                                                            JdbcConstants.SQL_SERVER);
+                JdbcConstants.SQL_SERVER);
 
         if (query instanceof SQLSelectQueryBlock) {
             SQLServerSelectQueryBlock queryBlock = (SQLServerSelectQueryBlock) query;
@@ -263,16 +250,16 @@ public class PagerUtils {
             OracleSelectQueryBlock queryBlock = (OracleSelectQueryBlock) query;
             if (queryBlock.getGroupBy() == null && select.getOrderBy() == null && offset <= 0) {
                 SQLExpr condition = new SQLBinaryOpExpr(new SQLIdentifierExpr("ROWNUM"), //
-                                                        SQLBinaryOperator.LessThanOrEqual, //
-                                                        new SQLNumberExpr(count), //
-                                                        JdbcConstants.ORACLE);
+                        SQLBinaryOperator.LessThanOrEqual, //
+                        new SQLNumberExpr(count), //
+                        JdbcConstants.ORACLE);
                 if (queryBlock.getWhere() == null) {
                     queryBlock.setWhere(condition);
                 } else {
                     queryBlock.setWhere(new SQLBinaryOpExpr(queryBlock.getWhere(), //
-                                                            SQLBinaryOperator.BooleanAnd, //
-                                                            condition, //
-                                                            JdbcConstants.ORACLE));
+                            SQLBinaryOperator.BooleanAnd, //
+                            condition, //
+                            JdbcConstants.ORACLE));
                 }
 
                 return SQLUtils.toSQLString(select, dbType);
@@ -285,9 +272,9 @@ public class PagerUtils {
 
         countQueryBlock.setFrom(new SQLSubqueryTableSource(select, "XX"));
         countQueryBlock.setWhere(new SQLBinaryOpExpr(new SQLIdentifierExpr("ROWNUM"), //
-                                                     SQLBinaryOperator.LessThanOrEqual, //
-                                                     new SQLNumberExpr(count + offset), //
-                                                     JdbcConstants.ORACLE));
+                SQLBinaryOperator.LessThanOrEqual, //
+                new SQLNumberExpr(count + offset), //
+                JdbcConstants.ORACLE));
         if (offset <= 0) {
             return SQLUtils.toSQLString(countQueryBlock, dbType);
         }
@@ -296,9 +283,9 @@ public class PagerUtils {
         offsetQueryBlock.getSelectList().add(new SQLSelectItem(new SQLAllColumnExpr()));
         offsetQueryBlock.setFrom(new SQLSubqueryTableSource(new SQLSelect(countQueryBlock), "XXX"));
         offsetQueryBlock.setWhere(new SQLBinaryOpExpr(new SQLIdentifierExpr("RN"), //
-                                                      SQLBinaryOperator.GreaterThan, //
-                                                      new SQLNumberExpr(offset), //
-                                                      JdbcConstants.ORACLE));
+                SQLBinaryOperator.GreaterThan, //
+                new SQLNumberExpr(offset), //
+                JdbcConstants.ORACLE));
 
         return SQLUtils.toSQLString(offsetQueryBlock, dbType);
     }

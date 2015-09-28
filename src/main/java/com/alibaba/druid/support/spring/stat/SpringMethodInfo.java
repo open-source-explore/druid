@@ -19,12 +19,12 @@ import java.lang.reflect.Method;
 
 public class SpringMethodInfo {
 
-    private String   signature;
+    private String signature;
 
     private Class<?> instanceClass;
-    private Method   method;
+    private Method method;
 
-    public SpringMethodInfo(Class<?> instanceClass, Method method){
+    public SpringMethodInfo(Class<?> instanceClass, Method method) {
         this.instanceClass = instanceClass;
         this.method = method;
     }
@@ -65,11 +65,11 @@ public class SpringMethodInfo {
         if (!method.getName().equals(other.method.getName())) {
             return false;
         }
-        
+
         if (method.getParameterTypes().length != other.method.getParameterTypes().length) {
             return false;
         }
-        
+
         for (int i = 0; i < method.getParameterTypes().length; ++i) {
             if (!method.getParameterTypes()[i].getName().equals(other.method.getParameterTypes()[i].getName())) {
                 return false;

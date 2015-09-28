@@ -20,7 +20,7 @@ import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
 public class MySqlUnique extends MySqlKey implements SQLPrimaryKey {
 
-    public MySqlUnique(){
+    public MySqlUnique() {
 
     }
 

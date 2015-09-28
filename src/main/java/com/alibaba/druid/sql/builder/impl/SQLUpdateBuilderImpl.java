@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.builder.impl;
 
-import java.util.List;
-import java.util.Map;
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
@@ -33,16 +30,19 @@ import com.alibaba.druid.sql.dialect.postgresql.ast.stmt.PGUpdateStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.stmt.SQLServerUpdateStatement;
 import com.alibaba.druid.util.JdbcConstants;
 
+import java.util.List;
+import java.util.Map;
+
 public class SQLUpdateBuilderImpl extends SQLBuilderImpl implements SQLUpdateBuilder {
 
     private SQLUpdateStatement stmt;
-    private String             dbType;
+    private String dbType;
 
-    public SQLUpdateBuilderImpl(String dbType){
+    public SQLUpdateBuilderImpl(String dbType) {
         this.dbType = dbType;
     }
-    
-    public SQLUpdateBuilderImpl(String sql, String dbType){
+
+    public SQLUpdateBuilderImpl(String sql, String dbType) {
         List<SQLStatement> stmtList = SQLUtils.parseStatements(sql, dbType);
 
         if (stmtList.size() == 0) {
@@ -58,7 +58,7 @@ public class SQLUpdateBuilderImpl extends SQLBuilderImpl implements SQLUpdateBui
         this.dbType = dbType;
     }
 
-    public SQLUpdateBuilderImpl(SQLUpdateStatement stmt, String dbType){
+    public SQLUpdateBuilderImpl(SQLUpdateStatement stmt, String dbType) {
         this.stmt = stmt;
         this.dbType = dbType;
     }
@@ -124,29 +124,29 @@ public class SQLUpdateBuilderImpl extends SQLBuilderImpl implements SQLUpdateBui
             SQLUpdateSetItem updateSetItem = SQLUtils.toUpdateSetItem(item, dbType);
             update.addItem(updateSetItem);
         }
-        
+
         return this;
     }
-    
+
     public SQLUpdateBuilderImpl setValue(Map<String, Object> values) {
         for (Map.Entry<String, Object> entry : values.entrySet()) {
             setValue(entry.getKey(), entry.getValue());
         }
-        
+
         return this;
     }
-    
+
     public SQLUpdateBuilderImpl setValue(String column, Object value) {
         SQLUpdateStatement update = getSQLUpdateStatement();
-        
+
         SQLExpr columnExpr = SQLUtils.toSQLExpr(column, dbType);
         SQLExpr valueExpr = toSQLExpr(value, dbType);
-        
+
         SQLUpdateSetItem item = new SQLUpdateSetItem();
         item.setColumn(columnExpr);
         item.setValue(valueExpr);
         update.addItem(item);
-        
+
         return this;
     }
 
@@ -159,24 +159,24 @@ public class SQLUpdateBuilderImpl extends SQLBuilderImpl implements SQLUpdateBui
 
     public SQLUpdateStatement createSQLUpdateStatement() {
         if (JdbcConstants.MYSQL.equals(dbType)) {
-            return new MySqlUpdateStatement();    
+            return new MySqlUpdateStatement();
         }
-        
+
         if (JdbcConstants.ORACLE.equals(dbType)) {
-            return new OracleUpdateStatement();    
+            return new OracleUpdateStatement();
         }
-        
+
         if (JdbcConstants.POSTGRESQL.equals(dbType)) {
-            return new PGUpdateStatement();    
+            return new PGUpdateStatement();
         }
-        
+
         if (JdbcConstants.SQL_SERVER.equals(dbType)) {
-            return new SQLServerUpdateStatement();    
+            return new SQLServerUpdateStatement();
         }
-        
+
         return new SQLUpdateStatement();
     }
-    
+
     public String toString() {
         return SQLUtils.toSQLString(stmt, dbType);
     }

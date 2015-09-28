@@ -28,11 +28,11 @@ public class OracleWallProvider extends WallProvider {
 
     public final static String DEFAULT_CONFIG_DIR = "META-INF/druid/wall/oracle";
 
-    public OracleWallProvider(){
+    public OracleWallProvider() {
         this(new WallConfig(DEFAULT_CONFIG_DIR));
     }
 
-    public OracleWallProvider(WallConfig config){
+    public OracleWallProvider(WallConfig config) {
         super(config, JdbcConstants.ORACLE);
     }
 

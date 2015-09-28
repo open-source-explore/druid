@@ -15,29 +15,29 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLCreateIndexStatement extends SQLStatementImpl implements SQLDDLStatement {
 
-    private SQLName                    name;
+    private SQLName name;
 
-    private SQLTableSource             table;
+    private SQLTableSource table;
 
     private List<SQLSelectOrderByItem> items = new ArrayList<SQLSelectOrderByItem>();
 
-    private String                     type;
+    private String type;
 
-    public SQLCreateIndexStatement(){
+    public SQLCreateIndexStatement() {
 
     }
-    
-    public SQLCreateIndexStatement(String dbType){
-        super (dbType);
+
+    public SQLCreateIndexStatement(String dbType) {
+        super(dbType);
     }
 
     public SQLTableSource getTable() {

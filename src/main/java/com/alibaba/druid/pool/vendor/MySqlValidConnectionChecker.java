@@ -38,13 +38,13 @@ public class MySqlValidConnectionChecker extends ValidConnectionCheckerAdapter i
     public static final int DEFAULT_VALIDATION_QUERY_TIMEOUT = 1000;
 
     private static final long serialVersionUID = 1L;
-    private static final Log  LOG              = LogFactory.getLog(MySqlValidConnectionChecker.class);
+    private static final Log LOG = LogFactory.getLog(MySqlValidConnectionChecker.class);
 
     private Class<?> clazz;
-    private Method   ping;
-    private boolean  usePingMethod = false;
+    private Method ping;
+    private boolean usePingMethod = false;
 
-    public MySqlValidConnectionChecker(){
+    public MySqlValidConnectionChecker() {
         try {
             clazz = Utils.loadClass("com.mysql.jdbc.MySQLConnection");
             ping = clazz.getMethod("pingInternal", boolean.class, int.class);

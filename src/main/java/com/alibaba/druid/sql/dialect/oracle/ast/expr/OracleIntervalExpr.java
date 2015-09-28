@@ -23,14 +23,14 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
 public class OracleIntervalExpr extends SQLExprImpl implements SQLLiteralExpr, OracleExpr {
 
-    private SQLExpr            value;
+    private SQLExpr value;
     private OracleIntervalType type;
-    private Integer            precision;
-    private Integer            factionalSecondsPrecision;
+    private Integer precision;
+    private Integer factionalSecondsPrecision;
     private OracleIntervalType toType;
-    private Integer            toFactionalSecondsPrecision;
+    private Integer toFactionalSecondsPrecision;
 
-    public OracleIntervalExpr(){
+    public OracleIntervalExpr() {
 
     }
 

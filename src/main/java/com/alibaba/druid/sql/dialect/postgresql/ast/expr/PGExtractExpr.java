@@ -21,7 +21,7 @@ import com.alibaba.druid.sql.dialect.postgresql.visitor.PGASTVisitor;
 public class PGExtractExpr extends PGExprImpl {
 
     private PGDateField field;
-    private SQLExpr     source;
+    private SQLExpr source;
 
     public PGDateField getField() {
         return field;

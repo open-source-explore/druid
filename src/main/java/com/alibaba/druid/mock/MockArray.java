@@ -24,7 +24,7 @@ public class MockArray implements Array {
 
     private int baseType;
 
-    public MockArray(){
+    public MockArray() {
 
     }
 

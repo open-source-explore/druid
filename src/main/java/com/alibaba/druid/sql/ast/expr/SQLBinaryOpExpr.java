@@ -15,41 +15,41 @@
  */
 package com.alibaba.druid.sql.ast.expr;
 
-import java.io.Serializable;
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLExprImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.io.Serializable;
+
 public class SQLBinaryOpExpr extends SQLExprImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private SQLExpr           left;
-    private SQLExpr           right;
+    private SQLExpr left;
+    private SQLExpr right;
     private SQLBinaryOperator operator;
-    private String            dbType;
+    private String dbType;
 
-    public SQLBinaryOpExpr(){
+    public SQLBinaryOpExpr() {
 
     }
 
-    public SQLBinaryOpExpr(String dbType){
+    public SQLBinaryOpExpr(String dbType) {
         this.dbType = dbType;
     }
 
-    public SQLBinaryOpExpr(SQLExpr left, SQLBinaryOperator operator, SQLExpr right){
+    public SQLBinaryOpExpr(SQLExpr left, SQLBinaryOperator operator, SQLExpr right) {
         this(left, operator, right, null);
     }
-    
-    public SQLBinaryOpExpr(SQLExpr left, SQLBinaryOperator operator, SQLExpr right, String dbType){
+
+    public SQLBinaryOpExpr(SQLExpr left, SQLBinaryOperator operator, SQLExpr right, String dbType) {
         setLeft(left);
         setRight(right);
         this.operator = operator;
         this.dbType = dbType;
     }
 
-    public SQLBinaryOpExpr(SQLExpr left, SQLExpr right, SQLBinaryOperator operator){
+    public SQLBinaryOpExpr(SQLExpr left, SQLExpr right, SQLBinaryOperator operator) {
 
         setLeft(left);
         setRight(right);

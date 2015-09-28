@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.oracle.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLHint;
 import com.alibaba.druid.sql.ast.SQLName;
@@ -27,16 +24,19 @@ import com.alibaba.druid.sql.dialect.oracle.ast.OracleSQLObjectImpl;
 import com.alibaba.druid.sql.dialect.oracle.ast.clause.OracleErrorLoggingClause;
 import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OracleMergeStatement extends OracleStatementImpl {
 
-    private final List<SQLHint>      hints = new ArrayList<SQLHint>();
+    private final List<SQLHint> hints = new ArrayList<SQLHint>();
 
-    private SQLName                  into;
-    private String                   alias;
-    private SQLTableSource           using;
-    private SQLExpr                  on;
-    private MergeUpdateClause        updateClause;
-    private MergeInsertClause        insertClause;
+    private SQLName into;
+    private String alias;
+    private SQLTableSource using;
+    private SQLExpr on;
+    private MergeUpdateClause updateClause;
+    private MergeInsertClause insertClause;
     private OracleErrorLoggingClause errorLoggingClause;
 
     public void accept0(OracleASTVisitor visitor) {
@@ -114,8 +114,8 @@ public class OracleMergeStatement extends OracleStatementImpl {
     public static class MergeUpdateClause extends OracleSQLObjectImpl {
 
         private List<SQLUpdateSetItem> items = new ArrayList<SQLUpdateSetItem>();
-        private SQLExpr                where;
-        private SQLExpr                deleteWhere;
+        private SQLExpr where;
+        private SQLExpr deleteWhere;
 
         public List<SQLUpdateSetItem> getItems() {
             return items;
@@ -156,8 +156,8 @@ public class OracleMergeStatement extends OracleStatementImpl {
     public static class MergeInsertClause extends OracleSQLObjectImpl {
 
         private List<SQLExpr> columns = new ArrayList<SQLExpr>();
-        private List<SQLExpr> values  = new ArrayList<SQLExpr>();
-        private SQLExpr       where;
+        private List<SQLExpr> values = new ArrayList<SQLExpr>();
+        private SQLExpr where;
 
         @Override
         public void accept0(OracleASTVisitor visitor) {

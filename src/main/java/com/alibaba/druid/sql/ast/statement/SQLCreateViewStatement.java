@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLObjectImpl;
@@ -26,12 +23,15 @@ import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
 import com.alibaba.druid.sql.ast.expr.SQLLiteralExpr;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLCreateViewStatement extends SQLStatementImpl implements SQLDDLStatement {
 
-    private boolean     orReplace   = false;
-    protected SQLName   name;
+    private boolean orReplace = false;
+    protected SQLName name;
     protected SQLSelect subQuery;
-    protected boolean   ifNotExists = false;
+    protected boolean ifNotExists = false;
 
     protected final List<Column> columns = new ArrayList<Column>();
 
@@ -39,11 +39,11 @@ public class SQLCreateViewStatement extends SQLStatementImpl implements SQLDDLSt
 
     private SQLLiteralExpr comment;
 
-    public SQLCreateViewStatement(){
+    public SQLCreateViewStatement() {
 
     }
 
-    public SQLCreateViewStatement(String dbType){
+    public SQLCreateViewStatement(String dbType) {
         super(dbType);
     }
 
@@ -138,12 +138,12 @@ public class SQLCreateViewStatement extends SQLStatementImpl implements SQLDDLSt
     }
 
     public static enum Level {
-                              CASCADED, LOCAL
+        CASCADED, LOCAL
     }
 
     public static class Column extends SQLObjectImpl {
 
-        private SQLExpr     expr;
+        private SQLExpr expr;
         private SQLCharExpr comment;
 
         public SQLExpr getExpr() {

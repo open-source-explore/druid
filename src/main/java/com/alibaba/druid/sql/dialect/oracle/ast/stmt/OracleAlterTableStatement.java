@@ -22,11 +22,11 @@ import com.alibaba.druid.util.JdbcConstants;
 
 public class OracleAlterTableStatement extends SQLAlterTableStatement implements OracleDDLStatement {
 
-    private boolean updateGlobalIndexes     = false;
+    private boolean updateGlobalIndexes = false;
     private boolean invalidateGlobalIndexes = false;
-    
+
     public OracleAlterTableStatement() {
-        super (JdbcConstants.ORACLE);
+        super(JdbcConstants.ORACLE);
     }
 
     protected void accept0(SQLASTVisitor visitor) {

@@ -15,29 +15,29 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.SQLStatementImpl;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLCreateTableStatement extends SQLStatementImpl implements SQLDDLStatement {
 
-    protected boolean               ifNotExiists     = false;
-    protected Type                  type;
-    protected SQLExprTableSource    tableSource;
+    protected boolean ifNotExiists = false;
+    protected Type type;
+    protected SQLExprTableSource tableSource;
 
     protected List<SQLTableElement> tableElementList = new ArrayList<SQLTableElement>();
 
     // for postgresql
-    private SQLExprTableSource      inherits;
+    private SQLExprTableSource inherits;
 
-    public SQLCreateTableStatement(){
+    public SQLCreateTableStatement() {
 
     }
 
-    public SQLCreateTableStatement(String dbType){
+    public SQLCreateTableStatement(String dbType) {
         super(dbType);
     }
 

@@ -15,23 +15,23 @@
  */
 package com.alibaba.druid.sql.dialect.odps.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLName;
 import com.alibaba.druid.sql.ast.statement.SQLTableSource;
 import com.alibaba.druid.sql.dialect.odps.visitor.OdpsASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OdpsSetLabelStatement extends OdpsStatementImpl {
 
-    private String         label;
+    private String label;
 
-    private SQLExpr        user;
+    private SQLExpr user;
 
     private SQLTableSource table;
 
-    private List<SQLName>  columns = new ArrayList<SQLName>();
+    private List<SQLName> columns = new ArrayList<SQLName>();
 
     @Override
     protected void accept0(OdpsASTVisitor visitor) {

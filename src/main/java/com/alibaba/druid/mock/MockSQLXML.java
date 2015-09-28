@@ -15,15 +15,14 @@
  */
 package com.alibaba.druid.mock;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.sql.SQLException;
 import java.sql.SQLXML;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
 
 public class MockSQLXML implements SQLXML {
 

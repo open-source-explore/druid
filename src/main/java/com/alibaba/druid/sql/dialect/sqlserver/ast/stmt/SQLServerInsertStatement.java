@@ -15,9 +15,6 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerObject;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerOutput;
@@ -25,15 +22,18 @@ import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerTop;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLServerInsertStatement extends SQLInsertStatement implements SQLServerObject {
 
     private List<ValuesClause> valuesList = new ArrayList<ValuesClause>();
 
-    private boolean            defaultValues;
+    private boolean defaultValues;
 
-    private SQLServerTop       top;
+    private SQLServerTop top;
 
-    private SQLServerOutput    output;
+    private SQLServerOutput output;
 
     public ValuesClause getValues() {
         if (valuesList.size() == 0) {

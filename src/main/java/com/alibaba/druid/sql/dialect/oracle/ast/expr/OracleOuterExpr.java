@@ -24,11 +24,11 @@ public class OracleOuterExpr extends SQLExprImpl implements OracleExpr {
 
     private SQLExpr expr;
 
-    public OracleOuterExpr(){
+    public OracleOuterExpr() {
 
     }
 
-    public OracleOuterExpr(SQLExpr expr){
+    public OracleOuterExpr(SQLExpr expr) {
 
         this.expr = expr;
     }

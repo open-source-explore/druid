@@ -16,26 +16,13 @@
 package com.alibaba.druid.sql.dialect.mysql.parser;
 
 import com.alibaba.druid.sql.ast.SQLName;
-import com.alibaba.druid.sql.ast.statement.SQLCheck;
-import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
-import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
-import com.alibaba.druid.sql.ast.statement.SQLForeignKeyConstraint;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLTableConstraint;
-import com.alibaba.druid.sql.ast.statement.SQLTableSource;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlKey;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlPrimaryKey;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlUnique;
 import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCreateTableStatement;
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCreateTableStatement.TableSpaceOption;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlPartitionByHash;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlPartitionByKey;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlPartitionByList;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlPartitionByRange;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlPartitioningClause;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlPartitioningDef;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlTableIndex;
 import com.alibaba.druid.sql.parser.ParserException;
 import com.alibaba.druid.sql.parser.SQLCreateTableParser;
 import com.alibaba.druid.sql.parser.SQLExprParser;
@@ -43,11 +30,11 @@ import com.alibaba.druid.sql.parser.Token;
 
 public class MySqlCreateTableParser extends SQLCreateTableParser {
 
-    public MySqlCreateTableParser(String sql){
+    public MySqlCreateTableParser(String sql) {
         super(new MySqlExprParser(sql));
     }
 
-    public MySqlCreateTableParser(SQLExprParser exprParser){
+    public MySqlCreateTableParser(SQLExprParser exprParser) {
         super(exprParser);
     }
 
@@ -96,14 +83,14 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                 SQLName name = this.exprParser.name();
                 stmt.setLike(name);
             } else {
-                for (;;) {
+                for (; ; ) {
                     if (lexer.token() == Token.IDENTIFIER //
-                        || lexer.token() == Token.LITERAL_CHARS) {
+                            || lexer.token() == Token.LITERAL_CHARS) {
                         SQLColumnDefinition column = this.exprParser.parseColumn();
                         stmt.getTableElementList().add(column);
                     } else if (lexer.token() == Token.CONSTRAINT //
-                               || lexer.token() == Token.PRIMARY //
-                               || lexer.token() == Token.UNIQUE) {
+                            || lexer.token() == Token.PRIMARY //
+                            || lexer.token() == Token.UNIQUE) {
                         stmt.getTableElementList().add(parseConstraint());
                     } else if (lexer.token() == (Token.INDEX)) {
                         lexer.nextToken();
@@ -123,7 +110,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                         }
 
                         accept(Token.LPAREN);
-                        for (;;) {
+                        for (; ; ) {
                             idx.getColumns().add(this.exprParser.expr());
                             if (!(lexer.token() == (Token.COMMA))) {
                                 break;
@@ -163,7 +150,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
             accept(Token.RPAREN);
         }
 
-        for (;;) {
+        for (; ; ) {
             if (identifierEquals("ENGINE")) {
                 lexer.nextToken();
                 if (lexer.token() == Token.EQ) {
@@ -339,7 +326,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                 stmt.getTableOptions().put("STATS_PERSISTENT", this.exprParser.expr());
                 continue;
             }
-            
+
             if (identifierEquals("STATS_SAMPLE_PAGES")) {
                 lexer.nextToken();
                 if (lexer.token() == Token.EQ) {
@@ -349,7 +336,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                 stmt.getTableOptions().put("STATS_SAMPLE_PAGES", this.exprParser.expr());
                 continue;
             }
-            
+
             if (lexer.token() == Token.UNION) {
                 lexer.nextToken();
                 if (lexer.token() == Token.EQ) {
@@ -407,7 +394,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                     }
 
                     accept(Token.LPAREN);
-                    for (;;) {
+                    for (; ; ) {
                         clause.getColumns().add(this.exprParser.name());
                         if (lexer.token() == Token.COMMA) {
                             lexer.nextToken();
@@ -452,7 +439,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                     } else {
                         acceptIdentifier("COLUMNS");
                         accept(Token.LPAREN);
-                        for (;;) {
+                        for (; ; ) {
                             clause.getColumns().add(this.exprParser.name());
                             if (lexer.token() == Token.COMMA) {
                                 lexer.nextToken();
@@ -481,7 +468,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                     } else {
                         acceptIdentifier("COLUMNS");
                         accept(Token.LPAREN);
-                        for (;;) {
+                        for (; ; ) {
                             clause.getColumns().add(this.exprParser.name());
                             if (lexer.token() == Token.COMMA) {
                                 lexer.nextToken();
@@ -503,7 +490,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
 
                 if (lexer.token() == Token.LPAREN) {
                     lexer.nextToken();
-                    for (;;) {
+                    for (; ; ) {
                         acceptIdentifier("PARTITION");
 
                         MySqlPartitioningDef partitionDef = new MySqlPartitioningDef();
@@ -533,7 +520,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                             }
                         }
 
-                        for (;;) {
+                        for (; ; ) {
                             if (identifierEquals("DATA")) {
                                 lexer.nextToken();
                                 acceptIdentifier("DIRECTORY");
@@ -574,7 +561,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
         if (lexer.token() == (Token.ON)) {
             throw new ParserException("TODO");
         }
-        
+
         if (lexer.token() == (Token.AS)) {
             lexer.nextToken();
         }
@@ -583,7 +570,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
             SQLSelect query = new MySqlSelectParser(this.exprParser).select();
             stmt.setQuery(query);
         }
-        
+
         while (lexer.token() == (Token.HINT)) {
             this.exprParser.parseHints(stmt.getOptionHints());
         }
@@ -652,7 +639,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
                     key.setIndexName(indexName);
                 }
             }
-            
+
             //5.5语法 USING BTREE 放在index 名字后
             if (identifierEquals("USING")) {
                 lexer.nextToken();
@@ -661,7 +648,7 @@ public class MySqlCreateTableParser extends SQLCreateTableParser {
             }
 
             accept(Token.LPAREN);
-            for (;;) {
+            for (; ; ) {
                 key.getColumns().add(this.exprParser.expr());
                 if (!(lexer.token() == (Token.COMMA))) {
                     break;

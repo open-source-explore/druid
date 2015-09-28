@@ -15,18 +15,18 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.ast.stmt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerObjectImpl;
 import com.alibaba.druid.sql.dialect.sqlserver.ast.SQLServerStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerASTVisitor;
 
-public class SQLServerBlockStatement  extends SQLServerObjectImpl implements SQLServerStatement  {
+import java.util.ArrayList;
+import java.util.List;
 
-    private List<SQLStatement>    statementList = new ArrayList<SQLStatement>();
-    
+public class SQLServerBlockStatement extends SQLServerObjectImpl implements SQLServerStatement {
+
+    private List<SQLStatement> statementList = new ArrayList<SQLStatement>();
+
     private String dbType;
 
     public List<SQLStatement> getStatementList() {
@@ -48,7 +48,7 @@ public class SQLServerBlockStatement  extends SQLServerObjectImpl implements SQL
     public String getDbType() {
         return dbType;
     }
-    
+
     public void setDbType(String dbType) {
         this.dbType = dbType;
     }

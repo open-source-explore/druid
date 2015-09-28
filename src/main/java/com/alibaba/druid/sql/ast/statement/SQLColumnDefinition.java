@@ -26,15 +26,15 @@ import java.util.List;
 
 public class SQLColumnDefinition extends SQLObjectImpl implements SQLTableElement {
 
-    protected SQLName                         name;
-    protected SQLDataType                     dataType;
-    protected SQLExpr                         defaultExpr;
+    protected SQLName name;
+    protected SQLDataType dataType;
+    protected SQLExpr defaultExpr;
     protected final List<SQLColumnConstraint> constraints = new ArrayList<SQLColumnConstraint>(0);
-    protected SQLExpr                          comment;
+    protected SQLExpr comment;
 
-    protected Boolean                         enable;
+    protected Boolean enable;
 
-    public SQLColumnDefinition(){
+    public SQLColumnDefinition() {
 
     }
 

@@ -17,7 +17,7 @@ package com.alibaba.druid.sql.ast;
 
 public abstract class SQLExprImpl extends SQLObjectImpl implements SQLExpr {
 
-    public SQLExprImpl(){
+    public SQLExprImpl() {
 
     }
 

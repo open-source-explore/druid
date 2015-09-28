@@ -24,14 +24,14 @@ import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitor;
 
 public class MySqlAlterTableChangeColumn extends MySqlObjectImpl implements SQLAlterTableItem {
 
-    private SQLName             columnName;
+    private SQLName columnName;
 
     private SQLColumnDefinition newColumnDefinition;
 
-    private boolean             first;
+    private boolean first;
 
-    private SQLExpr             firstColumn;
-    private SQLExpr             afterColumn;
+    private SQLExpr firstColumn;
+    private SQLExpr afterColumn;
 
     @Override
     public void accept0(MySqlASTVisitor visitor) {

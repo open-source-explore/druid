@@ -34,15 +34,15 @@ public class WebRequestStat {
     private long jdbcResultSetOpenCount;
     private long jdbcResultSetCloseCount;
 
-    public WebRequestStat(){
+    public WebRequestStat() {
 
     }
 
-    public WebRequestStat(long startNano){
+    public WebRequestStat(long startNano) {
         this.startNano = startNano;
     }
 
-    public WebRequestStat(long startNano, long startMillis){
+    public WebRequestStat(long startNano, long startMillis) {
         this.startNano = startNano;
         this.startMillis = startMillis;
     }

@@ -21,10 +21,10 @@ import com.alibaba.druid.sql.dialect.oracle.visitor.OracleASTVisitor;
 
 public class OracleLockTableStatement extends OracleStatementImpl {
 
-    private SQLName  table;
+    private SQLName table;
     private LockMode lockMode;
-    private boolean  noWait = false;
-    private SQLExpr  wait;
+    private boolean noWait = false;
+    private SQLExpr wait;
 
     public boolean isNoWait() {
         return noWait;

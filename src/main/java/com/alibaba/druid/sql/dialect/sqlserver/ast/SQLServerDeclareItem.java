@@ -15,23 +15,23 @@
  */
 package com.alibaba.druid.sql.dialect.sqlserver.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLDataType;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.statement.SQLTableElement;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLServerDeclareItem extends SQLServerObjectImpl {
 
-    protected Type                  type;
+    protected Type type;
 
-    protected SQLExpr               name;
+    protected SQLExpr name;
 
-    protected SQLDataType           dataType;
+    protected SQLDataType dataType;
 
-    protected SQLExpr               value;
+    protected SQLExpr value;
 
     protected List<SQLTableElement> tableElementList = new ArrayList<SQLTableElement>();
 

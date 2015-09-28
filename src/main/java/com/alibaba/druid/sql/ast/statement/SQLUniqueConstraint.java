@@ -15,9 +15,9 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
+
+import java.util.List;
 
 public interface SQLUniqueConstraint extends SQLConstraint {
 

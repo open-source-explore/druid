@@ -22,7 +22,7 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcConstants;
 
 public abstract class OracleStatementImpl extends SQLStatementImpl implements OracleStatement {
-    
+
     public OracleStatementImpl() {
         super(JdbcConstants.ORACLE);
     }

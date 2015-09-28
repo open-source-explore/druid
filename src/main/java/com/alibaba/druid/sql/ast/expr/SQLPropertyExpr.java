@@ -23,14 +23,14 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 public class SQLPropertyExpr extends SQLExprImpl implements SQLName {
 
     private SQLExpr owner;
-    private String  name;
+    private String name;
 
-    public SQLPropertyExpr(SQLExpr owner, String name){
+    public SQLPropertyExpr(SQLExpr owner, String name) {
         setOwner(owner);
         this.name = name;
     }
 
-    public SQLPropertyExpr(){
+    public SQLPropertyExpr() {
 
     }
 

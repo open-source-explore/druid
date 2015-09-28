@@ -15,25 +15,25 @@
  */
 package com.alibaba.druid.sql.ast.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLJoinTableSource extends SQLTableSourceImpl {
 
-    protected SQLTableSource      left;
-    protected JoinType            joinType;
-    protected SQLTableSource      right;
-    protected SQLExpr             condition;
+    protected SQLTableSource left;
+    protected JoinType joinType;
+    protected SQLTableSource right;
+    protected SQLExpr condition;
     protected final List<SQLExpr> using = new ArrayList<SQLExpr>();
 
-    public SQLJoinTableSource(String alias){
+    public SQLJoinTableSource(String alias) {
         super(alias);
     }
 
-    public SQLJoinTableSource(){
+    public SQLJoinTableSource() {
 
     }
 
@@ -122,7 +122,7 @@ public class SQLJoinTableSource extends SQLTableSourceImpl {
 
         public final String name;
 
-        JoinType(String name){
+        JoinType(String name) {
             this.name = name;
         }
 

@@ -26,7 +26,7 @@ import com.alibaba.druid.wall.WallVisitor;
 
 /**
  * SQLServerProvider
- * 
+ *
  * @author RaymondXiu
  * @version 1.0, 2012-3-17
  * @see
@@ -35,11 +35,11 @@ public class SQLServerWallProvider extends WallProvider {
 
     public final static String DEFAULT_CONFIG_DIR = "META-INF/druid/wall/sqlserver";
 
-    public SQLServerWallProvider(){
+    public SQLServerWallProvider() {
         this(new WallConfig(DEFAULT_CONFIG_DIR));
     }
 
-    public SQLServerWallProvider(WallConfig config){
+    public SQLServerWallProvider(WallConfig config) {
         super(config, JdbcConstants.SQL_SERVER);
     }
 
